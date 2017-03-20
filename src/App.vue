@@ -9,9 +9,9 @@
 </template>
 
 <script>
-  import myHeader from 'components/header/header.vue'
-  import myContentNav from 'components/content/myContentNav.vue'
-  import myContentBody from 'components/content/myContentBody.vue'
+  import myHeader from './components/header/header.vue'
+  import myContentNav from './components/content/myContentNav.vue'
+  import myContentBody from './components/content/myContentBody.vue'
 export default {
   name: 'app',
   components:{

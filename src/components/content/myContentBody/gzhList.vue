@@ -7,7 +7,7 @@
         <ul class="gzhBody">
             <li class="clear">
                 <div class="gzhBodyImg">
-                    <img src="../../assets/logo.jpg" alt="公众号">
+                    <img src="../../../assets/logo.jpg" alt="公众号">
                 </div>
                 <div class="gzhBodyImgText">
                     <p>杭州追游科技</p>
@@ -17,7 +17,7 @@
             <li>b</li>
             <li class="clear">
                 <div class="gzhBodyImg">
-                    <img src="../../assets/logo.jpg" alt="公众号">
+                    <img src="../../../assets/logo.jpg" alt="公众号">
                 </div>
                 <div class="gzhBodyImgText">
                     <p>杭州追游科技</p>
@@ -27,7 +27,7 @@
             <li>b</li>
             <li class="clear">
                 <div class="gzhBodyImg">
-                    <img src="../../assets/logo.jpg" alt="公众号">
+                    <img src="../../../assets/logo.jpg" alt="公众号">
                 </div>
                 <div class="gzhBodyImgText">
                     <p>杭州追游科技</p>
@@ -37,7 +37,7 @@
             <li>b</li>
             <li class="clear">
                 <div class="gzhBodyImg">
-                    <img src="../../assets/logo.jpg" alt="公众号">
+                    <img src="../../../assets/logo.jpg" alt="公众号">
                 </div>
                 <div class="gzhBodyImgText">
                     <p>杭州追游科技</p>

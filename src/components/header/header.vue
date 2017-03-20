@@ -8,7 +8,7 @@
       <div id="user">
         <span id="returnBtn">退出</span>
         <span>冷链电商</span>
-        <img src="../assets/logo.jpg" alt="user">
+        <img src="../../assets/logo.jpg" alt="user">
       </div>
     </div>
   </header>
@@ -43,7 +43,7 @@
     float: left;
     font-family: Hiragino Maru Gothic Pro;
     text-indent: 60px;
-    background: url("../assets/logo.jpg") no-repeat;
+    background: url("../../assets/logo.jpg") no-repeat;
     background-size: 40px 40px;
     background-position: 10px 10px;
   }

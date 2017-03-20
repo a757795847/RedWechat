@@ -1,23 +1,17 @@
 <template>
   <div id="app">
     <my-header></my-header>
-    <section id="content">
-      <my-content-nav></my-content-nav>
-      <my-content-body></my-content-body>
-    </section>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
   import myHeader from './components/header/header.vue'
-  import myContentNav from './components/content/myContentNav.vue'
-  import myContentBody from './components/content/myContentBody.vue'
 export default {
   name: 'app',
   components:{
     myHeader,
-    myContentNav,
-    myContentBody
+
   }
 }
 </script>

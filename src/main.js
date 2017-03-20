@@ -9,7 +9,7 @@ Vue.use(ElementUI)
 // import router from './router'
 Vue.component(
   'my-index',
-  () => System.import('./content/index.vue')
+  () => System.import('./components/content/index.vue')
 )
 Vue.config.productionTip = false
 

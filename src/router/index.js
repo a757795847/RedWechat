@@ -10,6 +10,12 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
-    }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component:function (resolve) {
+        require(['文件地址'],resolve)
+      }
   ]
 })

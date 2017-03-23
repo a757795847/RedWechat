@@ -9,6 +9,10 @@
   import myContentBody from './myContentBody.vue'
   export default {
     name:'index',
+    mounted: function () {
+      console.info("shenjian");
+      console.info(this.$auth.user());
+    },
     components:{
       myContentNav,
       myContentBody

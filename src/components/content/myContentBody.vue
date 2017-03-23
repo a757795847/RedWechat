@@ -3,23 +3,6 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="公众号列表" name="first">
         <gzh-list></gzh-list>
-        <form v-on:submit.prevent="login()">
-          <table><tr>
-            <td>Username:</td>
-            <td><input v-model="data.body.username" /></td>
-          </tr><tr>
-            <td>Password:</td>
-            <td><input v-model="data.body.password" type="password" /></td>
-          </tr><tr>
-            <td></td>
-            <td><label><input v-model="data.rememberMe" type="checkbox" /> Remember Me</label></td>
-          </tr><tr>
-            <td></td>
-            <td><button type="submit">Login</button></td>
-          </tr></table>
-          <hr/>
-          <div v-show="error" style="color:red; word-wrap:break-word;">{{ error | json }}</div>
-        </form>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -57,7 +40,7 @@
 
 //        this.$axios.post('/auth/login',{success: true, topic_id: '5433d5e4e737cbe96dcef312'})
 
-
+        console.info("11111111111");
         this.$auth.login({
           body: this.data.body,
           rememberMe: this.data.rememberMe,

@@ -7,7 +7,7 @@
       </div>
       <div id="user">
         <span id="returnBtn">退出</span>
-        <span>冷链电商</span>
+        <span>{{this.$auth.user().name}}</span>
         <img src="../../assets/logo.jpg" alt="user">
       </div>
     </div>
@@ -16,7 +16,13 @@
 
 <script>
   export default {
-    name: 'header'
+    name: 'header',
+    data(){
+      return {
+        name: ""
+      }
+    },
+
   }
 </script>
 

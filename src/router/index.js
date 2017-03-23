@@ -14,7 +14,7 @@ export default new Router({
       component: function (resolve) {
         require(['../components/login.vue'],resolve)
       },
-      // meta:{auth:true},
+      meta:{auth:false}
     },
     {
       path: '/',

@@ -5,10 +5,10 @@
         </div>
         <p id="juta">聚塔微客户管理平台</p>
         <div class="mb-housite">
-            <el-input v-model="input" placeholder="请输入账号" class="form-control"></el-input>
-            <el-input v-model="pwd" placeholder="请输入密码" type="password" class="form-control pwd"></el-input>
+            <el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"></el-input>
+            <el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd"></el-input>
         </div>
-        <el-button>立即登录</el-button>
+        <el-button v-on:click.prevent="login()">立即登录</el-button>
         <p class="text-right">
             <a href="../../../wechatUserInfo/forget" class="text-muted">忘记密码?</a>
         </p>
@@ -21,10 +21,38 @@
     export default {
         data() {
             return {
-                input: '',
-                pwd:''
+                data: {
+                    body: {
+                        username: '2',
+                        password: '1'
+                    },
+                    rememberMe: false
+                },
+
+                error: null
             }
-        }
+        },
+        methods: {
+
+            login() {
+                var redirect = this.$auth.redirect();
+                console.info("oooooops");
+                this.$auth.login({
+                    body: this.data.body,
+                    rememberMe: this.data.rememberMe,
+                    redirect: {name: redirect ? redirect.from.name : 'indexDefault'},
+                    success() {
+                        console.log('success ' + this.context);
+                    },
+                    error(res) {
+                        console.log('error ' + this.context);
+
+                        this.error = res.data;
+                    }
+                });
+
+            }
+        },
     }
 </script>
 <style>

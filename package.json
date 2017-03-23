@@ -12,12 +12,15 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "@websanova/vue-auth": "^2.8.2-beta",
-    "axios": "^0.15.3",
+    "jquery": "^3.2.1",
     "element-ui": "^1.2.4",
+
     "vue": "^2.2.2",
+    "@websanova/vue-auth": "^2.8.2-beta",
+    "vue-router": "^2.2.0",
+    "axios": "^0.15.3",
     "vue-axios": "^2.0.1",
-    "vue-router": "^2.2.0"
+    "vue-resource": "^1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

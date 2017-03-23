@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import index from '@/components/content/index'
 
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',

@@ -95,19 +95,20 @@ export default{
 }
 #gzhCard .cardItem{
     display: inline-block;
-    width: calc(100%/3 - 28px);
-    height: 150px;
-    border: 2px solid #cccccc;
+    width: calc(100%/3 - 26px);
+    height: 170px;
+    border: 1px solid #e5e5e5;
     margin: 0 10px 20px;
+    border-radius: 3px;
 }
 #gzhCard .cardItem .cardItemNews{
-    height: 60px;
+    height: 70px;
     padding: 0 10px;
     line-height: 20px;
 }
 #gzhCard .cardItem .cardItemNews img{
     float: left;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: 20px;
 }
 #gzhCard .cardItem .cardItemNews p{
@@ -122,10 +123,10 @@ export default{
 }
 #gzhCard .cardItem .cardItemDetails{
     height: 38px;
-    border-top: 1px solid #cccccc;
-    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     padding: 10px 0;
-    background: #e4e4e4;
+    background: #e5e5e5;
 }
 #gzhCard .cardItem .cardItemDetails ul{
     height: 38px;
@@ -139,18 +140,23 @@ export default{
     text-align: center;
 }
 #gzhCard .cardItem .cardItemDetails ul li p:first-child{
-    color:  #8c8a8a;
+    color:  #989898;
 }
 #gzhCard .cardItem .cardItemDetails ul li:last-child{
     border-right: none;
 }
 #gzhCard .cardItem .cardItemOperation{
-    height: 30px;
+    height: 40px;
+    line-height: 40px;
     padding: 0 10px;
 }
 #gzhCard .cardItem .cardItemOperation button.el-button.el-button--text {
-    color: #ff4949;
-    margin-left: 14px;
+    color: #ab3e3e;
+    padding: 7px 12px;
+    font-size: 13px;
+}
+#gzhCard .cardItem .cardItemOperation button.el-button.el-button--text:hover{
+    background: #ffcece;
 }
 
 </style>

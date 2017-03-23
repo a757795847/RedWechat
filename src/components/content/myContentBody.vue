@@ -49,28 +49,42 @@
       },
       login() {
         var redirect = this.$auth.redirect();
-        this.$auth.options.loginData.url = '/login';
+//        this.$auth.options.loginData.url = 'http://192.168.1.115:8080/login';
 
-//        this.$axios.post('/login',{
+//        this.$axios.post('/auth/login',{
 //          body: {success: true, topic_id: '5433d5e4e737cbe96dcef312'}
 //        })
 
-        this.$axios.post('/login',{success: true, topic_id: '5433d5e4e737cbe96dcef312'})
+//        this.$axios.post('/auth/login',{success: true, topic_id: '5433d5e4e737cbe96dcef312'})
 
 
-//        this.$auth.login({
-//          body: JSON.stringify(this.data.body),
-//          rememberMe: this.data.rememberMe,
-//          redirect: {name: redirect ? redirect.from.name : '/'},
-//          success() {
-//            console.log('success ' + this.context);
+        this.$auth.login({
+          body: this.data.body,
+          rememberMe: this.data.rememberMe,
+          redirect: {name: redirect ? redirect.from.name : 'account'},
+          success() {
+            console.log('success ' + this.context);
+          },
+          error(res) {
+            console.log('error ' + this.context);
+
+            this.error = res.data;
+          }
+        });
+
+//        this.$.ajax({
+//          type:'POST',
+//          url:'http://192.168.1.115:8080/auth/login',
+//          data:JSON.stringify(this.data.body),
+//          contentType:'application/json',
+//          dataType:'json',
+//          success:function(data){
+//            // console.log(data);
 //          },
-//          error(res) {
-//            console.log('error ' + this.context);
+//          error:function(jqXHR){
 //
-//            this.error = res.data;
 //          }
-//        });
+//        })
       }
     },
     components:{

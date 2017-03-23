@@ -42,10 +42,10 @@
     display: inline-block;
     float: left;
     font-family: Hiragino Maru Gothic Pro;
-    text-indent: 60px;
+    text-indent: 50px;
     background: url("../../assets/logo.jpg") no-repeat;
     background-size: 40px 40px;
-    background-position: 10px 10px;
+    background-position: 0 10px;
   }
   #title span{
     float: left;

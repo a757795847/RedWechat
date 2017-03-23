@@ -3,6 +3,23 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="公众号列表" name="first">
         <gzh-list></gzh-list>
+        <!--<form :submit.prevent="login()">
+          <table><tr>
+            <td>Username:</td>
+            <td><input v-model="data.body.username" /></td>
+          </tr><tr>
+            <td>Password:</td>
+            <td><input v-model="data.body.password" type="password" /></td>
+          </tr><tr>
+            <td></td>
+            <td><label><input v-model="data.rememberMe" type="checkbox" /> Remember Me</label></td>
+          </tr><tr>
+            <td></td>
+            <td><button type="submit">Login</button></td>
+          </tr></table>
+          <hr/>
+          <div v-show="error" style="color:red; word-wrap:break-word;">{{ error | json }}</div>
+        </form>-->
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -13,12 +30,32 @@
     name:'myContentBody',
     data() {
       return {
-        activeName: 'first'
+        activeName: 'first',
+        body: {
+          username: 'admin',
+          password: 'secret'
+        },
+        rememberMe: false
       };
     },
     methods: {
       handleClick(tab, event) {
         console.log(tab);
+      },
+      register() {
+        this.$auth.register({
+          body: this.data.body,
+          autoLogin: this.data.autoLogin,
+          rememberMe: this.data.rememberMe,
+          success: function () {
+
+            console.log('success ' + this.context);
+          },
+          error: function (res) {
+            console.log('error ' + this.context);
+            this.error = res.data;
+          }
+        });
       }
     },
     components:{

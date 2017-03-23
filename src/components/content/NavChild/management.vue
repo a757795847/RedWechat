@@ -19,7 +19,7 @@
 
 <style>
     #publicListUp{
-        height: 478px;
+        height: 438px;
         margin-top: 6px;
         background-color: #fff;
     }

@@ -12,7 +12,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: function (resolve) {
-        require(['../components/details/myDetails.vue'],resolve)
+        require(['../components/login.vue'],resolve)
       },
       // meta:{auth:true},
     },

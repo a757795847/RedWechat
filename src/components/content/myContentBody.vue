@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="公众号列表" name="first">
         <gzh-list></gzh-list>
-        <!--<form :submit.prevent="login()">
+        <form v-on:submit.prevent="login()">
           <table><tr>
             <td>Username:</td>
             <td><input v-model="data.body.username" /></td>
@@ -19,7 +19,7 @@
           </tr></table>
           <hr/>
           <div v-show="error" style="color:red; word-wrap:break-word;">{{ error | json }}</div>
-        </form>-->
+        </form>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -31,31 +31,46 @@
     data() {
       return {
         activeName: 'first',
-        body: {
-          username: 'admin',
-          password: 'secret'
+
+        data: {
+          body: {
+            username: '2',
+            password: '1'
+          },
+          rememberMe: false
         },
-        rememberMe: false
+
+        error: null
       };
     },
     methods: {
       handleClick(tab, event) {
         console.log(tab);
       },
-      register() {
-        this.$auth.register({
-          body: this.data.body,
-          autoLogin: this.data.autoLogin,
-          rememberMe: this.data.rememberMe,
-          success: function () {
+      login() {
+        var redirect = this.$auth.redirect();
+        this.$auth.options.loginData.url = '/login';
 
-            console.log('success ' + this.context);
-          },
-          error: function (res) {
-            console.log('error ' + this.context);
-            this.error = res.data;
-          }
-        });
+//        this.$axios.post('/login',{
+//          body: {success: true, topic_id: '5433d5e4e737cbe96dcef312'}
+//        })
+
+        this.$axios.post('/login',{success: true, topic_id: '5433d5e4e737cbe96dcef312'})
+
+
+//        this.$auth.login({
+//          body: JSON.stringify(this.data.body),
+//          rememberMe: this.data.rememberMe,
+//          redirect: {name: redirect ? redirect.from.name : '/'},
+//          success() {
+//            console.log('success ' + this.context);
+//          },
+//          error(res) {
+//            console.log('error ' + this.context);
+//
+//            this.error = res.data;
+//          }
+//        });
       }
     },
     components:{

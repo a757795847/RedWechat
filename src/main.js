@@ -4,18 +4,28 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import router from './router'
 
-Vue.use(ElementUI)
-// import router from './router'
-Vue.component(
-  'my-index',
-  () => System.import('./components/content/index.vue')
-)
-Vue.config.productionTip = false
+// import axios from 'axios'
+// import VueAxios from 'vue-axios'
+// import VueAuth from '@websanova/vue-auth'
+// Vue.use(VueAxios, axios);
+// Vue.axios.defaults.baseURL = 'https://api-demo.websanova.com/api/v1';
+//
+// Vue.use(VueAuth, {
+//   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+//   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+//   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+// });
+// App.router = Vue.router;
+
+
+Vue.use(ElementUI);
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  // router,
+  router,
   el: '#app',
   template: '<App/>',
   components: { App }

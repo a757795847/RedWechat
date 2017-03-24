@@ -8,6 +8,7 @@
             <el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"></el-input>
             <el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd"></el-input>
         </div>
+        <p v-show="errorLogin" class="errorLogin">账号密码错误</p>
         <el-button v-on:click.prevent="login()">立即登录</el-button>
         <p class="text-right">
             <a href="../../../wechatUserInfo/forget" class="text-muted">忘记密码?</a>
@@ -28,7 +29,7 @@
                     },
                     rememberMe: false
                 },
-
+                errorLogin:false,
                 error: null
             }
         },
@@ -36,7 +37,7 @@
 
             login() {
                 var redirect = this.$auth.redirect();
-                console.info("oooooops");
+
                 this.$auth.login({
                     body: this.data.body,
                     rememberMe: this.data.rememberMe,
@@ -45,8 +46,11 @@
                         console.log('success ' + this.context);
                     },
                     error(res) {
+                        console.log('error  res ===>  ',res);
                         console.log('error ' + this.context);
-
+                        if(res.status === 401){
+                            this.errorLogin = true;
+                        }
                         this.error = res.data;
                     }
                 });
@@ -94,29 +98,29 @@
         box-shadow: none;
 
     }
-    .logo{
+    #login .logo{
         height:195px;
         border: 0;
     }
-    .custom-header{
+    #login .custom-header{
      text-align: center;
     margin-bottom: 40px;
     }
-    #juta{ margin-bottom:50px;
+    #login #juta{ margin-bottom:50px;
         margin-top:-24px;
         font-size:26px;
         color:rgb(82,82,82);
     }
-    .el-input__inner {
+    #login .el-input__inner {
         border-radius: 4px;
         border:none;
         box-shadow: none;
         padding-left:18px;
     }
-    .form-control.pwd{
+    #login .form-control.pwd{
         margin-top:15px;
     }
-    .el-button {
+    #login .el-button {
         color:#fff;
         width:100%;
         border: none;
@@ -127,18 +131,19 @@
         line-height: 17px;
         background-color: rgb(66, 140, 187);
     }
-    .el-button:hover {
+    #login .el-button:hover {
         background-color: #2791e1;
         border-color: #2ca2fb;
         color:#fff;
     }
-    .text-right{
+    #login .text-right{
         text-align:right;
         margin:15px 0;
-    }.text-muted{
+    }
+    #login .text-muted{
              color: #747982;
          }
-    .btn-block{
+    #login .btn-block{
         background-color: #fff;
         border:none;
         height: 35px;
@@ -148,9 +153,15 @@
         color:#444952;
         margin-top:0;
     }
-    .btn-block:hover{
+    #login .btn-block:hover{
         background-color:#eaeaea;
         color:#444952;
+    }
+    #login .errorLogin{
+        margin-top: 10px;
+        float: left;
+        margin-bottom: -10px;
+        color: #c73636;
     }
 
 </style>

@@ -29,45 +29,6 @@
     methods: {
       handleClick(tab, event) {
         console.log(tab);
-      },
-      login() {
-        var redirect = this.$auth.redirect();
-//        this.$auth.options.loginData.url = 'http://192.168.1.115:8080/login';
-
-//        this.$axios.post('/auth/login',{
-//          body: {success: true, topic_id: '5433d5e4e737cbe96dcef312'}
-//        })
-
-//        this.$axios.post('/auth/login',{success: true, topic_id: '5433d5e4e737cbe96dcef312'})
-
-        console.info("11111111111");
-        this.$auth.login({
-          body: this.data.body,
-          rememberMe: this.data.rememberMe,
-          redirect: {name: redirect ? redirect.from.name : 'account'},
-          success() {
-            console.log('success ' + this.context);
-          },
-          error(res) {
-            console.log('error ' + this.context);
-
-            this.error = res.data;
-          }
-        });
-
-//        this.$.ajax({
-//          type:'POST',
-//          url:'http://192.168.1.115:8080/auth/login',
-//          data:JSON.stringify(this.data.body),
-//          contentType:'application/json',
-//          dataType:'json',
-//          success:function(data){
-//            // console.log(data);
-//          },
-//          error:function(jqXHR){
-//
-//          }
-//        })
       }
     },
     components:{
@@ -78,8 +39,8 @@
 <style>
   #contentBody{
     float: right;
-    margin-left: 6px;
-    width: calc(100% - 206px);
+    margin-left: 4px;
+    width: calc(100% - 204px);
     background: white;
     min-height: 750px;
     border-radius: 0 5px 5px 0;

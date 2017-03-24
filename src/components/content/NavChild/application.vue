@@ -2,15 +2,13 @@
     <div id="publicLists">
         <el-row class="tac">
             <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo" name="first">
-                <i class="el-icon-menu"></i><el-menu-item-group title="应用">
+                <i class="appList"></i><el-menu-item-group title="应用">
                 <el-menu-item index="2">我的应用</el-menu-item>
-                <el-menu-item index="3">我的应用</el-menu-item>
-                <!--  <el-menu-item index="2">我的公众号</el-menu-item>-->
             </el-menu-item-group>
             </el-menu>
         </el-row>
         <div class="elDiv">
-            <p><i class="el-icon-setting"></i>添加应用</p>
+            <p><i class="addImage"></i>添加应用</p>
         </div>
 
     </div>
@@ -23,10 +21,11 @@
 
 <style>
     #publicLists{
-      margin-top:6px;
+        margin-top:4px;
         min-height:130px;
     }
     #publicLists .elDiv{
+        position: relative;
         height: 30px;
         padding-bottom: 10px;
         padding-top: 10px;
@@ -34,20 +33,22 @@
         background-color: #fff;
     }
     #publicLists .el-menu-item{
-        text-align: center;
+        text-indent: 20px;
         padding-left:0;
         background: white;
         height: 40px;
         line-height: 40px;
     }
     #publicLists .el-menu-item-group__title{
-        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        text-indent: 20px;
         padding-left:0;
         background: white;
         height: 40px;
         line-height: 40px;
         padding-top:0;
-        color:rgb(141,141,141);
+        color: #949494;
     }
     #publicLists .el-menu-item.is-active{
         padding-left:39px;
@@ -62,11 +63,20 @@
     }
     #publicLists p{
         color: #8d8d8d;
-        text-align: center;
+        text-indent: 40px;
         width: 150px;
         margin: 0 auto;
         line-height: 30px;
         border: dashed 1px #8d8d8d;
+        cursor:pointer
     }
-
+    .appList{
+        background: url("../../../assets/menu-app.png") no-repeat;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        background-size: 18px 18px;
+        background-position: 15px 10px;
+    }
 </style>

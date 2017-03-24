@@ -6,7 +6,7 @@
         <span>后台管理系统</span>
       </div>
       <div id="user">
-        <span id="returnBtn">退出</span>
+        <span id="returnBtn" v-on:click="exitAjax">退出</span>
         <span>{{this.$auth.user().name}}</span>
         <img src="../../assets/logo.jpg" alt="user">
       </div>
@@ -17,11 +17,11 @@
 <script>
   export default {
     name: 'header',
-    data(){
-      return {
-        name: ""
+    methods:{
+      exitAjax(){
+        console.log('退出')
       }
-    },
+    }
 
   }
 </script>
@@ -88,6 +88,7 @@
     width: 2px;
   }
   #user #returnBtn{
+    cursor:pointer;
     margin-left: 10px;
   }
 

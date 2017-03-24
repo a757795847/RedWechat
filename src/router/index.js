@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/components/content/index'
+import index from '@/components/index'
 
 
 Vue.use(Router);
@@ -19,9 +19,8 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component:function (resolve) {
-        require(['../components/index'],resolve)
-      },
+      component:index,
+      meta:{auth:true},
       children:[
         {
           path: '/index',

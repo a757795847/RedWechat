@@ -1,7 +1,7 @@
 <template>
     <div id="details">
         <div id="detailsHeader">
-            <div class="returnAppBtn">返回我的应用</div>
+            <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
                 <span>红包返现后台</span>
                 <ul>
@@ -36,6 +36,10 @@ export default{
     methods:{
         IsActive( index ){
             this.isActive = index;
+        },
+        returnIndex(){
+            console.log(this)
+            this.$route.go(-1)
         }
     }
 }
@@ -53,18 +57,19 @@ export default{
     margin-bottom: 20px;
 }
 #detailsHeader .returnAppBtn{
-    background: url("../../assets/return.jpg") no-repeat white;
+    background: white;
     border-radius: 5px 0 0 5px;
     width: 150px;
     height: 100%;
     line-height: 40px;
-    text-indent: 50px;
+    text-indent: 15px;
     background-size: 20px 20px;
     background-position: 28px 10px;
     color: #68A593;
     font-weight: bold;
     margin-right: 3px;
     float: left;
+    cursor: pointer;
 }
 #detailsHeader .detailsTab{
     width: calc(100% - 153px);

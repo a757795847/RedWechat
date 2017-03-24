@@ -23,7 +23,7 @@
                 </ul>
             </div>
             <div class="cardItemOperation">
-                <el-button type="text">解除绑定</el-button>
+                <el-button type="text" v-on:click="upUser()">解除绑定</el-button>
             </div>
         </div>
         <div class="cardItem">
@@ -83,6 +83,23 @@
 <script>
 export default{
     name:'gzhCard',
+    methods:{
+        upUser(){
+            location.href = '/details';
+            this.$http({
+                url: 'auth/user',
+                method: 'GET'
+            }).then((res) => {
+                console.log(res);
+
+                this.users = res.data.data.items;
+
+                console.log('success ' + this.context);
+            }, (res) => {
+                console.log('error ' + this.context);
+            });
+        }
+    }
 }
 </script>
 <style>

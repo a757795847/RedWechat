@@ -37,7 +37,7 @@
 <style>
   header{
     width: 100%;
-    background:#393A3E ;
+    background:#393A3E;
     margin-bottom: 20px;
     min-width: 1000px;
   }

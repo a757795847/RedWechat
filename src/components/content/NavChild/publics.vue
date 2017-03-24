@@ -1,18 +1,28 @@
 <template>
     <div id="publicList">
         <el-row class="tac">
+
             <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo">
-                <i class="gzhList"></i><el-menu-item-group title="公众号">
+                <i class="gzhList"></i>
+                <el-menu-item-group title="公众号">
                     <el-menu-item index="1">我的公众号</el-menu-item>
-                  <!--  <el-menu-item index="2">我的公众号</el-menu-item>-->
+                    <div class="elDiv">
+                        <p><i class="addImage"></i>添加公众号</p>
+                    </div>
+
                 </el-menu-item-group>
+                <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
+                <el-menu-item index="2">我的应用</el-menu-item>
+                <div class="elDiv">
+                    <p><i class="addImage"></i>添加应用</p>
+                </div>
+            </el-menu-item-group>
             </el-menu>
         </el-row>
-        <div class="elDiv">
-            <p><i class="addImage"></i>添加公众号</p>
-        </div>
     </div>
 </template>
+
+
 <script>
     export default {
 
@@ -86,5 +96,14 @@
         left: 46px;
         top: 18px;
     }
+   .appList{
+       background: url("../../../assets/menu-app.png") no-repeat;
+       display: inline-block;
+       width: 40px;
+       height: 40px;
+       position: absolute;
+       background-size: 18px 18px;
+       background-position: 15px 10px;
+   }
 
 </style>

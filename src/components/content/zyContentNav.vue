@@ -1,14 +1,14 @@
 <template>
   <div id="contentNav">
     <publics></publics>
-    <application></application>
+   <!-- <application></application>-->
     <managements></managements>
   </div>
 </template>
 <script>
   import publics from './NavChild/publics.vue'
   import managements from './NavChild/management.vue'
-  import application from './NavChild/application.vue'
+  /*import application from './NavChild/application.vue'*/
   export default {
     name:'zyContentNav',
     data(){
@@ -19,7 +19,7 @@
     components:{
       publics,
       managements,
-      application
+   /*   application*/
     }
   }
 </script>

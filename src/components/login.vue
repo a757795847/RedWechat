@@ -1,5 +1,7 @@
 <template>
-    <div id="login">
+
+    <div>
+        <div v-show="mylogin" id="login">
         <div class="custom-header">
             <img src="../assets/logo.jpg" alt="user" class="logo">
         </div>
@@ -14,8 +16,11 @@
             <a href="" class="text-muted">忘记密码?</a>
         </p>
         <el-button class="btn-block">注册账号</el-button>
-        <zy-register></zy-register>
+        </div>
+        <zy-register v-show="myregister"></zy-register>
     </div>
+
+
 </template>
 
 <script>
@@ -33,6 +38,8 @@
                     },
                     rememberMe: false
                 },
+                mylogin:true,
+                myregister:false,
                 errorLogin:false,
                 error: null
             }
@@ -84,28 +91,9 @@
         box-shadow: none;
 
     }
-    #register{
-        position:absolute;
-        left:50%;
-        top:50px;
-        width: 600px;
-        margin-left: -300px;
-    }
-    .logos{
-        height:80px;
-        border: 0;
-    }
     #login .logo{
         height:195px;
         border: 0;
-    }
-    h4{
-        color: #444952;
-        font-size: 18px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        ont-family: inherit;
-        line-height: 1.1;
     }
     #login .custom-header{
      text-align: center;

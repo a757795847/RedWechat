@@ -9,14 +9,6 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: function (resolve) {
-        require(['../components/login.vue'],resolve)
-      },
-      meta:{auth:false}
-    },
-    {
       path: '/',
       name: 'index',
       component:index,
@@ -27,7 +19,7 @@ export default new Router({
           name: 'indexDefault',
           component:function (resolve) {
             require(['../components/content/index.vue'],resolve)
-         }
+          }
         },
         {
           path: '/details',
@@ -39,6 +31,15 @@ export default new Router({
       ]
       // meta:{auth:true}
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: function (resolve) {
+        require(['../components/login.vue'],resolve)
+      },
+      meta:{auth:false}
+    },
+
     // {
     //   path: '/details',
     //   name: 'myDetails',

@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div id="publicLists">
         <el-row class="tac">
             <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo" name="first">
@@ -11,6 +12,7 @@
             <p><i class="addImage"></i>添加应用</p>
         </div>
 
+    </div>
     </div>
 </template>
 <script>

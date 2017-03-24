@@ -11,15 +11,19 @@
         <p v-show="errorLogin" class="errorLogin">账号密码错误</p>
         <el-button v-on:click.prevent="login()">立即登录</el-button>
         <p class="text-right">
-            <a href="../../../wechatUserInfo/forget" class="text-muted">忘记密码?</a>
+            <a href="" class="text-muted">忘记密码?</a>
         </p>
         <el-button class="btn-block">注册账号</el-button>
-        </div>
-
+        <zy-register></zy-register>
+    </div>
 </template>
 
 <script>
+    import zyRegister from './content/register.vue'
     export default {
+        components:{
+            zyRegister
+        },
         data() {
             return {
                 data: {
@@ -60,28 +64,6 @@
     }
 </script>
 <style>
-    html,body,h1,h2,h3,p,li,ul,a,div{
-        margin: 0;
-        padding: 0;
-    }
-    body{
-        font-size: 14px;
-        background: #EAF2E9;
-    }
-    ul{
-        list-style:none;
-    }
-    .clear{
-        zoom: 1;
-    }
-    .clear:after{
-        clear:both;
-        content:'.';
-        display: block;
-        width: 0;
-        height: 0;
-        visibility: hidden;
-    }
     #login{
         text-align:center;
         margin-top: -330px;
@@ -98,9 +80,28 @@
         box-shadow: none;
 
     }
+    #register{
+        position:absolute;
+        left:50%;
+        top:50px;
+        width: 600px;
+        margin-left: -300px;
+    }
+    .logos{
+        height:80px;
+        border: 0;
+    }
     #login .logo{
         height:195px;
         border: 0;
+    }
+    h4{
+        color: #444952;
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        ont-family: inherit;
+        line-height: 1.1;
     }
     #login .custom-header{
      text-align: center;
@@ -158,7 +159,7 @@
         color:#444952;
     }
     #login .errorLogin{
-        margin-top: 10px;
+        margin-top: -10px;
         float: left;
         margin-bottom: -10px;
         color: #c73636;

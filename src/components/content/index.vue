@@ -1,24 +1,31 @@
 <template>
   <section id="content">
-    <my-content-nav></my-content-nav>
-    <my-content-body></my-content-body>
+    <zy-content-nav></zy-content-nav>
+    <zy-content-body></zy-content-body>
   </section>
 </template>
 <script>
-  import myContentNav from './myContentNav.vue'
-  import myContentBody from './myContentBody.vue'
+  import zyContentNav from './zyContentNav.vue'
+  import zyContentBody from './zyContentBody.vue'
   export default {
-    name:'index',
+    name:'zyIndex',
     mounted: function () {
       console.info("shenjian");
-      console.info(this.$auth.user());
+      console.info(this);
     },
     components:{
-      myContentNav,
-      myContentBody
+      zyContentNav,
+      zyContentBody
     }
   }
 </script>
 <style>
-
+  #content{
+    max-width: 1160px;
+    min-width: 1000px;
+    height: 750px;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 0 20px;
+  }
 </style>

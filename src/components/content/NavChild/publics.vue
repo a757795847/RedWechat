@@ -9,7 +9,7 @@
             </el-menu>
         </el-row>
         <div class="elDiv">
-        <p><i class="addImage"></i>添加公众号</p>
+            <p><i class="addImage"></i>添加公众号</p>
         </div>
     </div>
 </template>

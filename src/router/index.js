@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-
-
+// import indexDefault from '@/components/content/index.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -30,21 +29,13 @@ export default new Router({
          }
         },
         {
-          path: '/details',
-          name: 'myDetails',
+          path: '/details/:appId',
+          name: 'zyDetails',
           component:function (resolve) {
-            require(['../components/details/myDetails.vue'],resolve)
+            require(['../components/details/zyDetails.vue'],resolve)
           }
         }
       ]
-      // meta:{auth:true}
     },
-    // {
-    //   path: '/details',
-    //   name: 'myDetails',
-    //   component:function (resolve) {
-    //     require(['../components/details/myDetails.vue'],resolve)
-    //   }
-    // }
   ]
 })

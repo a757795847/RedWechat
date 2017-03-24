@@ -1,16 +1,19 @@
 <template>
     <div id="app">
-        <my-header></my-header>
+        <zy-header></zy-header>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import myHeader from './header/header.vue'
+    import zyHeader from './header/header.vue'
     export default {
         name: 'app',
         components:{
-            myHeader
+            zyHeader
+        },
+        beforeCreate(){
+
         }
     }
 
@@ -21,13 +24,7 @@
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
     }
-    #content{
-        max-width: 1280px;
-        min-width: 1000px;
-        height: 750px;
-        margin: 0 auto;
-        border-radius: 5px;
-    }
+
     html,body,h1,h2,h3,p,li,ul,a,div{
         margin: 0;
         padding: 0;

@@ -61,6 +61,10 @@
 
             }
         },
+        beforeCreate(){
+//            this.$auth.options.refreshData.enabled = false;
+//            this.$auth.options
+        }
     }
 </script>
 <style>

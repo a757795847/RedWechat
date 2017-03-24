@@ -3,7 +3,7 @@
         <div id="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
-                <span>红包返现后台</span>
+                <span id="appName">红包返现后台</span>
                 <ul>
                     <li v-for="( item , index ) in dataList" :class="isActive === index ? 'isActive' : ''" @click="IsActive(index)">{{ item.name }}</li>
                 </ul>
@@ -19,7 +19,7 @@
 </template>
 <script>
 export default{
-    name:'myDetails',
+    name:'zyDetails',
     data(){
         return{
             dataList:[
@@ -38,8 +38,13 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            console.log(this)
-            this.$route.go(-1)
+            console.log(this);
+            if(this.$route.path == '/'){
+                this.$router.push('index')
+            }else{
+                this.$router.go(-1)
+            }
+
         }
     }
 }
@@ -81,12 +86,18 @@ export default{
     line-height: 40px;
     position: relative;
 }
-#detailsHeader .detailsTab span{
+#detailsHeader .detailsTab #appName{
     padding-left: 20px;
-    width: 200px;
+    width: 150px;
     float: left;
     display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 50px;
 }
+
 #detailsHeader .detailsTab ul{
     float: left;
 }

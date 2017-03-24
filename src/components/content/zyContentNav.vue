@@ -10,7 +10,12 @@
   import managements from './NavChild/management.vue'
   import application from './NavChild/application.vue'
   export default {
-    name:'contentNav',
+    name:'zyContentNav',
+    data(){
+      return{
+
+      }
+    },
     components:{
       publics,
       managements,

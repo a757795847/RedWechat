@@ -1,7 +1,7 @@
 <template>
     <div id="publicListUp">
         <el-row class="tac">
-            <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo">
+            <el-menu mode="vertical" default-active="2" class="el-menu-vertical-demo">
                 <i class="fansImage"></i>
                 <el-menu-item-group title="微客管理">
                     <el-menu-item index="3">我的粉丝</el-menu-item>

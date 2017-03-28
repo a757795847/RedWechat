@@ -53,8 +53,9 @@ export default{
 #details{
     min-height: 750px;
     min-width: 1000px;
-    max-width: 1280px;
+    max-width: 1160px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 #detailsHeader{
     width: 100%;

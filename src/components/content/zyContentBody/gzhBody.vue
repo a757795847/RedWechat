@@ -1,59 +1,59 @@
 <template>
-    <div id="gzhCard">
-        <div class="cardItem">
-            <div class="cardItemNews clear">
-                <img src="../../../assets/logo.jpg" alt="">
-                <p>杭州追游科技</p>
-                <p>认证服务号</p>
-            </div>
-            <div class="cardItemDetails">
-                <ul>
-                    <li>
-                        <p>接管</p>
-                        <p>73天</p>
-                    </li>
-                    <li>
-                        <p>粉丝</p>
-                        <p>54个</p>
-                    </li>
-                    <li>
-                        <p>应用服务</p>
-                        <p>2个</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="cardItemOperation">
-                <el-button type="text" v-on:click="upUser(3)">解除绑定</el-button>
-            </div>
-        </div>
+    <div>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="公众号列表" name="first">
+                <div id="gzhCard">
+                    <div class="cardItem">
+                        <div class="cardItemNews clear">
+                            <img src="../../../assets/logo.jpg" alt="">
+                            <p>杭州追游科技</p>
+                            <p>认证服务号</p>
+                        </div>
+                        <div class="cardItemDetails">
+                            <ul>
+                                <li>
+                                    <p>接管</p>
+                                    <p>73天</p>
+                                </li>
+                                <li>
+                                    <p>粉丝</p>
+                                    <p>54个</p>
+                                </li>
+                                <li>
+                                    <p>应用服务</p>
+                                    <p>2个</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="cardItemOperation">
+                            <el-button type="text" v-on:click="upUser(3)">解除绑定</el-button>
+                        </div>
+                    </div>
+                </div>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 </template>
 <script>
 export default{
-    name:'zyGzhCard',
+    name:'zyGzhBody',
+    data() {
+        return {
+            activeName: 'first',
+        };
+    },
     methods:{
         upUser(index){
             this.$router.push({name:'zyDetails',params:{appId:index}});
-
-            this.$http({
-                url: 'auth/user',
-                method: 'GET'
-            }).then((res) => {
-                console.log('res ==> ',res);
-
-                this.users = res.data.data.items;
-
-                console.log('success ' + this.context);
-            }, (res) => {
-                console.log('error ',res);
-
-                console.log('error ' + this.context);
-            });
+        },
+        handleClick(key, keyPath) {
+            console.log(key, keyPath);
         }
     }
 }
 </script>
 <style>
+
 #gzhCard{
     width: 100%;
 }

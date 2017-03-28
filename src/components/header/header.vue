@@ -104,7 +104,7 @@
     left: -20px;
     display: inline-block;
     margin-right: 20px;
-    border-left: 1px solid #A8A8A8;
+    border-left: 1px solid #7d7d7d;
   }
   #user #returnBtn{
     position: relative;

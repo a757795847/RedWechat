@@ -29,9 +29,10 @@
     </div>
 </template>
 
+
 <script>
     export default {
-
+        name:'zyPublics',
     }
 </script>
 
@@ -109,7 +110,7 @@
        height: 40px;
        position: absolute;
        background-size: 18px 18px;
-       background-position: 15px 10px;
+       background-position: 15px 15px;
    }
 
     #management{

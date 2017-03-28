@@ -16,7 +16,7 @@ export default new Router({
       meta:{auth:false}
     },
     {
-      path: '/',
+      path: '/index',
       name: 'index',
       component:index,
       meta:{auth:true},
@@ -26,7 +26,23 @@ export default new Router({
           name: 'indexDefault',
           component:function (resolve) {
             require(['../components/content/index.vue'],resolve)
-         }
+          },
+          children:[
+            {
+              path: '/index',
+              name: 'indexBody',
+              component:function (resolve) {
+                require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+              }
+            },
+            {
+              path: '/appList',
+              name: 'zyAppLit',
+              component:function (resolve) {
+                require(['../components/content/zyContentBody/zyAppList.vue'],resolve)
+              }
+            },
+          ]
         },
         {
           path: '/details/:appId',
@@ -34,8 +50,16 @@ export default new Router({
           component:function (resolve) {
             require(['../components/details/zyDetails.vue'],resolve)
           }
-        }
+        },
+
       ]
     },
+    // {
+    //   path: '*',
+    //   name:'404',
+    //   component: function (resolve) {
+    //         require(['../components/404.vue'],resolve)
+    //   }
+    // }
   ]
 })

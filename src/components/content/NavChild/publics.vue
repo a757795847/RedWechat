@@ -1,11 +1,10 @@
 <template>
     <div id="publicList">
         <el-row class="tac">
-
-            <el-menu mode="vertical" default-active="1" class="el-menu-vertical-demo" router=true>
+            <el-menu mode="vertical" :default-active="activeNum" class="el-menu-vertical-demo" router @select="handleSelect">
                 <i class="gzhList"></i>
                 <el-menu-item-group title="公众号">
-                    <el-menu-item index="1" route='/details/3'>我的公众号</el-menu-item>
+                    <el-menu-item index="1">我的公众号</el-menu-item>
                     <div class="elDiv">
                         <p><i class="addImage"></i>添加公众号</p>
                     </div>
@@ -13,11 +12,10 @@
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <el-menu-item index="2">我的应用</el-menu-item>
-                <div class="elDiv">
+                <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
             </el-menu-item-group>
-
                 <i class="fansImage"></i>
                 <el-menu-item-group title="微客管理" :style="{ marginTop: 4 + 'px' }" id="management">
                     <el-menu-item index="3">我的粉丝</el-menu-item>
@@ -33,6 +31,30 @@
 <script>
     export default {
         name:'zyPublics',
+        data(){
+          return{
+              activeNum:"1"
+          }
+        },
+        activated(){
+            if(this.$route.path.split('/')[1] == 'index'){
+                this.activeNum = "1";
+            }else{
+                this.activeNum = this.$route.path.split('/')[1];
+            }
+        },
+        deactivated(){
+        },
+        methods:{
+            handleSelect(key, keyPath) {
+                this.activeNum = ''+key;
+                console.log(key, keyPath);
+            },
+            addApp(){
+                this.activeNum = 'dsdsdsds';
+                this.$router.push('appList')
+            }
+        }
     }
 </script>
 
@@ -112,9 +134,8 @@
        background-size: 18px 18px;
        background-position: 15px 15px;
    }
-
-    #management{
-        height: 482px;
-        background-color: #fff;
-    }
+   #management{
+       height: 482px;
+       background-color: #fff;
+   }
 </style>

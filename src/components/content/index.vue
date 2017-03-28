@@ -14,8 +14,6 @@
   export default {
     name:'zyIndex',
     mounted: function () {
-      console.info("shenjian");
-      console.info(this);
     },
     components:{
       zyContentNav

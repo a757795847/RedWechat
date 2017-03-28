@@ -31,7 +31,7 @@
                             <div class="input-group" >
                                 <el-input v-model="validationText" placeholder="请输入验证码" class="form-control validationText" :style="{ width: 65+ '%'}"></el-input>
                                 <span class="input-group-btn">
-                                    <img :src="getValidationImg()" v-on:click="getValidationImg()">
+                                    <img :src="validationImgSrc" v-on:click="getValidationImg()">
                                 </span>
                                 <p></p>
                             </div>
@@ -70,7 +70,7 @@
                     rememberMe: false
                 },
                 zylogin:true,
-//                errorLogin:false,
+                errorLogin:false,
                 error: null,
                 register:{
                     phoneNub: '15053467982',
@@ -80,7 +80,7 @@
                 },
                 dialogVisible:false,
                 validationText:'',
-                validationImgSrc:this.$http.options.root+'/'+'getcodeImage'
+                validationImgSrc:''
 //                errorRegistered:false,
 //                errorRegisteredText:''
             }
@@ -128,23 +128,50 @@
                         },
                     }).then((res) => {
                         console.log('success ' , res);
-                    this.dialogVisible = true;
+                        this.dialogVisible = false;
                     }, (res) => {
                         this.$message.error('验证码不正确');
-                        this.dialogVisible = false;
+                        this.dialogVisible = true;
                     });
                 }
             },
             create(){
                 if(this.validation()){
-                    if(this.register.onePwd !== this.register.twoPwd){
+                    if(this.register.onePwd.length < 6){
+                        this.$message.error('密码长度小于6位');
+                    }else if(this.register.onePwd !== this.register.twoPwd){
                         this.$message.error('两次密码不匹配');
+                    }else{
+                        this.$http({
+                            url: 'register',
+                            method: 'POST',
+                            body:{
+                                code:this.validationText,
+                                phone:this.register.phoneNub
+                            },
+                        }).then((res) => {
+                            console.log('success ' , res);
+                        this.dialogVisible = false;
+                    }, (res) => {
+                            this.$message.error('验证码不正确');
+                            this.dialogVisible = true;
+                        });
                     }
                 }
             },
             getValidationImg(){
-                return this.validationImgSrc;
-            }
+                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
+            },
+
+        },
+        beforeCreate(){
+            this.$http({
+                url: 'test',
+                method: 'GET',
+            }).then((res) => {
+                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
+            }, (res) => {
+            });
         }
     }
 </script>

@@ -38,13 +38,11 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            console.log(this);
             if(this.$route.path == '/'){
                 this.$router.push('index')
             }else{
                 this.$router.go(-1)
             }
-
         }
     }
 }

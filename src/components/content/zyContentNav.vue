@@ -2,7 +2,7 @@
   <div id="contentNav">
     <publics></publics>
    <!-- <application></application>-->
-    <managements></managements>
+   <!-- <managements></managements>-->
   </div>
 </template>
 <script>
@@ -17,8 +17,8 @@
       }
     },
     components:{
-      publics,
-      managements,
+      publics
+     /* managements,*/
    /*   application*/
     }
   }

@@ -14,8 +14,8 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
 Vue.router = router;
-// Vue.http.options.root = 'http://115.29.188.190:8085';
-Vue.http.options.root = 'http://192.168.1.115:8081';
+Vue.http.options.root = 'http://115.29.188.190:8085';
+/*Vue.http.options.root = 'http://192.168.1.115:8081';*/
 
 Vue.use(require('@websanova/vue-auth'), {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),

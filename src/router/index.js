@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-import indexDefault from '@/components/content/index.vue'
+// import indexDefault from '@/components/content/index.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -42,10 +42,17 @@ export default new Router({
                 require(['../components/content/zyContentBody/zyAppList.vue'],resolve)
               }
             },
+            {
+              path: '/appList/:id',
+              name: 'zyAppLitDetails',
+              component:function (resolve) {
+                require(['../components/content/zyContentBody/zyAppLitDetails.vue'],resolve)
+              }
+            },
           ]
         },
         {
-          path: '/details/:appId',
+          path: '/details',
           name: 'zyDetails',
           component:function (resolve) {
             require(['../components/details/zyDetails.vue'],resolve)

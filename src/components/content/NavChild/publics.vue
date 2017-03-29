@@ -52,7 +52,7 @@
             },
             addApp(){
                 this.activeNum = 'dsdsdsds';
-                this.$router.push('appList')
+                this.$router.push('/appList')
             }
         }
     }

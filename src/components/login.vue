@@ -146,15 +146,24 @@
                             url: 'register',
                             method: 'POST',
                             body:{
-                                code:this.validationText,
-                                phone:this.register.phoneNub
+                                verificationCode:this.register.messCode,
+                                phone:this.register.phoneNub,
+                                password:this.register.onePwd
                             },
                         }).then((res) => {
                             console.log('success ' , res);
-                        this.dialogVisible = false;
-                    }, (res) => {
-                            this.$message.error('验证码不正确');
-                            this.dialogVisible = true;
+//                            this.$http({
+//                                url: 'auth/user',
+//                                method: 'GET',
+//                            }).then((res) => {
+//                                console.log(this.$auth.user().name)
+//                                this.$router.push({name:'zyDetails',params:{appId:index}});
+//                            }, (res) => {
+//
+//                            });
+
+                        }, (res) => {
+
                         });
                     }
                 }

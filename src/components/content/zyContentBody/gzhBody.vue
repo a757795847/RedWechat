@@ -51,7 +51,7 @@ export default{
     },
     methods:{
         upUser(index){
-            this.$router.push({name:'zyDetails',params:{appId:index}});
+            this.$router.push('indexBody');
         },
         handleClick(key, keyPath) {
             console.log(key, keyPath);

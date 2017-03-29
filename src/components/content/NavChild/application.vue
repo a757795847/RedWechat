@@ -29,7 +29,7 @@
     #publicLists .elDiv{
         position: relative;
         height: 30px;
-        padding-bottom: 10px;
+        padding-bottom:10px;
         padding-top: 10px;
         width: 200px;
         background-color: #fff;

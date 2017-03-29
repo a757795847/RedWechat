@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="zyBody">
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="公众号列表" name="first">
-                <div id="gzhCard">
+                <div id="gzhCard" v-show="!zyBody">
                     <div class="cardItem">
                         <div class="cardItemNews clear">
                             <img src="../../../assets/logo.jpg" alt="">
@@ -30,8 +30,14 @@
                         </div>
                     </div>
                 </div>
+                    <div class="bodyFather" v-show="zyBody">
+                <img src="../../../assets/404.png" alt="">
+                        <p :style="{ color:'#949494'}">您一个公众号都还没有绑定 TT</p>
+
+                    </div>
             </el-tab-pane>
         </el-tabs>
+
     </div>
 </template>
 <script>
@@ -40,6 +46,7 @@ export default{
     data() {
         return {
             activeName: 'first',
+            zyBody:false
         };
     },
     methods:{
@@ -53,7 +60,22 @@ export default{
 }
 </script>
 <style>
-
+    .bodyFather{
+      text-align: center;
+        margin-top:14%;
+    }
+    .bodyFather img{
+        width:130px;
+    }
+    .bodyFather p{
+        color: rgb(148, 148, 148);
+        margin-top: 13px;
+        font-weight: 700;
+    }
+    .zyBody{
+        font-family: "Helvetica Neue";
+        position: relative;
+    }
 #gzhCard{
     width: 100%;
 }

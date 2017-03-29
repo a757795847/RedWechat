@@ -16,6 +16,13 @@ export default new Router({
       meta:{auth:false}
     },
     {
+      path: '/addPublic',
+      name: 'zyAddPublic',
+      component: function (resolve) {
+        require(['../components/details/zyAddPublic.vue'],resolve)
+      }
+    },
+    {
       path: '/index',
       name: 'index',
       component:index,
@@ -35,7 +42,21 @@ export default new Router({
                 require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
               }
             },
-            {
+              {
+                  path: '/index',
+                  name: 'indexBody',
+                  component:function (resolve) {
+                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+                  }
+              },
+              {
+                  path: '/index',
+                  name: 'indexBody',
+                  component:function (resolve) {
+                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+                  }
+              },
+            {   
               path: '/appList',
               name: 'zyAppLit',
               component:function (resolve) {

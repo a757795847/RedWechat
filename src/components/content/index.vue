@@ -6,7 +6,8 @@
     <div  id="contentBody">
       <router-view></router-view>
     </div>
-    <!--<zy-content-body></zy-content-body>-->
+   <!-- <zy-content-body></zy-content-body>-->
+
   </section>
 </template>
 <script>

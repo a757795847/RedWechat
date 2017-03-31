@@ -13,7 +13,7 @@
                             <p>{{state?'已开通':'未开通'}}</p>
                         </div>
                         <el-button type="primary" v-if="!state">开通</el-button>
-                        <el-button type="primary" v-else>进入后台</el-button>
+                        <el-button type="primary" v-else @click="enter">进入后台</el-button>
                     </div>
                 </div>
             </el-col>
@@ -70,6 +70,11 @@
             }, (res) => {
 
             });
+        },
+        methods:{
+            enter(){
+                this.$router.push('/details/bag');
+            }
         }
     }
 </script>

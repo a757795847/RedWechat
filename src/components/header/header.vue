@@ -111,5 +111,14 @@
     cursor:pointer;
     margin-left: 40px;
   }
-
+  .el-input__inner:focus ,.el-select .el-input__inner:focus{
+    outline: 0;
+    border-color: #68A593;
+  }
+  .el-tabs__item.is-active {
+    color: #589680;
+  }
+  .el-tabs__active-bar {
+    background-color: #589680;
+  }
 </style>

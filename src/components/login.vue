@@ -93,10 +93,11 @@
                     body: this.data.body,
                     rememberMe: this.data.rememberMe,
                     redirect: {name: redirect ? redirect.from.name : 'indexBody'},
-                    success() {
-
+                    success(res) {
+                        console.log(res);
                     },
                     error(res) {
+                        console.log(res);
                         if(res.status === 401){
                             this.$message.error('账号密码错误');
                         }

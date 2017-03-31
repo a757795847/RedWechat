@@ -14,78 +14,88 @@
         </div>
         <div id="detailsBody" class="clear">
             <div class="detailsBodyTab detailsBodyTable" :class="isActive === 0 ? 'isActive' : ''">
-                <div>
-                    <el-button type="text">上传订单</el-button>
-                    <el-button type="text">发送红包</el-button>
-                    <el-button type="text">拒绝</el-button>
-                    <el-upload
-                            class="upload-demo"
-                            action="http://115.29.188.190:8085/order/parseCsv"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            :headers="{'Authorization':token}"
-                            :on-success="upSuccessful"
-                            :on-progress="upProcess"
-                            accept="csv"
-                    >
-                        <el-button size="small" type="primary">点击上传</el-button>
-                    </el-upload>
+                <div class="detailsBodyThead">
+                    <el-row>
+                        <el-col :span="8">
+                            <el-button type="text" @click="dialogFormVisible = true">上传订单</el-button>
+                            <el-button type="text">批量发送</el-button>
+                        </el-col>
+                        <el-col :span="12" :offset="4">
+                            <el-button type="text" :style="{  float: 'right',padding: '8px 12px',marginTop: '3px'}" @click="handleSearchClick">搜索</el-button>
+                            <el-input
+                                    placeholder="输入订单标签或订单号搜索"
+                                    class="search"
+                                    v-model="search"
+                                    :style="{margin:'0 10px 0 20px'}"
+                            >
+                            </el-input>
+                            <el-select v-model="types.active" placeholder="请选择" @change="selectStateAjax">
+                                <el-option
+                                        v-for="list in types.list"
+                                        :label="list.label"
+                                        :value="list.value"
+                                        :key="list.value"
+                                >
+                                </el-option>
+                            </el-select>
+
+                        </el-col>
+                    </el-row>
                 </div>
                 <el-table
+                        class="detailsBodyTBody"
                         :data="tableData"
                         border
                         style="width: 100%"
-                        @selection-change="handleSelectionChange">
+                        empty-text="目前没有任何需要处理的返现申请"
+                        @selection-change="handleSelectionChange"
+                >
                     <el-table-column
+                            fixed
                             type="selection"
                             width="40"
                             >
                     </el-table-column>
                     <el-table-column
                             label="订单编号"
-                            width="140"
+                            width="190"
                             >
-                        <template scope="scope">{{ scope.row.order_number }}
-                            <el-popover
-                                    ref="popover"
-                                    placement="right"
-                                    width="400"
-                                    trigger="click">
-                                {{ scope.row.order_number }}
-                            </el-popover>
-
-                            <el-button class="detail" v-popover:popover></el-button>
+                        <template scope="scope">
+                            <p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>
 
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop="name"
+                            prop=""
+                            width="100"
                             label="微信用户名"
                             >
                     </el-table-column>
                     <el-table-column
                             prop="img"
                             label="用户上传图片"
-                            width="130"
+                            width="150"
                     >
                         <template scope="scope" >
-                            <img v-for="(item,index) in scope.row.img"  :src="item" :index="index">
+                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1" >
+                            <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2" >
+                            <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3" >
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop="label"
+                            prop="order_remark"
                             label="订单标签"
-                            width="70"
+                            width="100"
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="importDate"
+                            prop="create_date"
                             label="导入日期"
                             width="100"
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="fanxianDate"
+                            prop="send_date"
                             label="返现日期"
                             width="100"
                     >
@@ -93,30 +103,36 @@
                     <el-table-column
                             prop="payment"
                             label="付款金额"
+                            width="80"
                     >
                     </el-table-column>
                     <el-table-column
                             prop="type"
                             label="红包类型"
+                            width="100"
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="money"
+                            prop="gift_money"
                             label="红包金额"
+                            width="80"
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="state"
                             label="状态"
-                            width="60"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                            label="操作"
-                            width="150"
+                            width="100"
                     >
                         <template scope="scope">
-                            <el-button type="text">发送红包</el-button>
+                            {{ auditState(scope.row.gift_state) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="140"
+                    >
+                        <template scope="scope">
+                            <el-button type="text" @click="sendBag(scope.$index)">发送红包</el-button>
                             <el-button type="text">拒绝</el-button>
 
                         </template>
@@ -124,7 +140,7 @@
 
                 </el-table>
 
-                <div class="block">
+                <div class="block" v-show="pageData.count>0">
                     <el-pagination
                             layout="prev, pager, next"
                             :total="pageData.count"
@@ -133,7 +149,133 @@
                     >
                     </el-pagination>
                 </div>
-            </div>
+                <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form ref="form" :model="form" label-width="80px">
+                                <el-form-item label="订单标签">
+                                    <el-input v-model="form.name" placeholder="输入订单标签(可为空)" :style="{width:200+'px'}"></el-input>
+                                </el-form-item>
+                                <el-form-item label="红包类型">
+                                    <el-select v-model="form.type" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in form.types"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="红包金额">
+                                    <el-input placeholder="输入金额" v-model="form.money" :style="{width:150+'px'}">
+                                        <template slot="append">元</template>
+                                    </el-input>
+                                </el-form-item>
+                            </el-form>
+                            <p class="hint">注：建议一次上传订单数量不要超过1000个订单导入后红包类型仍可编辑</p>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-upload
+                                    class="upload-demo"
+                                    ref="upload"
+                                    drag
+                                    action="http://115.29.188.190:8085/order/parseCsv"
+                                    :headers="{'Authorization':token}"
+                                    :auto-upload="false"
+                                    :on-success="upSuccessful"
+                                    :on-progress="upProcess"
+                                    :data="{
+                                        'redPackageSize':parseInt(form.money*100),
+                                        'label':form.name
+                                    }"
+                                    accept="csv"
+                                    :before-upload="beforeUpload"
+                                    >
+                                <i class="el-icon-upload"></i>
+                                <div class="el-upload__text">将文件拖到此处，或<em :style="{color:'#68A593'}">点击上传</em><br/>文件后缀名: csv</div>
+                            </el-upload>
+                        </el-col>
+                    </el-row>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button  type="text" @click="dialogFormVisible = false" :style="{color:'#393A3E'}">取 消</el-button>
+                        <el-button type="text" @click="submitUpload">上 传</el-button>
+                    </div>
+                </el-dialog>
+                <el-dialog class="upLoading" :title="upLoadingState?'订单导入完成':'订单导入中'" v-model="upLoading"
+                           size="tiny"
+                           :close-on-click-modal="false"
+                           :close-on-press-escape="false"
+                           :show-close="false"
+                           top="20%"  >
+                    <el-row v-if="!upLoadingState">
+                        <el-col :span="24">
+                                <el-progress :width="100" type="circle" :percentage="upLoadingIn"></el-progress>
+                                <p>正在为您努力导入订单，请耐心等候订单的个数决定了导入的时间</p>
+                                <p :style="{color:'#CE6D72'}">导入期间请不要关闭或刷新浏览器</p>
+
+                        </el-col>
+                    </el-row>
+                    <el-row v-else>
+                        <el-col :span="24">
+                            <img src="../../assets/wechat-auth-4.png">
+                            <p>导入完毕，共导入456条订单数据有13条数据导入失败，点击<em>这里下载</em></p>
+                        </el-col>
+                    </el-row>
+                      <span v-if="upLoadingState" slot="footer" class="dialog-footer">
+                        <el-button type="primary" @click="upLoading = false ; dialogFormVisible = false; ">关闭</el-button>
+                      </span>
+                </el-dialog>
+
+                <el-dialog class="orderDetail" ref="orderDetail" >
+                    <el-tabs active-name="detail">
+                        <el-tab-pane label="订单详情" class="order" name="detail">
+                            <el-row>
+                                <el-col :span="12">订单属性</el-col>
+                                <el-col :span="12">详情</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">订单号</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">买家会员名</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">订单创建时间</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">订单付款时间</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">买家支付宝账号</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">付款金额</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">收货人姓名</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">收货地址</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="12">收货人手机号</el-col>
+                                <el-col :span="12">1</el-col>
+                            </el-row>
+                        </el-tab-pane>
+                        <el-tab-pane label="红包日志" class="log" name="log">
+
+                        </el-tab-pane>
+                    </el-tabs>
+                </el-dialog>
+
+
             </div>
             <div class="detailsBodyTab" :class="isActive === 1 ? 'isActive' : ''">
 
@@ -147,6 +289,29 @@ export default{
     data(){
         return{
             token:'Bearer ' + localStorage.getItem('default-auth-token'),
+            imgSrc:this.$http.options.root+'/order/picture/?',
+            search:'',
+            types:{
+                active:'4',
+                list:[
+                    {
+                        value: '4',
+                        label: '全部状态'
+                    },
+                    {
+                        value: '0',
+                        label: '未申领'
+                    },
+                    {
+                        value: '1',
+                        label: '审核中'
+                    },
+                    {
+                        value: '3',
+                        label: '红包已发送'
+                    },
+                ]
+            },
             dataList:[
                 {
                     name:'订单管理'
@@ -159,31 +324,53 @@ export default{
                 }
             ],
             isActive : 0,
-            tableData: [
-//                {
-//                    name: '无聊的风',
-//                    num: '177123ster123',
-//                    img:['../../assets/logo.jpg','../../assets/logo.jpg','../../assets/logo.jpg'],
-//                    label:'双11',
-//                    importDate: '2016-05-03',
-//                    fanxianDate: '2016-05-03',
-//                    payment:18,
-//                    type:'固定',
-//                    money:18,
-//                    state:'审核中',
-//                }
-            ],
+            tableData: [],
             multipleSelection: [],
-            pageData:{}
-
+            pageData:{},
+            //上传文件
+            dialogFormVisible:false,
+            form: {
+                type: '选项1',
+                name: '',
+                money: '',
+                types:[
+                    {
+                        value: '选项1',
+                        label: '固定金额'
+                    }
+                ],
+                file:false
+            },
+            upLoading:false,
+            upLoadingIn:0,
+            upLoadingState:true,
+            orderDetailIndex:0,
+            //红包日志还没写
         }
     },
+    watch:{
+
+    },
+    computed:{
+
+    },
     methods:{
+        auditState(index){
+            switch (index){
+                case 0:
+                    return '未申领';
+                case 1:
+                    return '审核中';
+                case 2:
+                    return '审核已通过';
+                case 3:
+                    return '红包已发放';
+            }
+        },
         IsActive( index ){
             this.isActive = index;
         },
         returnIndex(){
-            console.log(this.$route)
             if(this.$route.path == '/' || this.$route.path == '/details'){
                 this.$router.push('index')
             }else{
@@ -192,46 +379,129 @@ export default{
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
+            console.log(this.multipleSelection)
         },
         //上传文件
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
-            console.log(file);
-        },
         upSuccessful(response, file, fileList){
-            console.log(response)
-            console.log(file)
-            console.log(fileList)
+            if(response.status == 1){
+                this.upLoadingIn = 100;
+                this.upLoadingState = true;
+                this.pageAjax(1,[0,1,3])
+            }
         },
         upProcess(event, file, fileList){
             console.log(event)
             console.log(file)
             console.log(fileList)
         },
+        beforeUpload(file){
+            if(file == undefined){
+                return false;
+            }
+            this.form.file = true;
+            return true;
+        },
+        submitUpload() {
+            console.log('this.$refs.upload',this.$refs.upload);
+            if(this.form.money == ''){
+                this.$message({
+                    message: '请输入金额',
+                    type: 'warning'
+                });
+            }else{
+                if(this.$refs.upload.uploadFiles.length == 0){
+                    this.$message({
+                        message: '请上传文件',
+                        type: 'warning'
+                    });
+                }else{
+                    this.$refs.upload.submit();
+                    this.upLoadingIn = 0;
+                    this.upLoading = true;
+                    this.upLoadingState = false;
+                    this.upload(10);
+                }
+
+            }
+
+        },
+        upload(i){
+            if(this.upLoadingIn == 100){
+                return;
+            }
+            this.upLoadingIn += i;
+            if(this.upLoadingIn < 90){
+                this.upload(i);
+            }else{
+                this.upload(i/2);
+            }
+
+        },
         //分页
         currentChange(val){
-            console.log(`当前页: ${val}`);
-            this.pageAjax(val);
+            var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
+            this.pageAjax(val,arr);
         },
         //分页AJAX
-        pageAjax(index){
+        pageAjax(index,status){
+            var data = {
+                pageSize:15,
+                currentPageIndex:index,
+                status:status
+            };
+            if(this.search != ''){
+                data.pageIndex = this.search;
+            };
             this.$http({
                 url: 'order/list',
                 method: 'POST',
-                body:{
-                    currentPageIndex:index,
-                    status:[0]
-                }
+                body:data
             }).then((res) => {
                 console.log(res)
                 if(res.data.status == 1){
                     this.tableData = res.data.list;
+                    this.pageData = res.data.page;
                 }
             }, (res) => {
 
             });
+        },
+        //发送红包
+        sendBag(index){
+            this.tableData[index].gift_state = 1 ;
+        },
+        //搜索
+        handleSearchClick(){
+            var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
+            this.$http({
+                url: 'order/lookup/'+this.search,
+                method: 'POST',
+                body:{
+                    pageSize:15,
+                    currentPageIndex:1,
+                    status:arr
+                }
+            }).then((res) => {
+                console.log('1',res);
+                if(res.data.status == 1){
+                    this.tableData = res.data.list;
+                    this.pageData = res.data.page;
+                }
+            }, (res) => {
+                console.log('2',res);
+            });
+        },
+        //打开详情
+        openDetail(index){
+            this.orderDetailIndex = index;
+            this.$refs.orderDetail.open();
+        },
+        closeDetail(index){
+            this.$refs.orderDetail.close();
+        },
+        selectStateAjax(val){
+            var arr =  val == 4 ? [0,1,3]:[parseInt(val)];
+            this.pageAjax(1,arr);
         }
     },
     beforeCreate(){
@@ -239,11 +509,12 @@ export default{
             url: 'order/list',
             method: 'POST',
             body:{
+                pageSize:15,
                 currentPageIndex:1,
                 status:[0]
             }
         }).then((res) => {
-            console.log(res)
+            console.log(res);
             if(res.data.status == 1){
                 this.tableData = res.data.list;
                 this.pageData = res.data.page;
@@ -304,7 +575,6 @@ export default{
     overflow: hidden;
     margin-right: 50px;
 }
-
 #detailsHeader .detailsTab ul{
     float: left;
 }
@@ -335,18 +605,36 @@ export default{
 #detailsBody .detailsBodyTab{
     display: none;
     height: 100%;
-    padding: 10px 20px;
+    padding:12px 20px 10px;
 }
 #detailsBody .isActive{
     display: block;
 }
-
+#detailsBody .detailsBodyThead{
+    margin: 0 0 12px;
+    line-height: 36px;
+}
+#detailsBody .detailsBodyThead  .el-select ,#detailsBody .detailsBodyThead .search {
+    float: right;
+}
+#detailsBody .detailsBodyThead .el-input__icon+.el-input__inner {
+    width: 150px;
+}
+#detailsBody .detailsBodyThead .el-input{
+    width: initial;
+}
+#detailsBody .detailsBodyThead .search{
+    width: 200px;
+    min-width: 140px;
+}
+.el-select-dropdown__item.selected,.el-select-dropdown__item.selected.hover{
+    background-color: #71A593;
+}
 
 #detailsBody .detailsBodyTable button.el-button.el-button--text {
     color: #68A593;
-    padding: 7px 3px;
+    padding: 9px 16px;
     font-size: 13px;
-    margin-bottom: 10px;
 }
 #detailsBody .detailsBodyTable button.el-button.el-button--text:hover{
     background: #E4EDE2;
@@ -354,10 +642,7 @@ export default{
 #detailsBody .el-table--border td, .el-table--border th {
      border-right: none;
 }
-#detailsBody .el-table .cell, .el-table th>div {
-    padding-left: 10px;
-    padding-right: 0;
-}
+
 #detailsBody .el-table td, .el-table th.is-leaf {
     font-weight: normal;
     text-align: center;
@@ -370,14 +655,16 @@ export default{
 }
 #detailsBody .detail{
     background: url("../../assets/app-hongbao-detail.png") no-repeat;
-    width: 12px;
-    height: 12px;
+    cursor: pointer;
+    color: rgb(88, 150, 128);
     display: inline-block;
-    background-position: 0px 0px;
+    background-position: 154px 6px;
     background-size: 12px;
-    cursor:pointer;
     border: none;
     padding: 0;
+    width: 100%;
+    cursor : pointer;
+    color:#589680;
 }
 #detailsBody .el-table_1_column_2{
     color:#589680;
@@ -400,4 +687,119 @@ export default{
 #detailsBody .el-table__body-wrapper button.el-button.el-button--text {
     margin-bottom: 0;
 }
+/*上传表单*/
+#detailsBody .el-dialog--small {
+    width: 40%;
+    min-width: 578px;
+}
+#detailsBody .upTable .el-upload-dragger{
+    width: 200px;
+    height: 146px;
+    margin-left: 30px;
+    border: 1px dashed #95989A;
+}
+#detailsBody .upTable .el-dialog__close:hover {
+    color: #68A593;
+}
+#detailsBody .upTable .el-form-item {
+    margin-bottom: 20px;
+}
+#detailsBody .upTable .hint{
+    color: #CE6D72;
+    text-align: center;
+    padding-left: 10px;
+}
+#detailsBody .upTable .el-upload-list__item-name {
+    padding-left: 27px;
+}
+
+
+#detailsBody .upLoading .el-dialog--tiny {
+    width: 300px;
+    height: 250px;
+}
+#detailsBody .upLoading .el-col-24 {
+    padding: 0 17px;
+    margin: 0 auto;
+    text-align: center;
+}
+#detailsBody .upLoading .el-dialog__title{
+    font-weight: normal;
+}
+#detailsBody .upLoading .el-dialog__header {
+    padding: 14px 20px 0;
+}
+#detailsBody .upLoading .el-dialog__body{
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+#detailsBody .upLoading img{
+    width: 80px;
+    height: 80px;
+}
+#detailsBody .upLoading .el-button--primary {
+    color: #fff;
+    background-color: #589680;
+    border-color: #589680;
+    padding: 7px 27px;
+}
+#detailsBody .upLoading .el-dialog__footer {
+    text-align: center;
+}
+#detailsBody .el-table__empty-block {
+    background: #DDDDDD;
+}
+#detailsBody .detailsBodyTBody .el-table tr {
+    background-color: #E4EDE2;
+}
+#detailsBody .detailsBodyTBody button.el-button.el-button--text {
+    padding:10px 5px;
+}
+#detailsBody .detailsBodyTBody  .cell, .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/*orderDetail*/
+#detailsBody  .orderDetail .el-dialog--small{
+    width: 440px;
+    min-width: 440px;
+}
+#detailsBody  .orderDetail .el-dialog__body{
+    padding-top: 0;
+}
+#detailsBody  .orderDetail .el-dialog__headerbtn, .el-pagination__rightwrapper {
+    z-index: 100;
+    position: relative;
+}
+#detailsBody  .orderDetail .el-dialog__close:hover {
+    color: #E4EDE2;
+}
+#detailsBody  .orderDetail  .el-tabs__header {
+    border-bottom: none;
+}
+#detailsBody  .orderDetail  .el-tabs__active-bar {
+    height: 5px;
+}
+#detailsBody  .orderDetail .el-tabs__item {
+    padding: 0 10px;
+}
+
+#detailsBody  .orderDetail .order .el-row{
+    width: 400px;
+    height: 40px;
+    border: 1px solid #C8C8C8;
+    box-sizing: border-box;
+    line-height: 40px;
+    border-bottom: none;
+}
+#detailsBody  .orderDetail .order .el-row:first-child{
+    background: #E4EDE2;
+}
+#detailsBody  .orderDetail .order .el-row:last-child{
+    border-bottom: 1px solid #C8C8C8;
+}
+#detailsBody  .orderDetail .order .el-col{
+    padding-left: 20px;
+}
+
 </style>

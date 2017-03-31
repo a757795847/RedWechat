@@ -73,7 +73,7 @@ export default new Router({
           ]
         },
         {
-          path: '/details',
+          path: '/details/bag',
           name: 'zyDetails',
           component:function (resolve) {
             require(['../components/details/zyDetails.vue'],resolve)

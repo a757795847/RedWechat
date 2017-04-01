@@ -4,8 +4,8 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户管理" name="first">
                 <el-row :gutter="18">
-                    <el-col :span="12" v-for="(item,index) in list" :index="index">
-                        <zy-app-list-item :index="index"  :item = "item"></zy-app-list-item>
+                    <el-col :span="12" v-for="(item,index) in list" :key="index">
+                        <zy-app-list-item :item = "item"></zy-app-list-item>
                     </el-col>
                 </el-row>
             </el-tab-pane>

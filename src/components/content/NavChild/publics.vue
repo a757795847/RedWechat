@@ -4,7 +4,7 @@
             <el-menu mode="vertical" :default-active="activeNum" class="el-menu-vertical-demo" router @select="handleSelect">
                 <i class="gzhList"></i>
                 <el-menu-item-group title="公众号">
-                    <el-menu-item index="1">我的公众号</el-menu-item>
+                    <el-menu-item index="/index">我的公众号</el-menu-item>
                     <div class="elDiv" @click="addpublic">
                         <p><i class="addImage"></i>添加公众号</p>
                     </div>
@@ -12,6 +12,7 @@
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <el-menu-item index="2">我的应用</el-menu-item>
+                <el-menu-item :index="'/appList/'+item.id" v-for="item in appList">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
@@ -32,15 +33,12 @@
         name:'zyPublics',
         data(){
           return{
-              activeNum:"1"
+              activeNum:"/index",
+              appList:[]
           }
         },
         activated(){
-            if(this.$route.path.split('/')[1] == 'index'){
-                this.activeNum = "1";
-            }else{
-                this.activeNum = this.$route.path.split('/')[1];
-            }
+            this.activeNum = this.$route.path;
         },
         deactivated(){
         },
@@ -66,7 +64,6 @@
         methods:{
             handleSelect(key, keyPath) {
                 this.activeNum = ''+key;
-                console.log(key, keyPath);
             },
             addApp(){
                 this.activeNum = 'dsdsdsds';
@@ -75,6 +72,20 @@
             addpublic(){
                 this.$router.push('/addPublic')
             }
+        },
+        beforeCreate(){
+            this.$http({
+                url: 'app/list',
+                method: 'POST',
+                body:{
+                    currentPageIndex:1
+                }
+            }).then((res) => {
+                console.info('列表',res)
+                this.appList = res.data.list;
+            }, (res) => {
+
+            });
         }
     }
 </script>

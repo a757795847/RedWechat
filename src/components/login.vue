@@ -81,7 +81,7 @@
                 },
                 dialogVisible:false,
                 validationText:'',
-                validationImgSrc:'',
+                validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random(),
                 countdown:0
 
 
@@ -110,7 +110,7 @@
                 });
             },
             validation(){
-                this.getValidationImg();
+//                this.getValidationImg();
                 if(this.register.phoneNub != ''){
                     if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.register.phoneNub)){
                         return true;
@@ -136,23 +136,21 @@
                         console.log('success ' , res);
                         if(res.body.status==0){
                             this.$message.error('验证码不正确');
+                            this.validationText = '';
                         }else{
                             this.countdown = 60;
                           var sub= setInterval(function () {
-
                               if(this.countdown==0){
                                   clearInterval(sub);
                                   return;
 
                               }
-                                      this.countdown --;
-
-
-                                    }.bind(this)
-                                    , 1000)
+                              this.countdown --;
+                          }.bind(this), 1000)
                         }
                         this.dialogVisible = false;
                     }, (res) => {
+
                         this.dialogVisible = true;
                     });
                 }
@@ -436,7 +434,5 @@
         margin-bottom: 0;
         color: #c73636;
     }
-    #father .el-dialog--tiny{
-        width: 40%;
-    }
+
 </style>

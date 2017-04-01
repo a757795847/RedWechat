@@ -30,11 +30,10 @@
                         </div>
                     </div>
                 </div>
-                    <div class="bodyFather" v-show="zyBody">
-                <img src="../../../assets/404.png" alt="">
-                        <p :style="{ color:'#949494'}">您一个公众号都还没有绑定 TT</p>
-
-                    </div>
+                <div class="bodyFather" v-show="zyBody">
+                    <img src="../../../assets/404.png" alt="">
+                    <p :style="{ color:'#949494'}">您一个公众号都还没有绑定 TT</p>
+                </div>
             </el-tab-pane>
         </el-tabs>
 

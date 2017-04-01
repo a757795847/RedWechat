@@ -7,7 +7,7 @@
                 <p>{{item.applicationInfo}}</p>
             </li>
             <li>
-                <p>{{item.isOpened ? '开通':'进入后台'}}</p>
+                <p>{{item.isOpened ? '已开通':'未开通'}}</p>
             </li>
         </ul>
     </div>

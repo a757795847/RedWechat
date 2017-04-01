@@ -8,6 +8,12 @@ import router from './router'
 import VueResource from 'vue-resource';
 // import $ from 'jquery'
 // import VueAuth from '@websanova/vue-auth'
+import VueQArt from 'vue-qart'
+
+new Vue({
+  components: {VueQArt}
+})
+
 
 Vue.use(VueResource);
 Vue.use(ElementUI);

@@ -7,7 +7,7 @@
 </template>
 <script>
   import publics from './NavChild/publics.vue'
-  import managements from './NavChild/management.vue'
+//  import managements from './NavChild/management.vue'
   /*import application from './NavChild/application.vue'*/
   export default {
     name:'zyContentNav',

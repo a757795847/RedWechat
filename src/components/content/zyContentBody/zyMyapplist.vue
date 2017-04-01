@@ -1,6 +1,6 @@
 <template>
     <div id="myappList">
-        <zy-contentnac></zy-contentnac>
+      <!--  <zy-zyContentNav></zy-zyContentNav>-->
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户列表" name="first">
                 <el-row :gutter="18">
@@ -15,7 +15,8 @@
 
 
 <script>
-    import zyContentNav from '../zyContentNav.vue'
+  /*  import zyContentNav from '../zyContentNav.vue'*/
+  import zyAppListItem from './zyAppListItem.vue'
     export default{
         name:'zyMyappList',
         data() {
@@ -38,7 +39,7 @@
             }
         },
         components:{
-            zyContentNav
+            zyAppListItem
         },
         beforeCreate(){
             this.$http({

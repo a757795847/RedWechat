@@ -34,16 +34,16 @@
     }
 </script>
 <style>
-#appList .appListItem{
-    border:1px solid #D1D2D3;
+.appListItem {
+    border: 1px solid #D1D2D3;
     width: 99%;
     height: 100px;
     position: relative;
 }
-#appList .appListItem li{
+.appListItem li{
     float: left;
 }
-#appList .appListItem li:first-child{
+.appListItem li:first-child{
     position: absolute;
     top:-1px;
     left:-1px;
@@ -54,24 +54,24 @@
     background-size: 100px 100px;
     background-position: -2px 0;
 }
-#appList .appListItem li:nth-child(2){
+.appListItem li:nth-child(2){
     margin-left: 120px;
     padding-top: 15px;
     height: 62px;
     width: calc(100% - 210px);
 }
-#appList .appListItem li:nth-child(2) p{
+.appListItem li:nth-child(2) p{
     font-size: 13px;
     color: #A8A8A8;
     margin-top: 5px;
 }
-#appList .appListItem li:last-child{
+.appListItem li:last-child{
     float: right;
     width: 80px;
     line-height: 100px;
     text-align: center;
 }
-#appList .appListItem li:last-child p{
+.appListItem li:last-child p{
     cursor:pointer
 }
 </style>

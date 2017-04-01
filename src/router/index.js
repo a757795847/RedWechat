@@ -30,14 +30,6 @@ export default new Router({
           }
         },
         {
-          path: '/addMyapplist',
-          name: 'zyMyappList',
-          component: function (resolve) {
-            require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
-          }
-        },
-
-        {
           path: '/index',
           name: 'indexDefault',
           component:function (resolve) {
@@ -65,6 +57,13 @@ export default new Router({
                       require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
                   }
               },
+            {
+              path: '/addMyapplist',
+              name: 'zyMyappList',
+              component: function (resolve) {
+                require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
+              }
+            },
             {   
               path: '/appList',
               name: 'zyAppLit',

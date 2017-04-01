@@ -22,7 +22,6 @@
                     <el-menu-item index="4">消息发送(敬请期待)</el-menu-item>
                 </el-menu-item-group>
             </el-menu>
-
         </el-row>
     </div>
 </template>
@@ -45,6 +44,25 @@
         },
         deactivated(){
         },
+      /*  beforeCreate(){
+            console.log(this);
+            this.$http({
+                url: 'app/info',
+                method: 'POST',
+                params: {
+                    id: this.$route.params.id
+                }
+            }).then((res) => {
+                if(res.data.status == 1){
+                this.detail = res.data.applicationInfo;
+                console.log(res.data.isOpened);
+                this.state = res.data.isOpened;
+
+            }
+        }, (res) => {
+
+            });
+        },*/
         methods:{
             handleSelect(key, keyPath) {
                 this.activeNum = ''+key;

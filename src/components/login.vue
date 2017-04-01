@@ -199,7 +199,7 @@
             this.$http({
                 url: 'test',
                 method: 'GET',
-            }).then((res) => {
+            }).then((res) => {hu
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
             }, (res) => {
             });

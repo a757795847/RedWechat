@@ -131,8 +131,8 @@
                             width="140"
                     >
                         <template scope="scope">
-                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1 " type="text" @click="sendBag(scope.$index)">发送红包</el-button>
-                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1" type="text">拒绝</el-button>
+                            <el-button v-show="scope.row.gift_state == 1" type="text" @click="sendBag(scope.$index)">发送红包</el-button>
+                            <el-button v-show="scope.row.gift_state == 1" type="text">拒绝</el-button>
 
                         </template>
                     </el-table-column>
@@ -479,7 +479,7 @@ export default{
         //分页AJAX
         pageAjax(index,status){
             var data = {
-                pageSize:15,
+                pageSize:10,
                 currentPageIndex:index,
                 status:status
             };
@@ -510,7 +510,7 @@ export default{
                 }
             }).then((res) => {
                 console.log('发送红包',res)
-                this.tableData[index].gift_state = 1 ;
+                this.tableData[index].gift_state = 3 ;
             }, (res) => {
                 console.log('发送红包失败',res)
             });
@@ -525,7 +525,7 @@ export default{
                     url: 'order/lookup/'+this.search,
                     method: 'POST',
                     body:{
-                        pageSize:15,
+                        pageSize:10,
                         currentPageIndex:1,
                         status:arr
                     }
@@ -568,7 +568,7 @@ export default{
             url: 'order/list',
             method: 'POST',
             body:{
-                pageSize:15,
+                pageSize:10,
                 currentPageIndex:1,
                 status:[1]
             }
@@ -761,7 +761,7 @@ export default{
 }
 #detailsBody .upTable .el-upload-dragger{
     width: 200px;
-    height: 146px;
+    height: 165px;
     margin-left: 30px;
     border: 1px dashed #95989A;
 }

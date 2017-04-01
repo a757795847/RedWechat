@@ -71,9 +71,10 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
+                console.log(res);
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
-                console.log(res.data.isOpened);
+//                console.log(res.data.isOpened);
                     this.state = res.data.isOpened;
 
                 }

@@ -3,7 +3,7 @@
         <div id="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
-                <span id="appName">红包返现(无商家版)</span>
+                <span id="appName">红包返现</span>
                 <ul>
                     <li v-for="( item , index ) in dataList" :class="isActive === index ? 'isActive' : ''" @click="IsActive(index)">{{ item.name }}</li>
                 </ul>

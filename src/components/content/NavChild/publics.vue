@@ -5,7 +5,7 @@
                 <i class="gzhList"></i>
                 <el-menu-item-group title="公众号">
                     <el-menu-item index="1">我的公众号</el-menu-item>
-                    <div class="elDiv">
+                    <div class="elDiv" @click="addpublic">
                         <p><i class="addImage"></i>添加公众号</p>
                     </div>
                 </el-menu-item-group>
@@ -53,6 +53,9 @@
             addApp(){
                 this.activeNum = 'dsdsdsds';
                 this.$router.push('/appList')
+            },
+            addpublic(){
+                this.$router.push('/addPublic')
             }
         }
     }

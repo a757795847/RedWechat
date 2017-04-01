@@ -1,6 +1,5 @@
 <template>
-<div id="lpp">
-    <zy-header></zy-header>
+<div id="zyAddPublic">
     <div id="details">
     <div id="detailsHeader">
         <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的公众号</div>
@@ -50,16 +49,12 @@
 
 
 <script>
-    import zyHeader from '../header/header.vue'
 
     export default {
         name:'zyAddPublic',
         data(){
             return{
             }
-        },
-        components:{
-            zyHeader
         },
         methods:{
             IsActive( index ){
@@ -73,7 +68,6 @@
                 }
             }
         }
-
     }
 </script>
 

@@ -15,19 +15,28 @@ export default new Router({
       },
       meta:{auth:false}
     },
-    {
-      path: '/addPublic',
-      name: 'zyAddPublic',
-      component: function (resolve) {
-        require(['../components/details/zyAddPublic.vue'],resolve)
-      }
-    },
+
     {
       path: '/index',
       name: 'index',
       component:index,
       meta:{auth:true},
       children:[
+        {
+          path: '/addPublic',
+          name: 'zyAddPublic',
+          component: function (resolve) {
+            require(['../components/details/zyAddPublic.vue'],resolve)
+          }
+        },
+        {
+          path: '/addMyapplist',
+          name: 'zyMyappList',
+          component: function (resolve) {
+            require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
+          }
+        },
+
         {
           path: '/index',
           name: 'indexDefault',

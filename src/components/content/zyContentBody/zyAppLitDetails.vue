@@ -10,9 +10,9 @@
                     <div>
                         <div class="appListDetailsHeaderBody">
                             <p>{{detail.name}}</p>
-                            <p>{{state?'已开通':'未开通'}}</p>
+                            <p>{{!state?'未开通':'已开通'}}</p>
                         </div>
-                        <el-button type="primary" v-if="!state">开通</el-button>
+                        <el-button type="primary" v-if="!state" @click="dialogVisible = true">开通</el-button>
                         <el-button type="primary" v-else @click="enter">进入后台</el-button>
                     </div>
                 </div>
@@ -43,15 +43,23 @@
             </el-col>
         </el-row>
         <el-button type="text" v-if="state">取消服务</el-button>
+        <el-dialog title="提示" v-model="dialogVisible" size="tiny">
+            <span>服务免费开通,发送红包平台收取5%服务费</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="click">确 定</el-button>
+  </span>
+        </el-dialog>
     </div>
 </template>
 <script>
     export default{
-        name:'zyAppListDetails',
+        name: 'zyAppListDetails',
         data(){
-            return{
-                detail:{},
-                state:true
+            return {
+                dialogVisible: false,
+                detail: {},
+                state: ''
             }
         },
         beforeCreate(){
@@ -59,13 +67,15 @@
             this.$http({
                 url: 'app/info',
                 method: 'POST',
-                params:{
-                    id:this.$route.params.id
+                params: {
+                    id: this.$route.params.id
                 }
             }).then((res) => {
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
+                console.log(res.data.isOpened);
                     this.state = res.data.isOpened;
+
                 }
             }, (res) => {
 
@@ -74,9 +84,34 @@
         methods:{
             enter(){
                 this.$router.push('/details/bag');
-            }
+            },
+            click(){
+                this.dialogVisible = false;
+                this.$http({
+                    url: 'app/open',
+                    method: 'POST',
+                    body: {
+                        id: this.$route.params.id
+                    }
+                }).then((res) => {
+                    if(res.body.status!=0){
+                        this.state=true;
+                    }
+                    console.log(this.$route.params.id);
+                    console.log(res);
+
+                    /*
+                    if(res.data.status == 1){
+                    this.detail = res.data.applicationInfo;
+                    console.log(res.data.isOpened);
+                    /!*  this.state = res.data.isOpened;*!/
+                }*/
+                }, (res) => {
+
+                });
+                }
         }
-    }
+        }
 </script>
 <style>
     #appListDetails{

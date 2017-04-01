@@ -12,14 +12,14 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "element-ui": "^1.2.4",
-
-    "vue": "^2.2.2",
     "@websanova/vue-auth": "^2.8.2-beta",
-    "vue-router": "^2.2.0",
     "axios": "^0.15.3",
+    "element-ui": "^1.2.4",
+    "vue": "^2.2.2",
     "vue-axios": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "vue-drag-and-drop-list": "^1.0.0",
+    "vue-resource": "^1.0.3",
+    "vue-router": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

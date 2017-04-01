@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-// import indexDefault from '@/components/content/index.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -51,20 +50,20 @@ export default new Router({
                 require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
               }
             },
-              {
-                  path: '/index',
-                  name: 'indexBody',
-                  component:function (resolve) {
-                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-                  }
-              },
-              {
-                  path: '/index',
-                  name: 'indexBody',
-                  component:function (resolve) {
-                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-                  }
-              },
+              // {
+              //     path: '/index',
+              //     name: 'indexBody',
+              //     component:function (resolve) {
+              //         require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+              //     }
+              // },
+              // {
+              //     path: '/index',
+              //     name: 'indexBody',
+              //     component:function (resolve) {
+              //         require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+              //     }
+              // },
             {   
               path: '/appList',
               name: 'zyAppLit',

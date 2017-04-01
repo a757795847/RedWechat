@@ -3,7 +3,7 @@
         <div id="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
-                <span id="appName">红包返现后台</span>
+                <span id="appName">红包返现(无商家版)</span>
                 <ul>
                     <li v-for="( item , index ) in dataList" :class="isActive === index ? 'isActive' : ''" @click="IsActive(index)">{{ item.name }}</li>
                 </ul>
@@ -66,13 +66,12 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop=""
+                            prop="wechat_name"
                             width="100"
                             label="微信用户名"
                             >
                     </el-table-column>
                     <el-table-column
-                            prop="img"
                             label="用户上传图片"
                             width="150"
                     >
@@ -83,7 +82,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop="order_remark"
+                            prop="label"
                             label="订单标签"
                             width="100"
                     >
@@ -101,7 +100,7 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="payment"
+                            prop="amount"
                             label="付款金额"
                             width="80"
                     >
@@ -113,7 +112,7 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="gift_money"
+                            prop="redPackageSize"
                             label="红包金额"
                             width="80"
                     >
@@ -132,8 +131,8 @@
                             width="140"
                     >
                         <template scope="scope">
-                            <el-button type="text" @click="sendBag(scope.$index)">发送红包</el-button>
-                            <el-button type="text">拒绝</el-button>
+                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1 " type="text" @click="sendBag(scope.$index)">发送红包</el-button>
+                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1" type="text">拒绝</el-button>
 
                         </template>
                     </el-table-column>
@@ -161,7 +160,9 @@
                                         <el-option
                                                 v-for="item in form.types"
                                                 :label="item.label"
-                                                :value="item.value">
+                                                :value="item.value"
+                                                :key="item.value"
+                                        >
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
@@ -225,52 +226,63 @@
                       </span>
                 </el-dialog>
 
-                <el-dialog class="orderDetail" ref="orderDetail" >
+                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length>0">
                     <el-tabs active-name="detail">
                         <el-tab-pane label="订单详情" class="order" name="detail">
                             <el-row>
-                                <el-col :span="12">订单属性</el-col>
-                                <el-col :span="12">详情</el-col>
+                                <el-col :span="10">订单属性</el-col>
+                                <el-col :span="14">详情</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">订单号</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">订单号</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].order_number}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">买家会员名</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">买家会员名</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].buyer_name}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">订单创建时间</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">订单创建时间</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].order_create_time}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">订单付款时间</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">订单付款时间</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].order_pay_time}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">买家支付宝账号</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">买家支付宝账号</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].buyer_zhifubao}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">付款金额</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">付款金额</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].amount}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">收货人姓名</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">收货人姓名</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].receiver}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">收货地址</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">收货地址</el-col>
+                                <el-col :span="14" class="siteText">{{tableData[orderDetailIndex].receiver_address}}</el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="12">收货人手机号</el-col>
-                                <el-col :span="12">1</el-col>
+                                <el-col :span="10">收货人手机号</el-col>
+                                <el-col :span="14">{{tableData[orderDetailIndex].receiver_mobile}}</el-col>
                             </el-row>
                         </el-tab-pane>
                         <el-tab-pane label="红包日志" class="log" name="log">
-
+                            <p v-if="tableData[orderDetailIndex].create_date" class="logImport">
+                                <span class="logTime">{{tableData[orderDetailIndex].create_date}}</span>订单导入
+                            </p>
+                            <p v-if="tableData[orderDetailIndex].send_date"  class="logSend">
+                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>审核通过，红包发送
+                            </p>
+                            <p v-if="tableData[orderDetailIndex].send_date" class="logSucceed">
+                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>红包发送成功
+                            </p>
+                            <p v-if="tableData[orderDetailIndex].recieve_date" class="logSucceed">
+                                <span class="logTime">{{tableData[orderDetailIndex].recieve_date}}</span>红包已领取
+                            </p>
                         </el-tab-pane>
                     </el-tabs>
                 </el-dialog>
@@ -280,10 +292,29 @@
             <div class="detailsBodyTab" :class="isActive === 1 ? 'isActive' : ''">
 
             </div>
+            <div class="detailsBodyTab serve" :class="isActive === 2 ? 'isActive' : ''">
+                <ul>
+                    <li>服务链接地址</li>
+                    <li>http://open.izhuiyou.com/app/8yweU6e7Ytt1oo23</li>
+                </ul>
+                <ul>
+                    <li>服务地址二维码</li>
+                    <li>
+                        <vue-q-art :config="config"></vue-q-art>
+                    </li>
+                </ul>
+                <ul>
+                    <li>注：</li>
+                    <li>1. 好评返现服务配置近期升级中，升级后可以配置多个链接地址，方便用户统计不同来源的红包申请<br>
+                        2. 目前该服务链接采用平台方公众号进行用户授权，升级后可以选择用户绑定下的公众号进行授权<br>
+                        3. 红包的发送仍统一由平台方公众号发送，用户通过余额支付红包发送费用，并收取一定的服务费率</li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
 <script>
+
 export default{
     name:'zyDetails',
     data(){
@@ -345,7 +376,11 @@ export default{
             upLoadingIn:0,
             upLoadingState:true,
             orderDetailIndex:0,
-            //红包日志还没写
+            //二维码
+            config: {
+                value: 'https://www.baidu.com',
+                imagePath: '../../assets/app-hongbao-detail.png',
+            },
         }
     },
     watch:{
@@ -430,11 +465,12 @@ export default{
                 return;
             }
             this.upLoadingIn += i;
-            if(this.upLoadingIn < 90){
-                this.upload(i);
-            }else{
-                this.upload(i/2);
+            if(this.upLoadingIn > 90){
+                i = i/2;
             }
+            setTimeout(function () {
+                this.upload(i);
+            }.bind(this),50)
 
         },
         //分页
@@ -457,7 +493,7 @@ export default{
                 method: 'POST',
                 body:data
             }).then((res) => {
-                console.log(res)
+                console.log(res);
                 if(res.data.status == 1){
                     this.tableData = res.data.list;
                     this.pageData = res.data.page;
@@ -482,13 +518,11 @@ export default{
                     status:arr
                 }
             }).then((res) => {
-                console.log('1',res);
                 if(res.data.status == 1){
                     this.tableData = res.data.list;
                     this.pageData = res.data.page;
                 }
             }, (res) => {
-                console.log('2',res);
             });
         },
         //打开详情
@@ -502,7 +536,7 @@ export default{
         selectStateAjax(val){
             var arr =  val == 4 ? [0,1,3]:[parseInt(val)];
             this.pageAjax(1,arr);
-        }
+        },
     },
     beforeCreate(){
         this.$http({
@@ -514,7 +548,6 @@ export default{
                 status:[0]
             }
         }).then((res) => {
-            console.log(res);
             if(res.data.status == 1){
                 this.tableData = res.data.list;
                 this.pageData = res.data.page;
@@ -542,20 +575,22 @@ export default{
 #detailsHeader .returnAppBtn{
     background: white;
     border-radius: 5px 0 0 5px;
-    width: 150px;
+    width: 165px;
     height: 100%;
     line-height: 40px;
-    text-indent: 15px;
+    text-indent: 13px;
     background-size: 20px 20px;
     background-position: 28px 10px;
     color: #68A593;
-    font-weight: bold;
     margin-right: 3px;
     float: left;
     cursor: pointer;
 }
+#detailsHeader .returnAppBtn .el-icon-arrow-left{
+    margin-right: 10px;
+}
 #detailsHeader .detailsTab{
-    width: calc(100% - 153px);
+    width: calc(100% - 168px);
     background: white;
     display: inline-block;
     float: left;
@@ -749,7 +784,9 @@ export default{
 #detailsBody .el-table__empty-block {
     background: #DDDDDD;
 }
-#detailsBody .detailsBodyTBody .el-table tr {
+#detailsBody .detailsBodyTable .el-table th,
+#detailsBody .detailsBodyTable .el-table__fixed-header-wrapper thead div,
+#detailsBody .detailsBodyTable .el-table__header-wrapper thead div{
     background-color: #E4EDE2;
 }
 #detailsBody .detailsBodyTBody button.el-button.el-button--text {
@@ -763,6 +800,7 @@ export default{
 #detailsBody  .orderDetail .el-dialog--small{
     width: 440px;
     min-width: 440px;
+    min-height: 480px;
 }
 #detailsBody  .orderDetail .el-dialog__body{
     padding-top: 0;
@@ -801,5 +839,54 @@ export default{
 #detailsBody  .orderDetail .order .el-col{
     padding-left: 20px;
 }
+#detailsBody  .orderDetail .order .el-col-14{
+    padding-left: 0;
+}
+#detailsBody  .orderDetail .order .siteText{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#detailsBody  .orderDetail .log p{
+    height: 25px;
+    line-height: 25px;
+    margin: 8px 10px;
+    text-indent: 32px;
+}
+#detailsBody  .orderDetail .log p span{
+    color: #A8A8A8;
+    margin-right: 16px;
+}
 
+#detailsBody  .orderDetail .log .logImport{
+    background: url("../../assets/app-hongbao-log-start.png") no-repeat;
+    background-size: 22px 22px;
+}
+#detailsBody  .orderDetail .log .logSend{
+    background: url("../../assets/app-hongbao-log-send.png") no-repeat;
+    background-size: 22px 22px;
+}
+#detailsBody  .orderDetail .log .logSucceed{
+    background: url("../../assets/app-hongbao-log-get.png") no-repeat;
+    background-size: 22px 22px;
+}
+
+/*服务设置*/
+#detailsBody  .serve {
+    padding: 60px 36px 0;
+}
+#detailsBody  .serve li:first-child{
+    color:#A8A8A8;
+    text-indent: 0;
+}
+#detailsBody  .serve li:last-child{
+    padding-left: 15px;
+}
+#detailsBody  .serve li{
+    margin-bottom: 12px;
+}
+#detailsBody  .serve .qart{
+    width: 100px;
+    height: 100px;
+}
 </style>

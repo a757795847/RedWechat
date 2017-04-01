@@ -43,12 +43,12 @@
             </el-col>
         </el-row>
         <el-button type="text" v-if="state">取消服务</el-button>
-        <el-dialog title="提示" v-model="dialogVisible" size="tiny">
+        <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
             <span>服务免费开通,发送红包平台收取5%服务费</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="click">确 定</el-button>
-  </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="text" @click="dialogVisible = false">取 消</el-button>
+                <el-button type="text" @click="click">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -97,9 +97,6 @@
                     if(res.body.status!=0){
                         this.state=true;
                     }
-                    console.log(this.$route.params.id);
-                    console.log(res);
-
                     /*
                     if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
@@ -109,7 +106,7 @@
                 }, (res) => {
 
                 });
-                }
+            }
         }
         }
 </script>
@@ -185,13 +182,13 @@
         background-size: 20px;
     }
     #appListDetails   button.el-button.el-button--text {
-        color: #ab3e3e;
+        color: #2B2C2F;
         padding: 7px 12px;
         font-size: 13px;
         margin-top: 20px;
     }
     #appListDetails   button.el-button.el-button--text:hover{
-        background: #ffcece;
+        background: #E4EDE2;
     }
 
 </style>

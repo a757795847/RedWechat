@@ -42,7 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-button type="text" v-if="state">取消服务</el-button>
+        <el-button type="text" v-if="state" :style="{color:detail.background_color}">取消服务</el-button>
         <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
             <span>服务免费开通,发送红包平台收取5%服务费</span>
             <span slot="footer" class="dialog-footer">

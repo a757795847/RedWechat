@@ -76,7 +76,7 @@
                             width="150"
                     >
                         <template scope="scope" >
-                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1" >
+                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
                             <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2" >
                             <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3" >
                         </template>
@@ -300,7 +300,7 @@
                 <ul>
                     <li>服务地址二维码</li>
                     <li>
-                        <div ref="qart"></div>
+                        <img src="../../assets/erwei.png" alt="">
                     </li>
                 </ul>
                 <ul>
@@ -320,7 +320,7 @@ export default{
     data(){
         return{
             token:'Bearer ' + localStorage.getItem('default-auth-token'),
-            imgSrc:this.$http.options.root+'/order/picture/?',
+            imgSrc:this.$http.options.root+'/order/picture/',
             search:'',
             types:{
                 active:'1',
@@ -404,11 +404,11 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            if(this.$route.path == '/' || this.$route.path == '/details'){
-                this.$router.push('index')
-            }else{
-                this.$router.go(-1)
-            }
+//            if(this.$route.path == '/' || this.$route.path == '/details'){
+//                this.$router.push('index')
+//            }else{
+                this.$router.push('/appList/zyappid1')
+//            }
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -559,7 +559,7 @@ export default{
             })
         },
         selectables(row, index){
-            return false;
+            console.log(row,index)
         }
     },
     beforeCreate(){
@@ -917,7 +917,7 @@ export default{
 #detailsBody  .serve li{
     margin-bottom: 12px;
 }
-#detailsBody  .serve .qart{
+#detailsBody  .serve img{
     width: 100px;
     height: 100px;
 }

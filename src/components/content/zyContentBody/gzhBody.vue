@@ -45,7 +45,7 @@ export default{
     data() {
         return {
             activeName: 'first',
-            zyBody:false
+            zyBody:true
         };
     },
     methods:{

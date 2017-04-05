@@ -42,7 +42,8 @@
                 </div>
             </el-col>
         </el-row>
-        <el-button type="text" v-if="state" :style="{color:detail.background_color}">取消服务</el-button>
+        <el-button type="text" v-if="state" @mouseover="onhover"
+                   :style="{color:detail.background_color}">取消服务</el-button>
         <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
             <span>服务免费开通,发送红包平台收取5%服务费</span>
             <span slot="footer" class="dialog-footer">
@@ -59,7 +60,8 @@
             return {
                 dialogVisible: false,
                 detail: {},
-                state: ''
+                state: '',
+                color:''
             }
         },
         beforeCreate(){
@@ -74,6 +76,8 @@
                 console.log(res);
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
+                    this.color=res.body.applicationInfo.font_color;
+                    console.log(this.color);
 //                console.log(res.data.isOpened);
                     this.state = res.data.isOpened;
 
@@ -107,7 +111,10 @@
                 }, (res) => {
 
                 });
-            }
+            },
+            onhover(){
+               console.log(1);
+            },
         }
         }
 </script>
@@ -189,7 +196,7 @@
         margin-top: 20px;
     }
     #appListDetails   button.el-button.el-button--text:hover{
-        background: #E4EDE2;
+        background: black;
     }
 
 </style>

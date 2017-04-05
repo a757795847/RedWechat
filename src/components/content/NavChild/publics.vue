@@ -12,7 +12,7 @@
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <el-menu-item index="2">我的应用</el-menu-item>
-                <el-menu-item :index="'/appList/'+item.id" v-for="item in appList">{{ item.name }}</el-menu-item>
+                <el-menu-item index="/details/bag" v-for="item in appList">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
@@ -147,7 +147,7 @@
         background-size: 20px 20px;
         background-position: 15px 10px;
     }
-    .addImage{
+   #publicList .addImage{
         background: url("../../../assets/menu-add.png") no-repeat;
         display: inline-block;
         width: 15px;
@@ -157,7 +157,7 @@
         left: 46px;
         top: 18px;
     }
-   .appList{
+   #publicList .appList{
        background: url("../../../assets/menu-app.png") no-repeat;
        display: inline-block;
        width: 40px;

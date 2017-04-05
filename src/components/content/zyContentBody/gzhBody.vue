@@ -1,8 +1,8 @@
 <template>
-    <div class="zyBody">
+    <div id="gzhCard">
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="公众号列表" name="first">
-                <div id="gzhCard" v-show="!zyBody">
+                <div v-show="!zyBody">
                     <div class="cardItem">
                         <div class="cardItemNews clear">
                             <img src="../../../assets/logo.jpg" alt="">
@@ -31,9 +31,12 @@
                     </div>
                 </div>
                 <div class="bodyFather" v-show="zyBody">
-                    <img src="../../../assets/404.png" alt="">
+                    <img src="../../../assets/404.png" alt="" id="cancel">
                     <p :style="{ color:'#949494'}">您一个公众号都还没有绑定 TT</p>
-                </div>
+                    <div class="elDiv" @click="addpublic">
+                        <p class="elP"><i class="addImage"></i>添加公众号</p>
+                    </div>
+                    </div>
             </el-tab-pane>
         </el-tabs>
 
@@ -54,31 +57,62 @@ export default{
         },
         handleClick(key, keyPath) {
             console.log(key, keyPath);
+        },
+        addpublic(){
+            this.$router.push('/addPublic');
+            console.log(1);
         }
     }
 }
 </script>
 <style>
-    .bodyFather{
+    #gzhCard .elDiv{
+        margin:20px auto;
+        position: relative;
+        height: 30px;
+        width: 200px;
+        background-color: #fff;
+    }
+    #gzhCard .bodyFather .elP{
+        position:relative;
+        color: #8d8d8d;
+        text-indent: 40px;
+        width: 150px;
+        margin: 0 auto;
+        line-height: 30px;
+        border: dashed 1px #8d8d8d;
+        cursor:pointer;
+    }
+    #gzhCard .bodyFather .addImage{
+        background: url("../../../assets/menu-add.png") no-repeat;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        background-size: 20px 20px;
+        left: 35px;
+        top: 5px;
+    }
+    #gzhCard .bodyFather{
       text-align: center;
         margin-top:14%;
     }
-    .bodyFather img{
+    #gzhCard #cancel{
         width:130px;
     }
-    .bodyFather p{
+    #gzhCard .bodyFather p{
         color: rgb(148, 148, 148);
         margin-top: 13px;
         font-weight: 700;
     }
-    .zyBody{
+    #gzhCard{
         font-family: "Helvetica Neue";
         position: relative;
     }
 #gzhCard{
     width: 100%;
 }
-#gzhCard img{
+#gzhCard .cardItem img{
     width: 50px;
     height: 50px;
 }

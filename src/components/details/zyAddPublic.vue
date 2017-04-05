@@ -161,7 +161,12 @@
         min-height: 700px;
         border-radius: 5px;
     }
-
+    #zyAddPublic .el-button{
+            color:rgb(100,100,100);
+    }
+    #zyAddPublic .el-button:hover{
+        color: rgb(114,171,154);
+    }
    /* #detailsBody .sidebar{
         width:650px;
         margin:0 auto;

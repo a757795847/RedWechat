@@ -1,6 +1,6 @@
 <template>
-    <div id="details">
-        <div id="detailsHeader">
+    <div id="detailBag">
+        <div class="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
                 <span id="appName">红包返现</span>
@@ -12,7 +12,7 @@
                 </transition>
             </div>
         </div>
-        <div id="detailsBody" class="clear">
+        <div class="detailsBody clear">
             <div class="detailsBodyTab detailsBodyTable" :class="isActive === 0 ? 'isActive' : ''">
                 <div class="detailsBodyThead">
                     <el-row>
@@ -54,6 +54,7 @@
                             fixed
                             type="selection"
                             width="40"
+                            :selectable="selectables"
                             >
                     </el-table-column>
                     <el-table-column
@@ -88,16 +89,22 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="create_date"
                             label="导入日期"
                             width="100"
                     >
+                        <template scope="scope">
+                            {{new Date(scope.row.create_date).toLocaleDateString()}}
+                        </template>
                     </el-table-column>
                     <el-table-column
-                            prop="send_date"
                             label="返现日期"
                             width="100"
                     >
+                        <template scope="scope">
+                            <div v-if="scope.row.send_date != null">
+                                {{new Date(scope.row.send_date).toLocaleDateString()}}
+                            </div>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="amount"
@@ -110,6 +117,10 @@
                             label="红包类型"
                             width="100"
                     >
+                        <template scope="scope">
+                            <p>固定</p>
+                            <!--<p @click="bagType(scope.$index)">固定</p>-->
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="redPackageSize"
@@ -148,6 +159,7 @@
                     >
                     </el-pagination>
                 </div>
+                <!--订单上传-->
                 <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible">
                     <el-row>
                         <el-col :span="12">
@@ -201,6 +213,7 @@
                         <el-button type="text" @click="submitUpload">上 传</el-button>
                     </div>
                 </el-dialog>
+                <!--订单上传结束-->
                 <el-dialog class="upLoading" :title="upLoadingState?'订单导入完成':'订单导入中'" v-model="upLoading"
                            size="tiny"
                            :close-on-click-modal="false"
@@ -212,21 +225,25 @@
                                 <el-progress :width="100" type="circle" :percentage="upLoadingIn"></el-progress>
                                 <p>正在为您努力导入订单，请耐心等候订单的个数决定了导入的时间</p>
                                 <p :style="{color:'#CE6D72'}">导入期间请不要关闭或刷新浏览器</p>
-
                         </el-col>
                     </el-row>
                     <el-row v-else>
                         <el-col :span="24">
                             <img src="../../assets/wechat-auth-4.png">
-                            <p>导入完毕，共导入456条订单数据有13条数据导入失败，点击<em>这里下载</em></p>
+                            <p>导入完毕，共导入{{uploadFormData.num}}条订单数</p>
+                            <p v-if="uploadFormData.error != 0">有{{uploadFormData.error}}条数据导入失败，点击
+                                <a :href="this.$http.options.root+'/order/downloadErrorList?key='+uploadFormData.url+'&jwt='+token"
+                                   :style="{textDecoration:'none',color:'#589680'}"
+                                >这里下载</a>
+                            </p>
                         </el-col>
                     </el-row>
                       <span v-if="upLoadingState" slot="footer" class="dialog-footer">
-                        <el-button type="primary" @click="upLoading = false ; dialogFormVisible = false; ">关闭</el-button>
+                        <el-button type="primary" @click="uploadClose">关闭</el-button>
                       </span>
                 </el-dialog>
-
-                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length>0">
+                <!--订单详情-->
+                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length > 0">
                     <el-tabs active-name="detail">
                         <el-tab-pane label="订单详情" class="order" name="detail">
                             <el-row>
@@ -286,7 +303,41 @@
                         </el-tab-pane>
                     </el-tabs>
                 </el-dialog>
-
+                <!--红包类型-->
+                <el-dialog title="修改订单红包发送类型" class="bagType" ref="bagTypeOperation" v-if="tableData.length>0">
+                    <el-col :span="24">
+                        <el-form ref="form" :model="form" label-width="80px">
+                            <el-form-item label="订单标签">
+                                {{ tableData[orderDetailIndex].order_number }}
+                            </el-form-item>
+                            <el-form-item label="红包类型">
+                                <el-select v-model="bagTypes.value" placeholder="请选择">
+                                    <el-option
+                                            v-for="item in bagTypes.list"
+                                            :label="item.label"
+                                            :value="item.value"
+                                            :key="item.value"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="红包金额">
+                                <el-col :span="9">
+                                    <el-input v-model="bagTypes.beginNum" placeholder="请输入内容"></el-input>
+                                </el-col>
+                                <el-col class="line" :span="2">至</el-col>
+                                <el-col :span="9">
+                                    <el-input v-model="bagTypes.overNum" placeholder="请输入内容"></el-input>
+                                </el-col>
+                                <el-col class="line" :span="4">元</el-col>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <span slot="footer" class="dialog-footer">
+                       <el-button type="text" >取 消</el-button>
+                       <el-button type="text" >确 定</el-button>
+                    </span>
+                </el-dialog>
 
             </div>
             <div class="detailsBodyTab" :class="isActive === 1 ? 'isActive' : ''">
@@ -300,7 +351,7 @@
                 <ul>
                     <li>服务地址二维码</li>
                     <li>
-                        <img src="../../assets/erwei.png" alt="">
+                        <div ref="qart"></div>
                     </li>
                 </ul>
                 <ul>
@@ -315,6 +366,7 @@
 </template>
 <script>
     import QArt from 'qartjs'
+    import erwei from '../../assets/erwei.png'
 export default{
     name:'zyDetails',
     data(){
@@ -378,6 +430,32 @@ export default{
             orderDetailIndex:0,
             serve:{
                 url:''
+            },
+            config: {
+                value: 'https://www.baidu.com',
+                imagePath: '../../assets/erwei.png',
+                filter: 'color'
+            },
+            uploadFormData:{
+                num:0,
+                error:0,
+                url:''
+            },
+            bagTypes:{
+                beginNum:0,
+                overNum:0,
+                num:0,
+                value:0,
+                list:[
+                    {
+                        label:'固定金额',
+                        value:0
+                    },
+                    {
+                        label:'随机金额',
+                        value:1
+                    }
+                ]
             }
         }
     },
@@ -404,11 +482,11 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-//            if(this.$route.path == '/' || this.$route.path == '/details'){
-//                this.$router.push('index')
-//            }else{
-                this.$router.push('/appList/zyappid1')
-//            }
+            if(this.$router._from.path == '/login'){
+                this.$router.push('/index')
+            }else{
+                this.$router.go(-1)
+            }
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -416,10 +494,17 @@ export default{
         },
         //上传文件
         upSuccessful(response, file, fileList){
+//            console.log('上传文件response==>',response)
+//            console.dir('上传文件file==>',file)
+//            console.info('上传文件fileList==>',fileList)
             if(response.status == 1){
                 this.upLoadingIn = 100;
                 this.upLoadingState = true;
-                this.pageAjax(1,[0,1,3])
+                this.pageAjax(1,[0,1,3]);
+                this.types.active = '4';
+                this.uploadFormData.num = response.data.successCount;
+                this.uploadFormData.error = response.data.errorCount;
+                this.uploadFormData.url = response.data.errorKey;
             }
         },
         upProcess(event, file, fileList){
@@ -435,7 +520,6 @@ export default{
             return true;
         },
         submitUpload() {
-            console.log('this.$refs.upload',this.$refs.upload);
             if(this.form.money == ''){
                 this.$message({
                     message: '请输入金额',
@@ -458,6 +542,9 @@ export default{
             }
 
         },
+//        downloadCsv(){
+//            location.href = this.$http.options.root+'order/downloadErrorList?key='+this.uploadFormData.url+'&jwt='+this.token;
+//        },
         upload(i){
             if(this.upLoadingIn == 100){
                 return;
@@ -468,8 +555,16 @@ export default{
             }
             setTimeout(function () {
                 this.upload(i);
-            }.bind(this),50)
+            }.bind(this),100)
 
+        },
+        uploadClose(){
+            this.form.name='';
+            this.form.type = '选项1';
+            this.form.money = '';
+            this.$refs.upload.clearFiles();
+            this.upLoading = false ;
+            this.dialogFormVisible = false;
         },
         //分页
         currentChange(val){
@@ -559,11 +654,16 @@ export default{
             })
         },
         selectables(row, index){
-            console.log(row,index)
+            if(row.gift_state != 1){
+                return false;
+            }
+        },
+        bagType(index){
+            this.orderDetailIndex = index;
+            this.$refs.bagTypeOperation.open();
         }
     },
     beforeCreate(){
-        console.log('this=>',this);
         this.$http({
             url: 'order/list',
             method: 'POST',
@@ -584,6 +684,12 @@ export default{
             url: 'app/config/list/zyappid1',
             method: 'POST',
         }).then((res) => {
+            console.log('res.data.data[0].url',res.data.data[0].url);
+            new QArt({
+                value: res.data.data[0].url,
+                imagePath: erwei,
+                filter:'threshold'
+            }).make(this.$refs.qart);
             this.serve.url = res.data.data[0].url;
         }, (res) => {
 
@@ -592,19 +698,19 @@ export default{
 }
 </script>
 <style>
-#details{
+#detailBag{
     min-height: 750px;
     min-width: 1000px;
     max-width: 1160px;
     margin: 0 auto;
     padding: 0 20px;
 }
-#detailsHeader{
+#detailBag .detailsHeader{
     width: 100%;
     height: 40px;
     margin-bottom: 20px;
 }
-#detailsHeader .returnAppBtn{
+#detailBag .detailsHeader .returnAppBtn{
     background: white;
     border-radius: 5px 0 0 5px;
     width: 165px;
@@ -618,10 +724,10 @@ export default{
     float: left;
     cursor: pointer;
 }
-#detailsHeader .returnAppBtn .el-icon-arrow-left{
+#detailBag .detailsHeader .returnAppBtn .el-icon-arrow-left{
     margin-right: 10px;
 }
-#detailsHeader .detailsTab{
+#detailBag .detailsHeader .detailsTab{
     width: calc(100% - 168px);
     background: white;
     display: inline-block;
@@ -631,7 +737,7 @@ export default{
     line-height: 40px;
     position: relative;
 }
-#detailsHeader .detailsTab #appName{
+#detailBag .detailsHeader .detailsTab #appName{
     padding-left: 20px;
     width: 150px;
     float: left;
@@ -642,16 +748,16 @@ export default{
     overflow: hidden;
     margin-right: 50px;
 }
-#detailsHeader .detailsTab ul{
+#detailBag .detailsHeader .detailsTab ul{
     float: left;
 }
-#detailsHeader .detailsTab li{
+#detailBag .detailsHeader .detailsTab li{
     float: left;
     width: 90px;
     text-align: center;
     cursor:pointer;
 }
-#detailsHeader .activeTab{
+#detailBag .detailsHeader .activeTab{
     position: absolute;
     bottom: 0;
     left: 0;
@@ -663,64 +769,62 @@ export default{
     transition: left .3s cubic-bezier(.645,.045,.355,1);
     list-style: none;
 }
-#detailsBody{
+#detailBag .detailsBody{
     background: white;
     width: 100%;
     min-height: 700px;
     border-radius: 5px ;
 }
-#detailsBody .detailsBodyTab{
+#detailBag .detailsBody .detailsBodyTab{
     display: none;
     height: 100%;
     padding:12px 20px 10px;
 }
-#detailsBody .isActive{
+#detailBag .detailsBody .isActive{
     display: block;
 }
-#detailsBody .detailsBodyThead{
+#detailBag .detailsBody .detailsBodyThead{
     margin: 0 0 12px;
     line-height: 36px;
 }
-#detailsBody .detailsBodyThead  .el-select ,#detailsBody .detailsBodyThead .search {
+#detailBag .detailsBody .detailsBodyThead  .el-select ,#detailBag .detailsBody .detailsBodyThead .search {
     float: right;
 }
-#detailsBody .detailsBodyThead .el-input__icon+.el-input__inner {
+#detailBag .detailsBody .detailsBodyThead .el-input__icon+.el-input__inner {
     width: 150px;
 }
-#detailsBody .detailsBodyThead .el-input{
+#detailBag .detailsBody .detailsBodyThead .el-input{
     width: initial;
 }
-#detailsBody .detailsBodyThead .search{
+#detailBag .detailsBody .detailsBodyThead .search{
     width: 200px;
     min-width: 140px;
 }
-.el-select-dropdown__item.selected,.el-select-dropdown__item.selected.hover{
-    background-color: #71A593;
-}
 
-#detailsBody .detailsBodyTable button.el-button.el-button--text {
+
+#detailBag .detailsBody .detailsBodyTable button.el-button.el-button--text {
     color: #68A593;
     padding: 9px 16px;
     font-size: 13px;
 }
-#detailsBody .detailsBodyTable button.el-button.el-button--text:hover{
+#detailBag .detailsBody .detailsBodyTable button.el-button.el-button--text:hover{
     background: #E4EDE2;
 }
-#detailsBody .el-table--border td, .el-table--border th {
+#detailBag .detailsBody .el-table--border td, .el-table--border th {
      border-right: none;
 }
 
-#detailsBody .el-table td, .el-table th.is-leaf {
+#detailBag .detailsBody .el-table td, .el-table th.is-leaf {
     font-weight: normal;
     text-align: center;
 }
-#detailsBody img{
+#detailBag .detailsBody img{
     height: 27px;
     width:25px;
     margin-right: 2px;
     padding-top: 5px;
 }
-#detailsBody .detail{
+#detailBag .detailsBody .detail{
     background: url("../../assets/app-hongbao-detail.png") no-repeat;
     cursor: pointer;
     color: rgb(88, 150, 128);
@@ -733,128 +837,131 @@ export default{
     cursor : pointer;
     color:#589680;
 }
-#detailsBody .el-table_1_column_2{
+#detailBag .detailsBody .el-table_1_column_2{
     color:#589680;
 }
-#detailsBody .el-pagination{
+#detailBag .detailsBody .el-pagination{
     float: right;
     margin-top: 20px;
     margin-bottom: 20px;
 }
-#detailsBody .el-pager li.active{
+#detailBag .detailsBody .el-pager li.active{
     background: #589680;
     border-color: #589680;
 }
-#detailsBody .el-pager li:hover,#detailsBody .el-pagination button:hover {
+#detailBag .detailsBody .el-pager li:hover,#detailBag .detailsBody .el-pagination button:hover {
     color:#589680;
 }
-#detailsBody .el-pagination button.disabled {
+#detailBag .detailsBody .el-pagination button.disabled {
     color: #e4e4e4;
 }
-#detailsBody .el-table__body-wrapper button.el-button.el-button--text {
+#detailBag .detailsBody .el-table__body-wrapper button.el-button.el-button--text {
     margin-bottom: 0;
 }
 /*上传表单*/
-#detailsBody .el-dialog--small {
+#detailBag .detailsBody .el-dialog--small {
     width: 40%;
     min-width: 578px;
 }
-#detailsBody .upTable .el-upload-dragger{
+#detailBag .detailsBody .upTable .el-upload-dragger{
     width: 200px;
     height: 165px;
     margin-left: 30px;
     border: 1px dashed #95989A;
 }
-#detailsBody .upTable .el-dialog__close:hover {
+#detailBag .detailsBody .upTable .el-dialog__close:hover {
     color: #68A593;
 }
-#detailsBody .upTable .el-form-item {
+#detailBag .detailsBody .upTable .el-form-item {
     margin-bottom: 20px;
 }
-#detailsBody .upTable .hint{
+#detailBag .detailsBody .upTable .hint{
     color: #CE6D72;
     text-align: center;
     padding-left: 10px;
 }
-#detailsBody .upTable .el-upload-list__item-name {
+#detailBag .detailsBody .upTable .el-upload-list__item-name {
     padding-left: 27px;
 }
-
-
-#detailsBody .upLoading .el-dialog--tiny {
-    width: 300px;
-    height: 250px;
+#detailBag .detailsBody .upTable .el-upload-list__item-status-label
+,#detailBag .detailsBody .upTable .el-upload-list.el-upload-list--text div{
+    display: none;
 }
-#detailsBody .upLoading .el-col-24 {
+
+#detailBag .detailsBody .upLoading .el-dialog--tiny {
+    width: 300px;
+    height: 270px;
+}
+#detailBag .detailsBody .upLoading .el-col-24 {
     padding: 0 17px;
     margin: 0 auto;
     text-align: center;
 }
-#detailsBody .upLoading .el-dialog__title{
+#detailBag .detailsBody .upLoading .el-dialog__title{
     font-weight: normal;
 }
-#detailsBody .upLoading .el-dialog__header {
+#detailBag .detailsBody .upLoading .el-dialog__header {
     padding: 14px 20px 0;
 }
-#detailsBody .upLoading .el-dialog__body{
+#detailBag .detailsBody .upLoading .el-dialog__body{
     padding-top: 16px;
     padding-bottom: 16px;
 }
-#detailsBody .upLoading img{
+#detailBag .detailsBody .upLoading img{
     width: 80px;
     height: 80px;
 }
-#detailsBody .upLoading .el-button--primary {
+#detailBag .detailsBody .upLoading .el-button--primary {
     color: #fff;
     background-color: #589680;
     border-color: #589680;
     padding: 7px 27px;
 }
-#detailsBody .upLoading .el-dialog__footer {
+#detailBag .detailsBody .upLoading .el-dialog__footer {
     text-align: center;
 }
-#detailsBody .el-table__empty-block {
+#detailBag .detailsBody .el-table__empty-block {
     background: #DDDDDD;
 }
-#detailsBody .detailsBodyTable .el-table th,
-#detailsBody .detailsBodyTable .el-table__fixed-header-wrapper thead div,
-#detailsBody .detailsBodyTable .el-table__header-wrapper thead div{
+#detailBag .detailsBody .detailsBodyTable .el-table th,
+#detailBag .detailsBody .detailsBodyTable .el-table__fixed-header-wrapper thead div,
+#detailBag .detailsBody .detailsBodyTable .el-table__header-wrapper thead div{
     background-color: #E4EDE2;
 }
-#detailsBody .detailsBodyTBody button.el-button.el-button--text {
+#detailBag .detailsBody .detailsBodyTBody button.el-button.el-button--text {
     padding:10px 5px;
 }
-#detailsBody .detailsBodyTBody  .cell, .el-table th>div {
+#detailBag .detailsBody .detailsBodyTBody  .cell, .el-table th>div {
     padding-left: 10px;
     padding-right: 10px;
 }
 /*orderDetail*/
-#detailsBody  .orderDetail .el-dialog--small{
+#detailBag .detailsBody  .orderDetail .el-dialog--small{
     width: 440px;
     min-width: 440px;
     min-height: 480px;
 }
-#detailsBody  .orderDetail .el-dialog__body{
+#detailBag .detailsBody  .orderDetail .el-dialog__body{
     padding-top: 0;
 }
-#detailsBody  .orderDetail .el-dialog__headerbtn, .el-pagination__rightwrapper {
+#detailBag .detailsBody  .orderDetail .el-dialog__headerbtn, .el-pagination__rightwrapper {
     z-index: 100;
     position: relative;
 }
-#detailsBody  .orderDetail .el-dialog__close:hover {
+#detailBag .detailsBody  .orderDetail .el-dialog__close:hover {
     color: #E4EDE2;
 }
-#detailsBody  .orderDetail  .el-tabs__header {
+#detailBag .detailsBody  .orderDetail  .el-tabs__header {
     border-bottom: none;
 }
-#detailsBody  .orderDetail  .el-tabs__active-bar {
+#detailBag .detailsBody  .orderDetail  .el-tabs__active-bar {
     height: 5px;
 }
-#detailsBody  .orderDetail .el-tabs__item {
+#detailBag .detailsBody  .orderDetail .el-tabs__item {
     padding: 0 10px;
 }
 
-#detailsBody  .orderDetail .order .el-row{
+#detailBag .detailsBody  .orderDetail .order .el-row{
     width: 400px;
     height: 40px;
     border: 1px solid #C8C8C8;
@@ -862,62 +969,85 @@ export default{
     line-height: 40px;
     border-bottom: none;
 }
-#detailsBody  .orderDetail .order .el-row:first-child{
+#detailBag .detailsBody  .orderDetail .order .el-row:first-child{
     background: #E4EDE2;
 }
-#detailsBody  .orderDetail .order .el-row:last-child{
+#detailBag .detailsBody  .orderDetail .order .el-row:last-child{
     border-bottom: 1px solid #C8C8C8;
 }
-#detailsBody  .orderDetail .order .el-col{
+#detailBag .detailsBody  .orderDetail .order .el-col{
     padding-left: 20px;
 }
-#detailsBody  .orderDetail .order .el-col-14{
+#detailBag .detailsBody  .orderDetail .order .el-col-14{
     padding-left: 0;
 }
-#detailsBody  .orderDetail .order .siteText{
+#detailBag .detailsBody  .orderDetail .order .siteText{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-#detailsBody  .orderDetail .log p{
+#detailBag .detailsBody  .orderDetail .log p{
     height: 25px;
     line-height: 25px;
     margin: 8px 10px;
     text-indent: 32px;
 }
-#detailsBody  .orderDetail .log p span{
+#detailBag .detailsBody  .orderDetail .log p span{
     color: #A8A8A8;
     margin-right: 16px;
 }
 
-#detailsBody  .orderDetail .log .logImport{
+#detailBag .detailsBody  .orderDetail .log .logImport{
     background: url("../../assets/app-hongbao-log-start.png") no-repeat;
     background-size: 22px 22px;
 }
-#detailsBody  .orderDetail .log .logSend{
+#detailBag .detailsBody  .orderDetail .log .logSend{
     background: url("../../assets/app-hongbao-log-send.png") no-repeat;
     background-size: 22px 22px;
 }
-#detailsBody  .orderDetail .log .logSucceed{
+#detailBag .detailsBody  .orderDetail .log .logSucceed{
     background: url("../../assets/app-hongbao-log-get.png") no-repeat;
     background-size: 22px 22px;
 }
-
+/*红包类型*/
+#detailBag .detailsBody  .bagType .el-dialog--small{
+    min-width: 300px;
+    width: 373px;
+    height: 250px;
+}
+#detailBag .detailsBody  .bagType .el-dialog__header,#detailBag .detailsBody  .bagType .el-dialog__body {
+    padding-top: 15px;
+}
+#detailBag .detailsBody  .bagType .el-input__icon+.el-input__inner{
+    width: 150px;
+}
+#detailBag .detailsBody  .bagType .el-col.el-col-9 .el-input{
+    width: 82px;
+}
+#detailBag .detailsBody  .bagType .line.el-col.el-col-2{
+    text-indent: -1px;
+}
+#detailBag .detailsBody  .bagType .el-form-item{
+    margin-bottom: 15px;
+}
+#detailBag .detailsBody  .bagType .el-select-dropdown__item.selected {
+    background-color: #71A593;
+}
 /*服务设置*/
-#detailsBody  .serve {
+#detailBag .detailsBody  .serve {
     padding: 60px 36px 0;
 }
-#detailsBody  .serve li:first-child{
+#detailBag .detailsBody  .serve li:first-child{
     color:#A8A8A8;
     text-indent: 0;
 }
-#detailsBody  .serve li:last-child{
+#detailBag .detailsBody  .serve li:last-child{
     padding-left: 15px;
 }
-#detailsBody  .serve li{
+#detailBag .detailsBody  .serve li{
     margin-bottom: 12px;
 }
-#detailsBody  .serve img{
+#detailBag .detailsBody  .serve img{
     width: 100px;
     height: 100px;
 }

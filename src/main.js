@@ -9,8 +9,6 @@ import VueResource from 'vue-resource';
 // import $ from 'jquery'
 // import VueAuth from '@websanova/vue-auth'
 
-
-
 Vue.use(VueResource);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
@@ -25,6 +23,12 @@ Vue.use(require('@websanova/vue-auth'), {
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   refreshData: {enabled: false}
 });
+
+router.beforeEach((to, from, next) => {
+  Vue.router._to = to;
+  Vue.router._from = from;
+  next();
+})
 
 App.router = Vue.router;
 new Vue({

@@ -78,10 +78,9 @@ export default new Router({
           path: '/details/bag',
           name: 'zyDetails',
           component:function (resolve) {
-            require(['../components/details/zyDetails.vue'],resolve)
+            require(['../components/details/zyDetailBag.vue'],resolve)
           }
         },
-
       ]
     },
     // {

@@ -51,34 +51,6 @@ export default new Router({
                 require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
               }
             },
-              // {
-              //     path: '/index',
-              //     name: 'indexBody',
-              //     component:function (resolve) {
-              //         require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-              //     }
-              // },
-              // {
-              //     path: '/index',
-              //     name: 'indexBody',
-              //     component:function (resolve) {
-              //         require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-              //     }
-              // },
-              {
-                  path: '/index',
-                  name: 'indexBody',
-                  component:function (resolve) {
-                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-                  }
-              },
-              {
-                  path: '/index',
-                  name: 'indexBody',
-                  component:function (resolve) {
-                      require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
-                  }
-              },
             {
               path: '/addMyapplist',
               name: 'zyMyappList',

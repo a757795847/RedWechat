@@ -15,7 +15,7 @@
                     <el-step description="授权完成导入粉丝数据" :style="{ width: 140+ 'px' }"></el-step>
                 </el-steps>
            <p class="logos">
-               微信图标|授权绑定公众号
+               <img src="../../assets/40B4E7CA-D969-4379-BEBF-D08764CE007B.png" @click="dialogVisible = true">
            </p>
             <div class="father">
                 <p :style="{ color:'#68A593'}">授权须知</p>
@@ -43,6 +43,14 @@
 
             </div>
     </div>
+    <el-dialog title="Sorry" v-model="dialogVisible" size="tiny">
+        <span>绑定公众号正在马不停蹄的日夜开发中</span>
+        <span>敬请期待</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="text" @click="dialogVisible = false">取 消</el-button>
+                <el-button type="text" @click="LobClick">确 定</el-button>
+            </span>
+    </el-dialog>
     </div>
 
     </template>
@@ -54,11 +62,15 @@
         name:'zyAddPublic',
         data(){
             return{
+                dialogVisible: false
             }
         },
         methods:{
             IsActive( index ){
                 this.isActive = index;
+            },
+            LobClick(){
+                this.dialogVisible=false;
             },
             returnIndex(){
                 if(this.$route.path == '/'){
@@ -72,19 +84,19 @@
 </script>
 
 <style>
-    #details{
+    #zyAddPublic #details{
         min-height: 750px;
         min-width: 1000px;
         max-width: 1160px;
         margin: 0 auto;
         padding: 0 20px;
     }
-    #detailsHeader{
+    #zyAddPublic #detailsHeader{
         width: 100%;
         height: 40px;
         margin-bottom: 20px;
     }
-    #detailsHeader .returnAppBtn{
+    #zyAddPublic #detailsHeader .returnAppBtn{
         background: white;
         border-radius: 5px 0 0 5px;
         width: 150px;
@@ -99,7 +111,7 @@
         float: left;
         cursor: pointer;
     }
-    #detailsHeader .detailsTab{
+    #zyAddPublic #detailsHeader .detailsTab{
         width: calc(100% - 153px);
         background: white;
         display: inline-block;
@@ -109,7 +121,7 @@
         line-height: 40px;
         position: relative;
     }
-    #detailsHeader .detailsTab #appName{
+    #zyAddPublic #detailsHeader .detailsTab #appName{
         padding-left: 20px;
         width: 150px;
         float: left;
@@ -121,16 +133,16 @@
         margin-right: 50px;
     }
 
-    #detailsHeader .detailsTab ul{
+    #zyAddPublic #detailsHeader .detailsTab ul{
         float: left;
     }
-    #detailsHeader .detailsTab li{
+    #zyAddPublic #detailsHeader .detailsTab li{
         float: left;
         width: 90px;
         text-align: center;
         cursor:pointer;
     }
-    #detailsHeader .activeTab{
+    #zyAddPublic #detailsHeader .activeTab{
         position: absolute;
         bottom: 0;
         left: 0;
@@ -142,7 +154,7 @@
         transition: left .3s cubic-bezier(.645,.045,.355,1);
         list-style: none;
     }
-    #detailsBody{
+    #zyAddPublic  #detailsBody{
         text-align:center;
         background: white;
         width: 100%;
@@ -156,13 +168,13 @@
         padding-top:80px;
 
     }*/
-    #detailsBody .el-steps.is-horizontal{
+    #zyAddPublic #detailsBody .el-steps.is-horizontal{
         padding-top:80px;
         padding-left:100px;
         width:420px;
         margin:0 auto;
     }
-    #detailsBody .el-step__description{
+    #zyAddPublic #detailsBody .el-step__description{
         line-height:20px;
         text-align:center;
         font-size:14px;
@@ -171,44 +183,44 @@
         margin-top: 10px;
         margin-left: -25px;
     }
-    #detailsBody .el-step__head.is-text.is-process {
+    #zyAddPublic #detailsBody .el-step__head.is-text.is-process {
         color: #bfcbd9;
         background-color: #fbfdff;
         border-color: #bfcbd9;
     }
-    .el-step__head.is-text.is-finish{
+    #zyAddPublic .el-step__head.is-text.is-finish{
         background-color:rgb(104,165,147);
         border-color: rgb(104,165,147);
     }
-    .logos{
+    #zyAddPublic .logos{
         margin-top:40px;
     }
-    #detailsBody .father{
+    #zyAddPublic #detailsBody .father{
         margin:35px auto;
         padding: 20px 0 59px 0px;
         width:800px;
         background-color:rgb(228,237,226);
         text-align: center;
     }
-    .father li{
+    #zyAddPublic .father li{
         float:left;
         margin-left:60px;
     }
-    .father ul{
+    #zyAddPublic .father ul{
         margin-top:40px;
         margin-left:44px;
     }
-    .father ul:after{
+    #zyAddPublic .father ul:after{
         content:".";
         display:block;
         height:0;
         clear:both;
         visibility:hidden;
     }
-    .father li img{
+    #zyAddPublic .father li img{
         width:80px;
     }
-    .father li p{
+    #zyAddPublic .father li p{
         color:#68A593;
         width:100px;
         margin-top:10px;

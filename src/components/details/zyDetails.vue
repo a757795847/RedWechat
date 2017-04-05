@@ -3,7 +3,7 @@
         <div id="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
-                <span id="appName">红包返现(无商家版)</span>
+                <span id="appName">红包返现</span>
                 <ul>
                     <li v-for="( item , index ) in dataList" :class="isActive === index ? 'isActive' : ''" @click="IsActive(index)">{{ item.name }}</li>
                 </ul>
@@ -18,7 +18,7 @@
                     <el-row>
                         <el-col :span="8">
                             <el-button type="text" @click="dialogFormVisible = true">上传订单</el-button>
-                            <el-button type="text">批量发送</el-button>
+                            <el-button type="text" @click="batch">批量发送</el-button>
                         </el-col>
                         <el-col :span="12" :offset="4">
                             <el-button type="text" :style="{  float: 'right',padding: '8px 12px',marginTop: '3px'}" @click="handleSearchClick">搜索</el-button>
@@ -29,7 +29,7 @@
                                     :style="{margin:'0 10px 0 20px'}"
                             >
                             </el-input>
-                            <el-select v-model="types.active" placeholder="请选择" @change="selectStateAjax">
+                            <el-select v-model="types.active" placeholder="请选择" >
                                 <el-option
                                         v-for="list in types.list"
                                         :label="list.label"
@@ -76,7 +76,7 @@
                             width="150"
                     >
                         <template scope="scope" >
-                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1" >
+                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
                             <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2" >
                             <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3" >
                         </template>
@@ -131,8 +131,8 @@
                             width="140"
                     >
                         <template scope="scope">
-                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1 " type="text" @click="sendBag(scope.$index)">发送红包</el-button>
-                            <el-button v-show="scope.row.gift_state == 0 || scope.row.gift_state == 1" type="text">拒绝</el-button>
+                            <el-button v-show="scope.row.gift_state == 1" type="text" @click="sendBag(scope.$index)">发送红包</el-button>
+                            <el-button v-show="scope.row.gift_state == 1" type="text">拒绝</el-button>
 
                         </template>
                     </el-table-column>
@@ -295,12 +295,12 @@
             <div class="detailsBodyTab serve" :class="isActive === 2 ? 'isActive' : ''">
                 <ul>
                     <li>服务链接地址</li>
-                    <li>http://open.izhuiyou.com/app/8yweU6e7Ytt1oo23</li>
+                    <li>{{serve.url}}</li>
                 </ul>
                 <ul>
                     <li>服务地址二维码</li>
                     <li>
-                        <vue-q-art :config="config"></vue-q-art>
+                        <img src="../../assets/erwei.png" alt="">
                     </li>
                 </ul>
                 <ul>
@@ -314,16 +314,16 @@
     </div>
 </template>
 <script>
-
+    import QArt from 'qartjs'
 export default{
     name:'zyDetails',
     data(){
         return{
             token:'Bearer ' + localStorage.getItem('default-auth-token'),
-            imgSrc:this.$http.options.root+'/order/picture/?',
+            imgSrc:this.$http.options.root+'/order/picture/',
             search:'',
             types:{
-                active:'4',
+                active:'1',
                 list:[
                     {
                         value: '4',
@@ -376,11 +376,9 @@ export default{
             upLoadingIn:0,
             upLoadingState:true,
             orderDetailIndex:0,
-            //二维码
-            config: {
-                value: 'https://www.baidu.com',
-                imagePath: '../../assets/app-hongbao-detail.png',
-            },
+            serve:{
+                url:''
+            }
         }
     },
     watch:{
@@ -406,11 +404,11 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            if(this.$route.path == '/' || this.$route.path == '/details'){
-                this.$router.push('index')
-            }else{
-                this.$router.go(-1)
-            }
+//            if(this.$route.path == '/' || this.$route.path == '/details'){
+//                this.$router.push('index')
+//            }else{
+                this.$router.push('/appList/zyappid1')
+//            }
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -481,7 +479,7 @@ export default{
         //分页AJAX
         pageAjax(index,status){
             var data = {
-                pageSize:15,
+                pageSize:10,
                 currentPageIndex:index,
                 status:status
             };
@@ -504,26 +502,43 @@ export default{
         },
         //发送红包
         sendBag(index){
-            this.tableData[index].gift_state = 1 ;
+            this.$http({
+                url: 'order/redSend',
+                method: 'POST',
+                body:{
+                    id:this.tableData[index].id
+                }
+            }).then((res) => {
+                console.log('发送红包',res)
+                this.tableData[index].gift_state = 3 ;
+            }, (res) => {
+                console.log('发送红包失败',res)
+            });
         },
         //搜索
         handleSearchClick(){
             var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
-            this.$http({
-                url: 'order/lookup/'+this.search,
-                method: 'POST',
-                body:{
-                    pageSize:15,
-                    currentPageIndex:1,
-                    status:arr
-                }
-            }).then((res) => {
-                if(res.data.status == 1){
-                    this.tableData = res.data.list;
-                    this.pageData = res.data.page;
-                }
-            }, (res) => {
-            });
+            if(this.search == ''){
+                this.selectStateAjax(this.types.active);
+            }else{
+                this.$http({
+                    url: 'order/lookup/'+this.search,
+                    method: 'POST',
+                    body:{
+                        pageSize:10,
+                        currentPageIndex:1,
+                        status:arr
+                    }
+                }).then((res) => {
+                    if(res.data.status == 1){
+                        this.tableData = res.data.list;
+                        this.pageData = res.data.page;
+                    }
+                }, (res) => {
+
+                });
+            }
+
         },
         //打开详情
         openDetail(index){
@@ -537,15 +552,25 @@ export default{
             var arr =  val == 4 ? [0,1,3]:[parseInt(val)];
             this.pageAjax(1,arr);
         },
+        //批量发送
+        batch(){
+            this.$message({
+                message: '暂时还未开通'
+            })
+        },
+        selectables(row, index){
+            console.log(row,index)
+        }
     },
     beforeCreate(){
+        console.log('this=>',this);
         this.$http({
             url: 'order/list',
             method: 'POST',
             body:{
-                pageSize:15,
+                pageSize:10,
                 currentPageIndex:1,
-                status:[0]
+                status:[1]
             }
         }).then((res) => {
             if(res.data.status == 1){
@@ -555,7 +580,14 @@ export default{
         }, (res) => {
 
         });
+        this.$http({
+            url: 'app/config/list/zyappid1',
+            method: 'POST',
+        }).then((res) => {
+            this.serve.url = res.data.data[0].url;
+        }, (res) => {
 
+        });
     }
 }
 </script>
@@ -729,7 +761,7 @@ export default{
 }
 #detailsBody .upTable .el-upload-dragger{
     width: 200px;
-    height: 146px;
+    height: 165px;
     margin-left: 30px;
     border: 1px dashed #95989A;
 }
@@ -885,7 +917,7 @@ export default{
 #detailsBody  .serve li{
     margin-bottom: 12px;
 }
-#detailsBody  .serve .qart{
+#detailsBody  .serve img{
     width: 100px;
     height: 100px;
 }

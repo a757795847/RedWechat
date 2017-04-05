@@ -2,7 +2,7 @@
     <div id="appListDetails">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
-            <el-breadcrumb-item>好评返现(无商家版)</el-breadcrumb-item>
+            <el-breadcrumb-item>好评返现</el-breadcrumb-item>
         </el-breadcrumb>
         <el-row>
             <el-col :span="24">
@@ -42,7 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-button type="text" v-if="state">取消服务</el-button>
+        <el-button type="text" v-if="state" :style="{color:detail.background_color}">取消服务</el-button>
         <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
             <span>服务免费开通,发送红包平台收取5%服务费</span>
             <span slot="footer" class="dialog-footer">
@@ -71,9 +71,10 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
+                console.log(res);
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
-                console.log(res.data.isOpened);
+//                console.log(res.data.isOpened);
                     this.state = res.data.isOpened;
 
                 }

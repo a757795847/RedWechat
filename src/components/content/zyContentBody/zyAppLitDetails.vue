@@ -42,8 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-button type="text" v-if="state" @mouseover="onhover"
-                   :style="{color:detail.background_color}">取消服务</el-button>
+        <p v-if="state" @mouseover="onhover" @mouseout='onseout' :style="{color:detail.background_color}" class="cancels" ref="acitve">取消服务</p>
         <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
             <span>服务免费开通,发送红包平台收取5%服务费</span>
             <span slot="footer" class="dialog-footer">
@@ -113,7 +112,12 @@
                 });
             },
             onhover(){
-             console.log(1);
+                this.$refs.acitve.style.background = this.color;
+
+            },
+            onseout(){
+                this.$refs.acitve.style.background = "white";
+
             },
         }
         }
@@ -189,14 +193,17 @@
         background: url("../../../assets/app-detail-neirong.png") no-repeat;
         background-size: 20px;
     }
-    #appListDetails   button.el-button.el-button--text {
+    #appListDetails .cancels{
+        border-radius:6px;
+        text-align: center;
+        width:60px;
         color: #2B2C2F;
         padding: 7px 12px;
         font-size: 13px;
         margin-top: 20px;
     }
-    #appListDetails   button.el-button.el-button--text:hover{
+  /*  #appListDetails .cancels:hover{
         background: black;
-    }
+    }*/
 
 </style>

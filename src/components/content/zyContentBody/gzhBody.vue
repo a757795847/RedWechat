@@ -61,7 +61,7 @@ export default{
         addpublic(){
             this.$router.push('/addPublic');
             console.log(1);
-        }
+        },
     }
 }
 </script>

@@ -17,7 +17,7 @@
           <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
         </el-dropdown-menu>
           </el-dropdown>
-        <img src="../../assets/logo.jpg" alt="user">
+          <img src="../../assets/logo.jpg" alt="user">
       </div>
     </div>
   </header>
@@ -132,5 +132,8 @@
   }
   .el-select-dropdown__item.selected, .el-select-dropdown__item.selected.hover{
     background-color: #71A593;
+  }
+  #header .el-dropdown{
+   float:right;
   }
 </style>

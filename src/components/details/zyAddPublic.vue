@@ -163,6 +163,8 @@
     }
     #zyAddPublic .el-button{
             color:rgb(100,100,100);
+
+
     }
     #zyAddPublic .el-button:hover{
         color: rgb(114,171,154);

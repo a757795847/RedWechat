@@ -7,7 +7,16 @@
       </div>
       <div id="user">
         <span id="returnBtn" v-on:click="logout()">退出</span>
-        <span>{{this.$auth.user().name}}</span>
+        <el-dropdown menu-align="start">
+        <span class="el-dropdown-link">{{this.$auth.user().name}}</span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>黄金糕</el-dropdown-item>
+          <el-dropdown-item>狮子头</el-dropdown-item>
+          <el-dropdown-item>螺蛳粉</el-dropdown-item>
+          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+          </el-dropdown>
         <img src="../../assets/logo.jpg" alt="user">
       </div>
     </div>

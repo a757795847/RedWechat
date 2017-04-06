@@ -76,7 +76,7 @@ export default{
     #gzhCard .bodyFather .elP{
         position:relative;
         color: #8d8d8d;
-        text-indent: 40px;
+        text-indent: 14px;
         width: 150px;
         margin: 0 auto;
         line-height: 30px;
@@ -90,7 +90,7 @@ export default{
         height: 20px;
         position: absolute;
         background-size: 20px 20px;
-        left: 35px;
+        left: 21px;
         top: 5px;
     }
     #gzhCard .bodyFather{

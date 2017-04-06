@@ -13,7 +13,7 @@
                             <p>{{!state?'未开通':'已开通'}}</p>
                         </div>
                         <el-button type="primary" v-if="!state" @click="dialogVisible = true">开通</el-button>
-                        <el-button type="primary" v-else @click="enter">进入后台</el-button>
+                        <el-button type="primary" v-else @click="enter" @mouseover="onhover">进入后台</el-button>
                     </div>
                 </div>
             </el-col>
@@ -113,7 +113,7 @@
                 });
             },
             onhover(){
-               console.log(1);
+             console.log(1);
             },
         }
         }

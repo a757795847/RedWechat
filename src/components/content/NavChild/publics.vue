@@ -12,7 +12,7 @@
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <el-menu-item index="2">我的应用</el-menu-item>
-                <el-menu-item index="/details/bag" v-for="item in appList">{{ item.name }}</el-menu-item>
+                <el-menu-item index="/details/bag" v-for="(item,index) in appList" :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
@@ -41,6 +41,7 @@
             this.activeNum = this.$route.path;
         },
         deactivated(){
+
         },
       /*  beforeCreate(){
             console.log(this);

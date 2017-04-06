@@ -130,4 +130,7 @@
   .el-tabs__active-bar {
     background-color: #589680;
   }
+  .el-select-dropdown__item.selected, .el-select-dropdown__item.selected.hover{
+    background-color: #71A593;
+  }
 </style>

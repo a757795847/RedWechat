@@ -13,7 +13,14 @@
             zyHeader
         },
         beforeCreate(){
-
+            this.$http({
+                url: 'user/headImage',
+                method: 'GET',
+            }).then((res) => {
+                this.$store.dispatch('update_user_img','http://115.29.188.190:8085/user/headImage?jwt=Bearer '+localStorage.getItem('default-auth-token'))
+            }, (res) => {
+                console.log('header/error=>',res)
+            });
         }
     }
 

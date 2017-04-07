@@ -36,10 +36,8 @@
         this.$auth.logout({
           makeRequest: true,
           success() {
-            console.log('success ' + this.context);
           },
           error() {
-            console.log('error ' + this.context);
           }
         });
       },

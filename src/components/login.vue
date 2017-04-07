@@ -172,16 +172,8 @@
                             },
                         }).then((res) => {
                             console.log('success ' , res);
-//                            this.$http({
-//                                url: 'auth/user',
-//                                method: 'GET',
-//                            }).then((res) => {
-//                                console.log(this.$auth.user().name)
-//                                this.$router.push({name:'zyDetails',params:{appId:index}});
-//                            }, (res) => {
-//
-//                            });
-
+                            this.$message('注册成功');
+                            this.zylogin = true;
                         }, (res) => {
 
                         });
@@ -197,7 +189,7 @@
             this.$http({
                 url: 'test',
                 method: 'GET',
-            }).then((res) => {hu
+            }).then((res) => {
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
             }, (res) => {
             });

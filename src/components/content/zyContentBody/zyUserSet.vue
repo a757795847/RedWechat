@@ -73,8 +73,7 @@
                 }
                 return isNPG && isLt2M;
             }
-        },
-
+        }
     }
 </script>
 

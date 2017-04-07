@@ -43,10 +43,10 @@
             </el-col>
         </el-row>
         <p v-if="state" @mouseover="onhover" @mouseout='onseout' :style="{color:detail.background_color}" class="cancels" ref="acitve">取消服务</p>
-        <el-dialog title="是否开通" v-model="dialogVisible" size="tiny">
-            <span>服务免费开通,发送红包平台收取5%服务费</span>
+        <el-dialog class="operation" title="是否开通" v-model="dialogVisible" size="tiny">
+            <span>{{detail.charge_standard}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button type="text" @click="dialogVisible = false">取 消</el-button>
+                <el-button type="text" @click="dialogVisible = false" :style="{color:'#2B2C2F'}">取 消</el-button>
                 <el-button type="text" @click="click">确 定</el-button>
             </span>
         </el-dialog>
@@ -65,7 +65,6 @@
             }
         },
         beforeCreate(){
-            console.log(this);
             this.$http({
                 url: 'app/info',
                 method: 'POST',
@@ -73,6 +72,7 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
+                console.log('appListDetails=>app详情=>',res)
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
                     this.color=res.data.applicationInfo.font_color;
@@ -97,7 +97,7 @@
                     }
                 }).then((res) => {
                     if(res.body.status!=0){
-                        this.state=true;
+                        this.state = true;
                     }
                     /*
                     if(res.data.status == 1){
@@ -199,6 +199,14 @@
         padding: 7px 12px;
         font-size: 13px;
         margin-top: 20px;
+    }
+    #appListDetails .operation .el-button--text{
+        color: #68A593;
+        padding: 9px 16px;
+        font-size: 13px;
+    }
+    #appListDetails .operation .el-button--text:hover{
+        background: #E4EDE2;
     }
   /*  #appListDetails .cancels:hover{
         background: black;

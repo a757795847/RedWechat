@@ -17,8 +17,11 @@
                 <div class="detailsBodyThead">
                     <el-row>
                         <el-col :span="8">
+                            <el-popover ref="popover" placement="right"  width="200" trigger="click" content="此功能暂时未开通">
+                            </el-popover>
                             <el-button type="text" @click="dialogFormVisible = true">上传订单</el-button>
-                            <el-button type="text" @click="batch">批量发送</el-button>
+                            <el-button type="text" v-popover:popover>批量发送</el-button>
+
                         </el-col>
                         <el-col :span="12" :offset="4">
                             <el-button type="text" :style="{  float: 'right',padding: '8px 12px',marginTop: '3px'}" @click="handleSearchClick">搜索</el-button>
@@ -78,8 +81,8 @@
                     >
                         <template scope="scope" >
                             <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
-                            <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2" >
-                            <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3" >
+                            <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
+                            <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -123,10 +126,12 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop="redPackageSize"
                             label="红包金额"
                             width="80"
                     >
+                        <template scope="scope">
+                            {{scope.row.red_package_size/100}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                             label="状态"
@@ -490,13 +495,9 @@ export default{
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
-            console.log(this.multipleSelection)
         },
         //上传文件
         upSuccessful(response, file, fileList){
-//            console.log('上传文件response==>',response)
-//            console.dir('上传文件file==>',file)
-//            console.info('上传文件fileList==>',fileList)
             if(response.status == 1){
                 this.upLoadingIn = 100;
                 this.upLoadingState = true;
@@ -542,9 +543,6 @@ export default{
             }
 
         },
-//        downloadCsv(){
-//            location.href = this.$http.options.root+'order/downloadErrorList?key='+this.uploadFormData.url+'&jwt='+this.token;
-//        },
         upload(i){
             if(this.upLoadingIn == 100){
                 return;
@@ -647,12 +645,6 @@ export default{
             var arr =  val == 4 ? [0,1,3]:[parseInt(val)];
             this.pageAjax(1,arr);
         },
-        //批量发送
-        batch(){
-            this.$message({
-                message: '暂时还未开通'
-            })
-        },
         selectables(row, index){
             if(row.gift_state != 1){
                 return false;
@@ -680,11 +672,12 @@ export default{
         }, (res) => {
 
         });
+    },
+    mounted(){
         this.$http({
             url: 'app/config/list/zyappid1',
             method: 'POST',
         }).then((res) => {
-            console.log('res.data.data[0].url',res.data.data[0].url);
             new QArt({
                 value: res.data.data[0].url,
                 imagePath: erwei,

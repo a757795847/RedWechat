@@ -39,7 +39,6 @@
     border-radius: 0 5px 5px 0;
   }
   #contentBody .el-tabs__nav-scroll{
-    padding-left: 20px;
     height: 45px;
     line-height: 45px;
     font-size: 14px;
@@ -50,10 +49,10 @@
     padding:10px;
   }
   #contentBody .el-tabs__item.is-active{
-    color: #68A593;
+    color: #589680;
   }
   #contentBody .el-tabs__active-bar{
-    background: #68A593;
+    background: #589680;
     height: 5px;
   }
 </style>

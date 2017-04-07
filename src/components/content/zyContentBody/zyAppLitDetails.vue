@@ -2,7 +2,7 @@
     <div id="appListDetails">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
-            <el-breadcrumb-item>好评返现</el-breadcrumb-item>
+            <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
         </el-breadcrumb>
         <el-row>
             <el-col :span="24">
@@ -60,7 +60,8 @@
                 dialogVisible: false,
                 detail: {},
                 state: '',
-                color:''
+                color:'',
+                title:''
             }
         },
         beforeCreate(){
@@ -72,14 +73,11 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
-                console.log(res);
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
-                    this.color=res.body.applicationInfo.font_color;
-                    console.log(this.color);
-//                console.log(res.data.isOpened);
-                    this.state = res.data.isOpened;
-
+                    this.color=res.data.applicationInfo.font_color;
+                    this.state = res.data.applicationInfo.isOpened;
+                    this.title = res.data.applicationInfo.name
                 }
             }, (res) => {
 

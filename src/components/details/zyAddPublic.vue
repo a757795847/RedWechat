@@ -47,8 +47,8 @@
         <span>绑定公众号正在马不停蹄的日夜开发中</span>
         <span>敬请期待</span>
             <span slot="footer" class="dialog-footer">
-                <el-button type="text" @click="dialogVisible = false">取 消</el-button>
-                <el-button type="text" @click="LobClick">确 定</el-button>
+                <el-button type="text" @click="dialogVisible = false" :style="{color:'#393a3e'}">取 消</el-button>
+                <el-button type="text" @click="dialogVisible = false">确 定</el-button>
             </span>
     </el-dialog>
     </div>
@@ -68,9 +68,6 @@
         methods:{
             IsActive( index ){
                 this.isActive = index;
-            },
-            LobClick(){
-                this.dialogVisible=false;
             },
             returnIndex(){
                 if(this.$route.path == '/'){
@@ -162,12 +159,12 @@
         border-radius: 5px;
     }
     #zyAddPublic .el-button{
-            color:rgb(100,100,100);
-
-
+        color: #68A593;
+        padding: 9px 16px;
+        font-size: 13px;
     }
     #zyAddPublic .el-button:hover{
-        color: rgb(114,171,154);
+        background: #E4EDE2;
     }
    /* #detailsBody .sidebar{
         width:650px;
@@ -231,6 +228,9 @@
         color:#68A593;
         width:100px;
         margin-top:10px;
+    }
+    #zyAddPublic [class*=" el-icon-"], [class^=el-icon-]{
+        margin-right: 8px;
     }
 
 

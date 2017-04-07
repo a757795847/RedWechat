@@ -36,6 +36,7 @@ export default new Router({
             require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
           }
         },*/
+
         {
           path: '/index',
           name: 'indexDefault',

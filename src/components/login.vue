@@ -22,7 +22,7 @@
                 <div class="input-group" :style="{ marginBottom: 30 + 'px' }">
                     <el-input v-model="register.messCode" placeholder="输入短信验证码" class="form-control validationText" :style="{ width: 65+ '%'}"></el-input>
                     <span class="input-group-btn">
-                        <el-button class="btn btn-primary"
+                        <el-button class="btn btn-primary" :disabled="disabled"
                                    id="getcode" :style="{ position:'relative' }" v-on:click="dialogVisible = validation()">{{countdown==0?"获取验证码":'重新发送'+countdown+''}}</el-button>
                     </span>
                 </div>
@@ -66,10 +66,11 @@
                 data: {
                     body: {
                         username: '2',
-                        password: '1'
+                        password: '1',
                     },
                     rememberMe: false
                 },
+                disabled:false,
                 zylogin:true,
                 errorLogin:false,
                 error: null,
@@ -133,17 +134,20 @@
                         console.log('success ' , res);
                         if(res.body.status==0){
                             this.$message.error('验证码不正确');
+
                             this.validationText = '';
                         }else{
+                            this.disabled=true;
                             this.countdown = 60;
                           var sub= setInterval(function () {
                               if(this.countdown==0){
                                   clearInterval(sub);
+                                  this.disabled=false;
                                   return;
 
                               }
                               this.countdown --;
-                          }.bind(this), 1000)
+                          }.bind(this), 100)
                         }
                         this.dialogVisible = false;
                     }, (res) => {

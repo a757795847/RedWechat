@@ -16,7 +16,7 @@
             <el-dropdown-item class="setFinance" command="finance">财务相关设置</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-          <img src="../../assets/logo.jpg" alt="user">
+          <img v-if="this.$store.state.cart.userImg != ''" :src="this.$store.state.cart.userImg" alt="user">
       </div>
     </div>
   </header>
@@ -25,6 +25,12 @@
 <script>
   export default {
     name: 'zyHeader',
+    data(){
+      return{
+        token:'Bearer ' + localStorage.getItem('default-auth-token'),
+        imgSrc:this.$http.options.root+'/order/picture/',
+      }
+    },
     methods:{
       logout() {
         this.$auth.logout({
@@ -43,13 +49,7 @@
           this.$router.push('/userSet')
         }
       },
-//      aa(){
-//        this.$store.dispatch('update_db','aaaa');
-//      }
     },
-    mounted(){
-      console.log(this.$auth.user())
-    }
   }
 </script>
 

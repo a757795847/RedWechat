@@ -90,7 +90,6 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
-                console.info('列表',res)
                 this.appList = res.data.list;
             }, (res) => {
 

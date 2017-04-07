@@ -29,13 +29,13 @@ export default new Router({
             require(['../components/details/zyAddPublic.vue'],resolve)
           }
         },
-        {
+        /*{
           path: '/addMyapplist',
           name: 'zyMyappList',
           component: function (resolve) {
             require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
           }
-        },
+        },*/
 
         {
           path: '/index',

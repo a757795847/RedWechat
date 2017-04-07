@@ -30,18 +30,18 @@
                 </el-row>
                 <el-dialog title="充值" v-model="dialogVisible" size="tiny">
                     <p>选择充值金额</p>
-                    <el-button class="moneyBtn" :class="item.num == activeMoneyBtn ? 'isActive':''"
-                               v-for="(item,index) in moneyBtn" :key="index" @click="moneyBtnActive(item.num)">
+                    <el-button class="moneyBtn" :class="item.lab == activeMoneyBtn ? 'isActive':''"
+                               v-for="(item,index) in moneyBtn" :key="index" @click="moneyBtnActive(item.lab)">
                         {{item.num}}
                     </el-button>
                     <p style="marginTop:20px">选择充值金额</p>
                     <el-button class="isActive payBtn">微信支付</el-button>
                     <span slot="footer" class="dialog-footer">
                       <el-button type="text" @click="dialogVisible = false" style="color:#2B2C2F">取 消</el-button>
-                      <el-button type="text" @click="erweiPay = true">确 定</el-button>
+                      <el-button type="text" @click="recharge">确 定</el-button>
                     </span>
                 </el-dialog>
-                <el-dialog title="扫码完成支付" v-model="erweiPay" class="erweiPay"
+                <el-dialog title="扫码完成支付" v-model="erweiPayState" class="erweiPay"
                            :close-on-press-escape="false"
                            :close-on-click-modal="false"
                            :show-close="false"
@@ -50,7 +50,7 @@
                         <div ref="qart"></div>
                         <p>使用微信扫一扫</p>
                         <p style="color:#CE6D72">请在5分钟内完成支付</p>
-                        <el-button type="primary" class="closeRecharge">取消充值</el-button>
+                        <el-button type="primary" class="closeRecharge" @click="erweiPayState = false">取消充值</el-button>
                     </div>
 
                 </el-dialog>
@@ -73,28 +73,34 @@
                     money: '100元'
                 },],
                 dialogVisible:false,
-                activeMoneyBtn:100,
+                activeMoneyBtn:1,
                 moneyBtn:[
                     {
-                        num:100
+                        num:100,
+                        lab:1
                     },
                     {
-                        num:200
+                        num:200,
+                        lab:2
                     },
                     {
-                        num:500
+                        num:500,
+                        lab:3
                     },
                     {
-                        num:1000
+                        num:1000,
+                        lab:4
                     },
                     {
-                        num:2000
+                        num:2000,
+                        lab:5
                     },
                     {
-                        num:5000
+                        num:5000,
+                        lab:6
                     },
                 ],
-                erweiPay:true
+                erweiPayState:false,
             };
         },
         methods:{
@@ -103,25 +109,29 @@
             },
             moneyBtnActive(num){
                 this.activeMoneyBtn = num;
+            },
+            recharge(){
+                this.$http({
+                    url: 'pay/qr',
+                    method: 'POST',
+                    body:{
+                        count:this.activeMoneyBtn
+                    }
+                }).then((res) => {
+                    console.log('充值',res)
+                    new QArt({
+                        value: res.data.data.codeUrl,
+                        imagePath: erwei,
+                        filter:'filter'
+                    }).make(this.$refs.qart);
+                    this.erweiPayState = true;
+                }, (res) => {
+
+                });
             }
         },
         mounted(){
-            this.$http({
-                url: 'pay/qr',
-                method: 'POST',
-                body:{
-                    count:10
-                }
-            }).then((res) => {
-                console.log('充值',res)
-                new QArt({
-                    value: res.data.data.codeUrl,
-                    imagePath: erwei,
-                    filter:'filter'
-                }).make(this.$refs.qart);
-            }, (res) => {
 
-            });
         }
     }
 </script>

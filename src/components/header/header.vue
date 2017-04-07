@@ -45,6 +45,9 @@
         if(command == 'user'){
           this.$store.dispatch('update_db','aaaa');
           this.$router.push('/userSet')
+        }else if(command == 'finance'){
+          this.$store.dispatch('update_db','bbb');
+          this.$router.push('/userDetail')
         }
       },
     },

@@ -45,6 +45,11 @@ module.exports = {
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
+      {  test: /\.js$/,
+        loader: "babel-loader",
+        query: {presets: ['es2015']},
+        exclude: /node_modules/
+      },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',

@@ -79,10 +79,24 @@
                             label="用户上传图片"
                             width="150"
                     >
-                        <template scope="scope" >
-                            <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
-                            <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
-                            <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                        <template scope="scope">
+                            <el-popover
+                                    ref="popover1"
+                                    placement="right"
+                                    trigger="hover"
+                            >
+                                <div>
+                                    <img class="magnifyImg" v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
+                                    <img class="magnifyImg" v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
+                                    <img class="magnifyImg" style="marginRight: 0" v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                                </div>
+                            </el-popover>
+                            <el-button class="magnifyImgBtn" v-popover:popover1>
+                                <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
+                                <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
+                                <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                            </el-button>
+
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -90,6 +104,14 @@
                             label="订单标签"
                             width="100"
                     >
+                    </el-table-column>
+                    <el-table-column
+                            label="状态"
+                            width="100"
+                    >
+                        <template scope="scope">
+                            {{ auditState(scope.row.gift_state) }}
+                        </template>
                     </el-table-column>
                     <el-table-column
                             label="导入日期"
@@ -133,14 +155,14 @@
                             {{scope.row.red_package_size/100}}
                         </template>
                     </el-table-column>
-                    <el-table-column
-                            label="状态"
-                            width="100"
-                    >
-                        <template scope="scope">
-                            {{ auditState(scope.row.gift_state) }}
-                        </template>
-                    </el-table-column>
+                    <!--<el-table-column-->
+                            <!--label="状态"-->
+                            <!--width="100"-->
+                    <!--&gt;-->
+                        <!--<template scope="scope">-->
+                            <!--{{ auditState(scope.row.gift_state) }}-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
                     <el-table-column
                             fixed="right"
                             label="操作"
@@ -853,8 +875,7 @@ export default{
 }
 /*上传表单*/
 #detailBag .detailsBody .el-dialog--small {
-    width: 40%;
-    min-width: 578px;
+    width: 578px;
 }
 #detailBag .detailsBody .upTable .el-upload-dragger{
     width: 200px;
@@ -927,6 +948,19 @@ export default{
 #detailBag .detailsBody .detailsBodyTBody  .cell, .el-table th>div {
     padding-left: 10px;
     padding-right: 10px;
+}
+#detailBag .detailsBody .detailsBodyTBody .magnifyImgBtn{
+    line-height: initial;
+    white-space: initial;
+    display: block;
+    border: none;
+    color: white;
+    box-sizing: initial;
+    outline: none;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    width: 100%;
 }
 /*orderDetail*/
 #detailBag .detailsBody  .orderDetail .el-dialog--small{
@@ -1044,4 +1078,10 @@ export default{
     width: 100px;
     height: 100px;
 }
+    .magnifyImg{
+        width: 200px;
+        height: 200px;
+        margin-right: 10px;
+    }
+
 </style>

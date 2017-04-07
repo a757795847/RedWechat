@@ -7,7 +7,18 @@
                 <div class="Userform">
                     <el-form ref="form" :model="form" label-width="88px">
                         <el-form-item label="头像">
-                            <img src="../../../assets/logo.jpg" alt="">
+                            <img :src="this.$store.state.cart.userImg" alt="" v-if="this.$store.state.cart.userImg !== ''">
+                            <el-upload v-else
+                                       class="avatar-uploader"
+                                       action="http://115.29.188.190:8085/user/uploadHeadImage"
+                                       :headers="{'Authorization':token}"
+                                       :show-file-list="false"
+                                       :on-success="handleAvatarSuccess"
+                                       :before-upload="beforeAvatarUpload">
+                                <img v-if="this.$store.state.cart.userImg" :src="this.$store.state.cart.userImg" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+
                         </el-form-item>
                         <el-form-item label="账户名称">
                             <el-input v-model="form.name"></el-input>
@@ -34,16 +45,33 @@
         name: 'zyUserSet',
         data() {
             return {
+                token:'Bearer ' + localStorage.getItem('default-auth-token'),
+                imgSrc:this.$http.options.root+'/order/picture/',
                 activeName: 'first',
                 form: {
                     name: this.$auth.user().name,
                     phone:this.$auth.user().phone,
-                    pwd:'123456'
+                    pwd:'123456',
                 }
             };
         },
-        beforeCreate(){
-            console.log(this.$auth.user())
+        methods: {
+            handleAvatarSuccess(res, file) {
+//                this.form.img = URL.createObjectURL(file.raw);
+                this.$store.dispatch('update_user_img',URL.createObjectURL(file.raw));
+            },
+            beforeAvatarUpload(file) {
+                const isNPG = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isNPG) {
+                    this.$message.error('上传头像图片只能是 PNG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isNPG && isLt2M;
+            }
         }
     }
 </script>

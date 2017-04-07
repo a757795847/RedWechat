@@ -4,8 +4,8 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户列表" name="first">
                 <el-row :gutter="18">
-                    <el-col :span="12" v-for="(item,index) in list" :index="index">
-                        <zy-app-list-item :index="index"  :item = "item"></zy-app-list-item>
+                    <el-col :span="12" v-for="(item,index) in list" :key="index">
+                        <zy-app-list-item  :item = "item"></zy-app-list-item>
                     </el-col>
                 </el-row>
             </el-tab-pane>
@@ -22,15 +22,7 @@
         data() {
             return {
                 activeName: 'first',
-                list:[
-//                    {
-//                        color:'darkgrey',
-//                        header:'好评返现(无商家版)',
-//                        text:'上传您的淘宝订单数据，给您的买家用户发送红包，不需要开通商家，甚至不需要公众号也能使用',
-//                        state:'未开通',
-//                        router:'aa'
-//                    }
-                ]
+                list:[]
             };
         },
         methods:{

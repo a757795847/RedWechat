@@ -8,6 +8,7 @@ import router from './router'
 import VueResource from 'vue-resource';
 // import $ from 'jquery'
 // import VueAuth from '@websanova/vue-auth'
+import store from './store/';
 
 Vue.use(VueResource);
 Vue.use(ElementUI);
@@ -32,6 +33,7 @@ router.beforeEach((to, from, next) => {
 
 App.router = Vue.router;
 new Vue({
+  store,
   router,
   el: '#app',
   template: '<App/>',

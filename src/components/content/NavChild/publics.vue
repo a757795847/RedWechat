@@ -1,26 +1,29 @@
 <template>
     <div id="publicList">
         <el-row class="tac">
-            <el-menu mode="vertical" :default-active="activeNum" class="el-menu-vertical-demo" router @select="handleSelect">
+            <el-menu mode="vertical" :default-active="this.$store.state.cart.activeList" class="el-menu-vertical-demo"  @select="handleSelect">
                 <i class="gzhList"></i>
                 <el-menu-item-group title="公众号">
-                    <el-menu-item index="/index">我的公众号</el-menu-item>
+                    <el-menu-item index="/index" @click="toIndex">我的公众号</el-menu-item>
                     <div class="elDiv" @click="addpublic">
                         <p><i class="addImage"></i>添加公众号</p>
                     </div>
                 </el-menu-item-group>
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
-                <el-menu-item index="2">我的应用</el-menu-item>
-                <el-menu-item index="/details/bag" v-for="(item,index) in appList" :key="index">{{ item.name }}</el-menu-item>
+                <!--<el-menu-item index="2">我的应用</el-menu-item>-->
+                <div class="temporary" index="2">我的应用</div>
+                <el-menu-item index="/details/bag" @click="toDetailsBag" v-for="(item,index) in appList" :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
             </el-menu-item-group>
                 <i class="fansImage"></i>
-                <el-menu-item-group title="微客管理" :style="{ marginTop: 4 + 'px' }" id="management">
-                    <el-menu-item index="3">我的粉丝</el-menu-item>
-                    <el-menu-item index="4">消息发送(敬请期待)</el-menu-item>
+                <el-menu-item-group title="微客管理" :style="{ marginTop: 4 + 'px' }" class="management">
+                    <!--<el-menu-item index="3">我的粉丝</el-menu-item>-->
+                    <!--<el-menu-item index="4">消息发送(敬请期待)</el-menu-item >-->
+                    <div class="temporary" index="3">我的粉丝(敬请期待)</div>
+                    <div class="temporary" index="4">消息发送(敬请期待)</div>
                 </el-menu-item-group>
             </el-menu>
         </el-row>
@@ -33,12 +36,11 @@
         name:'zyPublics',
         data(){
           return{
-              activeNum:"/index",
               appList:[]
           }
         },
         activated(){
-            this.activeNum = this.$route.path;
+            this.$store.dispatch('update_db',this.$route.path)
         },
         deactivated(){
 
@@ -64,14 +66,20 @@
         },*/
         methods:{
             handleSelect(key, keyPath) {
-                this.activeNum = ''+key;
+
             },
             addApp(){
-                this.activeNum = 'dsdsdsds';
+                this.$store.dispatch('update_db','bbb');
                 this.$router.push('/appList')
             },
             addpublic(){
                 this.$router.push('/addPublic')
+            },
+            toIndex(){
+                this.$router.push('/index')
+            },
+            toDetailsBag(){
+                this.$router.push('/details/bag')
             }
         },
         beforeCreate(){
@@ -167,8 +175,26 @@
        background-size: 18px 18px;
        background-position: 15px 15px;
    }
-   #management{
+   #publicList .fansImage{
+       background: url("../../../assets/menu-fans.png") no-repeat;
+       display: inline-block;
+       width: 40px;
+       height: 40px;
+       position: absolute;
+       background-size: 18px 18px;
+       background-position: 15px 15px;
+   }
+   #publicList .management{
        height: 482px;
        background-color: #fff;
+   }
+   #publicList .temporary{
+       text-indent: 20px;
+       padding-left: 0;
+       background: white;
+       height: 40px;
+       line-height: 40px;
+       padding-left: 20px;
+       cursor:pointer;
    }
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div id="gzhCard">
+        <p class="gzhListHeader" style="paddingLeft: 10px">我的公众号</p>
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="公众号列表" name="first">
                 <div v-show="!zyBody">
@@ -38,6 +39,7 @@
                     </div>
                     </div>
             </el-tab-pane>
+
         </el-tabs>
 
     </div>
@@ -66,6 +68,13 @@ export default{
 }
 </script>
 <style>
+    #gzhCard{
+        padding: 20px;
+    }
+    #gzhCard .gzhListHeader{
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
     #gzhCard .elDiv{
         margin:20px auto;
         position: relative;
@@ -109,9 +118,6 @@ export default{
         font-family: "Helvetica Neue";
         position: relative;
     }
-#gzhCard{
-    width: 100%;
-}
 #gzhCard .cardItem img{
     width: 50px;
     height: 50px;
@@ -180,6 +186,11 @@ export default{
 }
 #gzhCard .cardItem .cardItemOperation button.el-button.el-button--text:hover{
     background: #ffcece;
+}
+#gzhCard .el-tabs__item{
+    width: 90px;
+    text-align: center;
+    padding: 0;
 }
 
 </style>

@@ -1,22 +1,21 @@
 <template>
   <header>
     <div id="header">
-      <div id="title">
+      <div class="title">
         <h1>聚塔微客</h1>
         <span>后台管理系统</span>
       </div>
-      <div id="user">
-        <span id="returnBtn" v-on:click="logout()">退出</span>
-        <el-dropdown menu-align="start">
-        <span class="el-dropdown-link">{{this.$auth.user().name}}</span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
-        </el-dropdown-menu>
-          </el-dropdown>
+      <div class="user">
+        <span class="returnBtn" v-on:click="logout()">退出</span>
+        <el-dropdown trigger="click" @command="handleCommand">
+          <span class="el-dropdown-link">
+            {{this.$auth.user().name}}
+          </span>
+          <el-dropdown-menu slot="dropdown" :style="{width: '145px',marginTop: '-10px',borderRadius: '3px'}" >
+            <el-dropdown-item class="setUser" command="user" >用户账户设置</el-dropdown-item>
+            <el-dropdown-item class="setFinance" command="finance">财务相关设置</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
           <img src="../../assets/logo.jpg" alt="user">
       </div>
     </div>
@@ -38,8 +37,19 @@
           }
         });
       },
+      handleCommand(command) {
+        if(command == 'user'){
+          this.$store.dispatch('update_db','aaaa');
+          this.$router.push('/userSet')
+        }
+      },
+//      aa(){
+//        this.$store.dispatch('update_db','aaaa');
+//      }
+    },
+    mounted(){
+      console.log(this.$auth.user())
     }
-
   }
 </script>
 
@@ -59,13 +69,13 @@
     line-height: 60px;
     padding: 0 20px;
   }
-  #title{
+  #header .title{
     float: left;
     width: 300px;
     color: #ccc;
     font-family: Hiragino Maru Gothic Pro;
   }
-  #title h1{
+  #header .title h1{
     display: inline-block;
     float: left;
     font-weight: 100;
@@ -75,14 +85,14 @@
     background-position: 0 10px;
     color:#FBFCFF;
   }
-  #title span{
+  #header .title span{
     float: left;
     line-height: 60px;
     margin-left: 5px;
     margin-top: 8px;
     color:#A8A8A8;
   }
-  #user{
+   #header .user{
     float: right;
     width: 200px;
     height: 60px;
@@ -91,7 +101,7 @@
     font-size: 14px;
     margin-right: 15px;
   }
-  #user img{
+   #header .user img{
     float: right;
     width: 25px;
     height: 25px;
@@ -99,12 +109,12 @@
     background: white;
     margin-top: 15px;
   }
-  #user span{
+   #header .user span{
     float: right;
     margin-left: 10px;
     color:#FBFCFF;
   }
-  #returnBtn::before{
+  #header .returnBtn::before{
     content: '';
     position: absolute;
     color: white;
@@ -115,10 +125,10 @@
     margin-right: 20px;
     border-left: 1px solid #7d7d7d;
   }
-  #user #returnBtn{
+   #header .user .returnBtn{
     position: relative;
     cursor:pointer;
-    margin-left: 40px;
+    margin-left: 20px;
   }
   .el-input__inner:focus ,.el-select .el-input__inner:focus{
     outline: 0;
@@ -133,7 +143,24 @@
   .el-select-dropdown__item.selected, .el-select-dropdown__item.selected.hover{
     background-color: #71A593;
   }
+  .el-menu-item, .el-submenu__title{
+    color:#393a3e
+  }
   #header .el-dropdown{
-   float:right;
+    float:right;
+    padding-right: 20px;
+    cursor:pointer;
+  }
+  .setUser{
+    background: url("../../assets/404.png") no-repeat;
+    background-size: 20px;
+    background-position: 7px 8px;
+    text-align: center;
+  }
+  .setFinance{
+    background: url("../../assets/404.png") no-repeat;
+    background-size: 20px;
+    background-position: 7px 8px;
+    text-align: center;
   }
 </style>

@@ -158,7 +158,7 @@
         left: 46px;
         top: 18px;
     }
-   #publicList .appList{
+   #publicList .fansImage{
        background: url("../../../assets/menu-app.png") no-repeat;
        display: inline-block;
        width: 40px;

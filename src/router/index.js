@@ -52,6 +52,13 @@ export default new Router({
               }
             },
             {
+              path: '/userSet',
+              name: 'zyUserSet',
+              component:function (resolve) {
+                require(['../components/content/zyContentBody/zyUserSet.vue'],resolve)
+              }
+            },
+            {
               path: '/addMyapplist',
               name: 'zyMyappList',
               component: function (resolve) {

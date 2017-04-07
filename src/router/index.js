@@ -29,14 +29,13 @@ export default new Router({
             require(['../components/details/zyAddPublic.vue'],resolve)
           }
         },
-        {
+        /*{
           path: '/addMyapplist',
           name: 'zyMyappList',
           component: function (resolve) {
             require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
           }
-        },
-
+        },*/
         {
           path: '/index',
           name: 'indexDefault',
@@ -56,6 +55,13 @@ export default new Router({
               name: 'zyUserSet',
               component:function (resolve) {
                 require(['../components/content/zyContentBody/zyUserSet.vue'],resolve)
+              }
+            },
+            {
+              path: '/userDetail',
+              name: 'zyUserDetail',
+              component:function (resolve) {
+                require(['../components/content/zyContentBody/zyUserDetail.vue'],resolve)
               }
             },
             {

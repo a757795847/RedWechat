@@ -703,7 +703,7 @@ export default{
             new QArt({
                 value: res.data.data[0].url,
                 imagePath: erwei,
-                filter:'threshold'
+                filter:'filter'
             }).make(this.$refs.qart);
             this.serve.url = res.data.data[0].url;
         }, (res) => {

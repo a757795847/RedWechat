@@ -81,12 +81,9 @@
                 },
                 dialogVisible:false,
                 validationText:'',
-                validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random(),
+                validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
                 countdown:0
 
-
-//                errorRegistered:false,
-//                errorRegisteredText:''
             }
         },
         methods: {
@@ -161,6 +158,8 @@
                         this.$message.error('密码长度小于6位');
                     }else if(this.register.onePwd !== this.register.twoPwd){
                         this.$message.error('两次密码不匹配');
+                    }else if(this.register.onePwd == ''){
+                        this.$message.error('验证码不能为空');
                     }else{
                         this.$http({
                             url: 'register',
@@ -172,8 +171,14 @@
                             },
                         }).then((res) => {
                             console.log('success ' , res);
-                            this.$message('注册成功');
-                            this.zylogin = true;
+                            if(res.data.status == 0){
+                                this.$message.error(res.data.message);
+                            }else if(res.data.status == 1){
+                                this.$message('注册成功');
+                                this.zylogin = true;
+                                this.validationText = '';
+                            }
+
                         }, (res) => {
 
                         });
@@ -181,7 +186,7 @@
                 }
             },
             getValidationImg(){
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
+                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
             },
 
         },
@@ -190,7 +195,7 @@
                 url: 'test',
                 method: 'GET',
             }).then((res) => {
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+'&num='+Math.random();
+                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
             }, (res) => {
             });
         }

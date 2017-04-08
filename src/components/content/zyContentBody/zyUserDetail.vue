@@ -84,11 +84,7 @@ export default{
     data() {
         return {
             activeName: 'first',
-            tableData: [{
-                date: '2016-05-02 11.12',
-                type: '王小虎',
-                money: '100元'
-            },],
+            tableData: [],
             dialogVisible:false,
             activeMoneyBtn:1,
             moneyBtn:[
@@ -229,7 +225,6 @@ export default{
                 currentPageIndex:1
             }
         }).then((res) => {
-            console.log(res);
         if(res.data.status == 1){
             this.tableData = res.data.list;
             this.pageData = res.data.page;

@@ -147,7 +147,7 @@
 
                               }
                               this.countdown --;
-                          }.bind(this), 100)
+                          }.bind(this), 1000)
                         }
                         this.dialogVisible = false;
                     }, (res) => {

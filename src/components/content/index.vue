@@ -35,7 +35,7 @@
     margin-left: 4px;
     width: calc(100% - 204px);
     background: white;
-    min-height: 750px;
+    height: 750px;
     border-radius: 0 5px 5px 0;
   }
   #contentBody .el-tabs__nav-scroll{

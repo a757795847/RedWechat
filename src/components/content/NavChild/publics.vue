@@ -4,7 +4,7 @@
             <el-menu mode="vertical" :default-active="this.$store.state.cart.activeList" class="el-menu-vertical-demo"  @select="handleSelect">
                 <i class="gzhList"></i>
                 <el-menu-item-group title="公众号">
-                    <el-menu-item index="/index" @click="toIndex">我的公众号</el-menu-item>
+                    <el-menu-item index="/" @click="toIndex">我的公众号</el-menu-item>
                     <div class="elDiv" @click="addpublic">
                         <p><i class="addImage"></i>添加公众号</p>
                     </div>
@@ -12,7 +12,7 @@
 
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <!--<el-menu-item index="2">我的应用</el-menu-item>-->
-                <div class="temporary" index="2">我的应用</div>
+                <div class="temporary" index="2" style="border-radius:0">我的应用</div>
                 <el-menu-item index="/details/bag" @click="toDetailsBag" v-for="(item,index) in appList" :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
@@ -76,7 +76,7 @@
                 this.$router.push('/addPublic')
             },
             toIndex(){
-                this.$router.push('/index')
+                this.$router.push('/')
             },
             toDetailsBag(){
                 this.$router.push('/details/bag')
@@ -99,6 +99,9 @@
 </script>
 
 <style>
+    #publicList{
+        height: 750px;
+    }
    #publicList .elDiv{
        position: relative;
        height: 30px;

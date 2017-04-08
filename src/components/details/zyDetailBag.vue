@@ -171,7 +171,6 @@
                         <template scope="scope">
                             <el-button v-show="scope.row.gift_state == 1" type="text" @click="sendBag(scope.$index)">发送红包</el-button>
                             <el-button v-show="scope.row.gift_state == 1" type="text">拒绝</el-button>
-
                         </template>
                     </el-table-column>
 
@@ -510,7 +509,7 @@ export default{
         },
         returnIndex(){
             if(this.$router._from.path == '/login'){
-                this.$router.push('/index')
+                this.$router.push('/')
             }else{
                 this.$router.go(-1)
             }
@@ -860,13 +859,7 @@ export default{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-#detailBag .detailsBody .el-pager li.active{
-    background: #589680;
-    border-color: #589680;
-}
-#detailBag .detailsBody .el-pager li:hover,#detailBag .detailsBody .el-pagination button:hover {
-    color:#589680;
-}
+
 #detailBag .detailsBody .el-pagination button.disabled {
     color: #e4e4e4;
 }
@@ -1080,7 +1073,6 @@ export default{
 }
     .magnifyImg{
         width: 200px;
-        height: 200px;
         margin-right: 10px;
     }
 

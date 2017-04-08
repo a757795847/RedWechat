@@ -34,11 +34,11 @@
                         <li>{{detail.description}}
                         </li>
                     </ul>
-                    <ul>
-                        <li>免责声明</li>
-                        <li>{{detail.escape_clause}}
-                        </li>
-                    </ul>
+                    <!--<ul>-->
+                        <!--<li>免责声明</li>-->
+                        <!--<li>{{detail.escape_clause}}-->
+                        <!--</li>-->
+                    <!--</ul>-->
                 </div>
             </el-col>
         </el-row>
@@ -76,7 +76,7 @@
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
                     this.color=res.data.applicationInfo.font_color;
-                    this.state = res.data.applicationInfo.isOpened;
+                    this.state = res.data.isOpened;
                     this.title = res.data.applicationInfo.name
                 }
             }, (res) => {
@@ -99,12 +99,6 @@
                     if(res.body.status!=0){
                         this.state = true;
                     }
-                    /*
-                    if(res.data.status == 1){
-                    this.detail = res.data.applicationInfo;
-                    console.log(res.data.isOpened);
-                    /!*  this.state = res.data.isOpened;*!/
-                }*/
                 }, (res) => {
 
                 });

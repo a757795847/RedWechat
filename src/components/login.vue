@@ -6,8 +6,8 @@
         <p id="juta">聚塔微客户管理平台</p>
         <div v-show="zylogin" >
             <div class="mb-housite">
-                <el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"></el-input>
-                <el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd"></el-input>
+                <el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"  @keyup.enter="login()"></el-input>
+                <el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd" @keyup.enter="login()"></el-input>
             </div>
             <!--<p v-show="errorLogin" class="errorLogin">账号密码错误</p>-->
             <el-button v-on:click.prevent="login()">立即登录</el-button>
@@ -50,7 +50,7 @@
                 </p>
                 <p class="text-center">已经有账号?</p>
                 <p class="text-center">
-                    <a href="javascript:;" class="text-info" v-on:click="zylogin = true">登录</a>
+                    <a href="javascript:;" class="text-info" v-on:click="zylogin = true" >登录</a>
                 </p>
 
             </div>
@@ -65,8 +65,8 @@
             return {
                 data: {
                     body: {
-                        username: '2',
-                        password: '1',
+                        username: '',
+                        password: '',
                     },
                     rememberMe: false
                 },
@@ -75,7 +75,7 @@
                 errorLogin:false,
                 error: null,
                 register:{
-                    phoneNub: '15053467982',
+                    phoneNub: '',
                     messCode:'',
                     onePwd:'',
                     twoPwd:''

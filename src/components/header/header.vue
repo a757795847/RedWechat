@@ -13,7 +13,7 @@
           </span>
           <el-dropdown-menu slot="dropdown" :style="{width: '145px',marginTop: '-10px',borderRadius: '3px'}" >
             <el-dropdown-item class="setUser" command="user" >用户账户设置</el-dropdown-item>
-            <el-dropdown-item class="setFinance" command="finance">财务相关设置</el-dropdown-item>
+            <el-dropdown-item class="setFinance" command="finance">我的账户</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
           <img v-if="this.$store.state.cart.userImg != ''" :src="this.$store.state.cart.userImg" alt="user">
@@ -36,6 +36,7 @@
         this.$auth.logout({
           makeRequest: true,
           success() {
+            this.$router.push('/');
           },
           error() {
           }
@@ -147,21 +148,29 @@
   .el-menu-item, .el-submenu__title{
     color:#393a3e
   }
+  .el-pager li.active{
+    background: #589680;
+    border-color: #589680;
+  }
+  .el-pager li:hover,.el-pagination button:hover {
+    color:#589680;
+  }
   #header .el-dropdown{
     float:right;
     padding-right: 20px;
     cursor:pointer;
   }
   .setUser{
-    background: url("../../assets/404.png") no-repeat;
+    background: url("../../assets/user-menu-setting.png") no-repeat;
     background-size: 20px;
     background-position: 7px 8px;
     text-align: center;
   }
   .setFinance{
-    background: url("../../assets/404.png") no-repeat;
+    background: url("../../assets/user-menu-amount.png") no-repeat;
     background-size: 20px;
     background-position: 7px 8px;
     text-align: center;
   }
+
 </style>

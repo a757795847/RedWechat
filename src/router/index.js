@@ -17,7 +17,7 @@ export default new Router({
     },
 
     {
-      path: '/index',
+      path: '/',
       name: 'index',
       component:index,
       meta:{auth:true},
@@ -38,14 +38,14 @@ export default new Router({
         },*/
 
         {
-          path: '/index',
+          path: '/',
           name: 'indexDefault',
           component:function (resolve) {
             require(['../components/content/index.vue'],resolve)
           },
           children:[
             {
-              path: '/index',
+              path: '/',
               name: 'indexBody',
               component:function (resolve) {
                 require(['../components/content/zyContentBody/gzhBody.vue'],resolve)

@@ -128,7 +128,7 @@
                         method: 'GET',
                         params:{
                             code:this.validationText,
-                            phone:this.register.phoneNub
+                            phone:this.register.phoneNubF
                         },
                     }).then((res) => {
                         console.log('success ' , res);
@@ -190,7 +190,10 @@
                 }
             },
             getValidationImg(){
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
+                var random=Math.random()*20;
+                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
+                console.log(this.$http.options.root) ;
+                console.log(localStorage.getItem('default-auth-token'));
             },
 
         },

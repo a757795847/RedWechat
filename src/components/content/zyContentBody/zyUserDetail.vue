@@ -12,7 +12,7 @@
                     <el-col :span="16" class="history">
                         <el-table
                                 :data="tableData"
-                                style="width: 100%">
+                                style="width: 100%">hu
                             <el-table-column
                                     prop="date"
                                     label="充值日期">

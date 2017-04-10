@@ -42,7 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <p v-if="state" @mouseover="onhover" @mouseout='onseout' :style="{color:detail.background_color}" class="cancels" ref="acitve">取消服务</p>
+        <p v-if="state" @mouseover="onhover" @mouseout='onseout' :style="{color:detail.background_color}" class="cancels" ref="acitve" @click="canselServe">取消服务</p>
         <el-dialog class="operation" title="是否开通" v-model="dialogVisible" size="tiny">
             <span>{{detail.charge_standard}}</span>
             <span slot="footer" class="dialog-footer">
@@ -96,10 +96,25 @@
                         id: this.$route.params.id
                     }
                 }).then((res) => {
+                    console.log(res);
                     if(res.body.status!=0){
                         this.state = true;
                     }
                 }, (res) => {
+
+                });
+            },
+            canselServe(){
+                this.$http({
+                    url: 'app/close',
+                    method: 'POST',
+                    body: {
+                        id: this.$route.params.id
+                    }
+                }).then((res) => {
+                    console.log(res);
+
+            }, (res) => {
 
                 });
             },

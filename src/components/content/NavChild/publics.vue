@@ -108,6 +108,9 @@
     #publicList{
         height: 750px;
     }
+    #publicList .el-menu{
+        background-color:#EAF2E9;
+    }
    #publicList .elDiv{
        position: relative;
        height: 30px;
@@ -153,7 +156,7 @@
         margin: 0 auto;
         line-height: 30px;
         border: dashed 1px #8d8d8d;
-        cursor:pointer
+        cursor:pointer;
     }
     #publicList .gzhList{
         background: url("../../../assets/menu-weixin.png") no-repeat;
@@ -174,7 +177,7 @@
         left: 46px;
         top: 18px;
     }
-   #publicList .fansImage{
+   #publicList .appList{
        background: url("../../../assets/menu-app.png") no-repeat;
        display: inline-block;
        width: 40px;

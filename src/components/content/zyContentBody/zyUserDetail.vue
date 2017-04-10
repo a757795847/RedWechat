@@ -62,13 +62,13 @@
                         <img style="width: 120px" :src="'http://open.izhuiyou.com/pay/test?value='+erweima" alt="">
                         <p>使用微信扫一扫</p>
                         <p style="color:#CE6D72">请在5分钟内完成支付</p>
-                        <el-button type="primary" class="closeRecharge" @click="erweiPayState = false">取消</el-button>
+                        <el-button type="primary" class="closeRecharge" @click="erweiPayState = false;forAjaxState = true">取消</el-button>
                     </div>
                     <div v-else>
                         <img src="../../../assets/pay-success.png">
                         <p>充值成功</p>
                         <p>我们会努力为您提供优质的服务</p>
-                        <el-button type="primary" class="closeRecharge" @click="erweiPayState=false;dialogVisible=false">关闭</el-button>
+                        <el-button type="primary" class="closeRecharge" @click="erweiPayState=false;dialogVisible = false">关闭</el-button>
                     </div>
                 </el-dialog>
             </el-tab-pane>
@@ -78,7 +78,7 @@
 </template>
 <script>
     import QArt from 'qartjs'
-    import erweima from '../../../assets/erwei.png'
+    import erweima from '../../../assets/404.png'
 export default{
     name:'zyAppList',
     data() {
@@ -113,13 +113,14 @@ export default{
                     lab:6
                 },
             ],
-            erweiPayState:false,
-            rechargeState:false,
-            zhifuState:false,
-            remainMoney:this.$auth.user().cash /100,
-            billno:'',
-            erweima:'',
-            pageData:{}
+            erweiPayState:false,//二维码弹窗
+            rechargeState:false,//二维码弹窗(是否支付(页面))
+//            zhifuState:false,//是否支付
+            remainMoney:this.$auth.user().cash /100,//用户金额
+            billno:'',//轮训ajax参数
+            erweima:'',//二维码
+            pageData:{},//分页data
+            forAjaxState:false,//轮训ajax状态
         };
     },
     methods:{
@@ -157,8 +158,11 @@ export default{
                         if(res.body.status == 1){
                             clearInterval(times);
                             this.rechargeState = true;
-                            that.dataAjax();
-                        that.pageAjax(1)
+                            that.moneyDataAjax();
+                            that.pageAjax(1)
+                            return;
+                        }else if(that.forAjaxState == true){
+                            clearInterval(times);
                             return;
                         }
                     }, (res) => {
@@ -170,7 +174,7 @@ export default{
 
             });
         },
-        dataAjax(){
+        moneyDataAjax(){
             this.$http({
                 url: 'auth/user',
                 method: 'GET',
@@ -179,14 +183,14 @@ export default{
             }, (res) => {
 
             });
-            this.$http({
-                url: 'auth/user',
-                method: 'GET',
-            }).then((res) => {
-                this.remainMoney = this.$auth.user().cash / 100
-            }, (res) => {
-
-            });
+//            this.$http({
+//                url: 'auth/user',
+//                method: 'GET',
+//            }).then((res) => {
+//                this.remainMoney = this.$auth.user().cash / 100
+//            }, (res) => {
+//
+//            });
         },
         //分页
         currentChange(val){
@@ -225,10 +229,10 @@ export default{
                 currentPageIndex:1
             }
         }).then((res) => {
-        if(res.data.status == 1){
-            this.tableData = res.data.list;
-            this.pageData = res.data.page;
-        }
+            if(res.data.status == 1){
+                this.tableData = res.data.list;
+                this.pageData = res.data.page;
+            }
         }, (res) => {
 
         });

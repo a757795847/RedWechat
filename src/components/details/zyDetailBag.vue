@@ -691,7 +691,9 @@ export default{
                 this.pageData = res.data.page;
             }
         }, (res) => {
-
+            if(res.status == 400){
+                this.$router.go(-1)
+            }
         });
     },
     mounted(){

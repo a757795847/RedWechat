@@ -90,7 +90,13 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
-                this.appList = res.data.list;
+                console.log('publics=>',res)
+                var list = res.data.list;
+                for(var i=0;i<list.length;i++){
+                    if(list.isOpened == true){
+                        this.appList.push(list[i])
+                    }
+                }
             }, (res) => {
 
             });

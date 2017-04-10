@@ -645,8 +645,8 @@ export default{
                     }
                 }).then((res) => {
                     if(res.data.status == 1){
-                        this.tableData = res.data.list;
-                        this.pageData = res.data.page;
+                        this.tableData = res.body.list;
+                        this.pageData = res.body.page;
                     }
                 }, (res) => {
 

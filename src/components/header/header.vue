@@ -52,6 +52,9 @@
         }
       },
     },
+    beforeCreate(){
+
+    }
   }
 </script>
 
@@ -154,6 +157,9 @@
   }
   .el-pager li:hover,.el-pagination button:hover {
     color:#589680;
+  }
+  .el-pager li.active:hover{
+    color:white;
   }
   #header .el-dropdown{
     float:right;

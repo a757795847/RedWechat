@@ -28,7 +28,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <div class="block" style="float: right;marginTop: 10px">
+                        <div class="block" style="float: right;marginTop: 10px" v-if="pageData.count > 0">
                             <el-pagination
                                     layout="prev, pager, next"
                                     :total="pageData.count"
@@ -57,18 +57,18 @@
                            :close-on-click-modal="false"
                            :show-close="false"
                 >
-                    <div v-if="!rechargeState">
-                        <!--<div ref="qarts"></div>-->
-                        <img style="width: 120px" :src="'http://open.izhuiyou.com/pay/test?value='+erweima" alt="">
+                    <div v-if="!rechargeState"  slot="footer" >
+                        <div ref="erwei"></div>
+                        <!--<img style="width: 120px" :src="'http://open.izhuiyou.com/pay/test?value='+erweima" alt="">-->
                         <p>使用微信扫一扫</p>
                         <p style="color:#CE6D72">请在5分钟内完成支付</p>
                         <el-button type="primary" class="closeRecharge" @click="erweiPayState = false;forAjaxState = true">取消</el-button>
                     </div>
-                    <div v-else>
+                    <div v-else  slot="footer" class="succeed">
                         <img src="../../../assets/pay-success.png">
                         <p>充值成功</p>
                         <p>我们会努力为您提供优质的服务</p>
-                        <el-button type="primary" class="closeRecharge" @click="erweiPayState=false;dialogVisible = false">关闭</el-button>
+                        <el-button type="primary" class="closeRecharge" @click="recoverState()">关闭</el-button>
                     </div>
                 </el-dialog>
             </el-tab-pane>
@@ -78,7 +78,7 @@
 </template>
 <script>
     import QArt from 'qartjs'
-    import erweima from '../../../assets/404.png'
+    import erweima from '../../../assets/erwei.png'
 export default{
     name:'zyAppList',
     data() {
@@ -118,9 +118,10 @@ export default{
 //            zhifuState:false,//是否支付
             remainMoney:this.$auth.user().cash /100,//用户金额
             billno:'',//轮训ajax参数
-            erweima:'',//二维码
+//            erweima:'',//二维码
             pageData:{},//分页data
             forAjaxState:false,//轮训ajax状态
+            aa:true
         };
     },
     methods:{
@@ -131,6 +132,7 @@ export default{
             this.activeMoneyBtn = num;
         },
         recharge(){
+            this.forAjaxState = false;
             this.$http({
                 url: 'pay/qr',
                 method: 'POST',
@@ -138,14 +140,14 @@ export default{
                     count:this.activeMoneyBtn
                 }
             }).then((res) => {
-//                new QArt({
-//                    value: res.data.data.codeUrl,
-//                    imagePath: erweima,
-//                    filter:'filter'
-//                }).make(this.$refs.qarts);
-                this.erweima = res.data.data.codeUrl
-                this.billno = res.data.data.billno;
                 this.erweiPayState = true;
+                new QArt({
+                    value: res.data.data.codeUrl,
+                    imagePath: erweima,
+                    filter:'filter'
+                }).make(this.$refs.erwei);
+//                this.erweima = res.data.data.codeUrl
+                this.billno = res.data.data.billno;
                 var that = this;
                 var times = setInterval(function () {
                     this.$http({
@@ -179,22 +181,14 @@ export default{
                 url: 'auth/user',
                 method: 'GET',
             }).then((res) => {
-                this.remainMoney = this.$auth.user().cash / 100
+                this.remainMoney = res.body.data.cash / 100
             }, (res) => {
 
             });
-//            this.$http({
-//                url: 'auth/user',
-//                method: 'GET',
-//            }).then((res) => {
-//                this.remainMoney = this.$auth.user().cash / 100
-//            }, (res) => {
-//
-//            });
+
         },
         //分页
         currentChange(val){
-//            var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
             this.pageAjax(val);
         },
         //分页AJAX
@@ -215,10 +209,15 @@ export default{
             }, (res) => {
 
             });
+        },
+        recoverState(){
+            this.erweiPayState = false;
+            this.dialogVisible = false;
+            this.rechargeState = false;
+            this.forAjaxState == false;
         }
     },
     mounted(){
-
     },
     beforeCreate(){
         this.$http({
@@ -361,17 +360,23 @@ export default{
     /*扫码*/
     #userDetail .recharge .erweiPay .el-dialog.el-dialog--small{
         width: 250px;
-        height: 280px;
+        height: 260px;
     }
     #userDetail .recharge .erweiPay .el-dialog__body{
+        padding-top: 0;
+    }
+    #userDetail .recharge .erweiPay .el-dialog__footer{
         padding: 10px 20px 0;
         text-align: center;
     }
-    #userDetail .recharge .erweiPay .el-dialog__body div{
+    #userDetail .recharge .erweiPay .el-dialog__footer div{
         text-align: center;
     }
-    #userDetail .recharge .erweiPay .el-dialog__body div canvas{
+    #userDetail .recharge .erweiPay .el-dialog__footer div canvas{
         width: 120px;
+    }
+    #userDetail .recharge .erweiPay .succeed{
+        margin-top: 10px;
     }
     #userDetail .recharge .erweiPay .closeRecharge{
         width: 84px;

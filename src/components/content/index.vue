@@ -43,7 +43,6 @@
     line-height: 45px;
     font-size: 14px;
     background: white;
-    border-radius: 0 5px;
   }
   #contentBody .el-tabs__content{
     padding:10px;

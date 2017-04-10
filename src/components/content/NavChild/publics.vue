@@ -13,7 +13,9 @@
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <!--<el-menu-item index="2">我的应用</el-menu-item>-->
                 <div class="temporary" index="2" style="border-radius:0">我的应用</div>
-                <el-menu-item index="/details/bag" @click="toDetailsBag" v-for="(item,index) in appList" :key="index">{{ item.name }}</el-menu-item>
+                <el-menu-item  index="/details/bag" @click="toDetailsBag"
+                               v-for="(item,index) in this.$store.state.cart.appList"
+                               :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
                     <p><i class="addImage"></i>添加应用</p>
                 </div>
@@ -36,14 +38,7 @@
         name:'zyPublics',
         data(){
           return{
-              appList:[]
           }
-        },
-        activated(){
-            this.$store.dispatch('update_db',this.$route.path)
-        },
-        deactivated(){
-
         },
       /*  beforeCreate(){
             console.log(this);
@@ -83,23 +78,8 @@
             }
         },
         beforeCreate(){
-            this.$http({
-                url: 'app/list',
-                method: 'POST',
-                body:{
-                    currentPageIndex:1
-                }
-            }).then((res) => {
-                console.log('publics=>',res)
-                var list = res.body.list;
-                for(var i=0;i<list.length;i++){
-                    if(list[i].isOpened == true){
-                        this.appList.push(list[i])
-                    }
-                }
-            }, (res) => {
 
-            });
+            this.$store.dispatch('update_db',''+this.$route.path)
         }
     }
 </script>

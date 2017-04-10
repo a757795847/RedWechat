@@ -23,21 +23,6 @@ export default new Router({
       meta:{auth:true},
       children:[
         {
-          path: '/addPublic',
-          name: 'zyAddPublic',
-          component: function (resolve) {
-            require(['../components/details/zyAddPublic.vue'],resolve)
-          }
-        },
-        /*{
-          path: '/addMyapplist',
-          name: 'zyMyappList',
-          component: function (resolve) {
-            require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
-          }
-        },*/
-
-        {
           path: '/',
           name: 'indexDefault',
           component:function (resolve) {
@@ -87,6 +72,13 @@ export default new Router({
               }
             },
           ]
+        },
+        {
+          path: '/addPublic',
+          name: 'zyAddPublic',
+          component: function (resolve) {
+            require(['../components/details/zyAddPublic.vue'],resolve)
+          }
         },
         {
           path: '/details/bag',

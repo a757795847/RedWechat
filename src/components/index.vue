@@ -21,6 +21,22 @@
             }, (res) => {
                 console.log('header/error=>',res)
             });
+            this.$http({
+                url: 'app/list',
+                method: 'POST',
+                body:{
+                    currentPageIndex:1
+                }
+            }).then((res) => {
+                let list = res.body.list;
+                for(var i=0;i<list.length;i++){
+                    if(list[i].isOpened == true){
+                        this.$store.dispatch('add_app_list',list[i]);
+                    }
+                }
+            }, (res) => {
+
+            });
         }
     }
 

@@ -5,6 +5,9 @@ export default {
         commit(types.UPDATE_DB,shop)
     },
     update_user_img:({commit},img)=>{
-        commit(types.UPDATE_DB,img)
+        commit(types.UPDATE_USER_IMG,img)
+    },
+    add_app_list:({commit},app)=>{
+        commit(types.ADD_APP_LIST,app)
     }
 }

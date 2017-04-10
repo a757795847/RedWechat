@@ -87,6 +87,7 @@
 <style>
     #publicList{
         height: 750px;
+        overflow: hidden;
     }
     #publicList .el-menu{
         background-color:#EAF2E9;

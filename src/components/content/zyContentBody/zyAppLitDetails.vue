@@ -208,6 +208,10 @@
         padding: 7px 12px;
         font-size: 13px;
         margin-top: 20px;
+        cursor:pointer;
+    }
+    #appListDetails .cancels:hover{
+        background: #F2D9D9;
     }
     #appListDetails .operation .el-button--text{
         color: #68A593;
@@ -217,6 +221,7 @@
     #appListDetails .operation .el-button--text:hover{
         background: #E4EDE2;
     }
+
   /*  #appListDetails .cancels:hover{
         background: black;
     }*/

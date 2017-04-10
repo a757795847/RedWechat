@@ -91,9 +91,9 @@
                 }
             }).then((res) => {
                 console.log('publics=>',res)
-                var list = res.data.list;
+                var list = res.body.list;
                 for(var i=0;i<list.length;i++){
-                    if(list.isOpened == true){
+                    if(list[i].isOpened == true){
                         this.appList.push(list[i])
                     }
                 }

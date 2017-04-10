@@ -1,14 +1,13 @@
 <template>
 <div id="zyAddPublic">
-    <div id="details">
-    <div id="detailsHeader">
-        <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的公众号</div>
-        <div class="detailsTab">
-            <span id="appName">授权公众号流程</span>
+    <div class="details">
+        <div class="detailsHeader">
+            <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的公众号</div>
+            <div class="detailsTab">
+                <span id="appName">授权公众号流程</span>
+            </div>
         </div>
-    </div>
-
-        <div id="detailsBody">
+        <div class="detailsBody">
                 <el-steps :space="200" :active="1">
                     <el-step description="了解授权须知点击授权按钮" :style="{ width: 140+ 'px' }"></el-step>
                     <el-step description="跳转到微信进行授权" :style="{ width: 140+ 'px' }"></el-step>
@@ -53,7 +52,7 @@
     </el-dialog>
     </div>
 
-    </template>
+</template>
 
 
 <script>
@@ -81,19 +80,19 @@
 </script>
 
 <style>
-    #zyAddPublic #details{
+    #zyAddPublic .details{
         min-height: 750px;
         min-width: 1000px;
         max-width: 1160px;
         margin: 0 auto;
         padding: 0 20px;
     }
-    #zyAddPublic #detailsHeader{
+    #zyAddPublic .detailsHeader{
         width: 100%;
         height: 40px;
         margin-bottom: 20px;
     }
-    #zyAddPublic #detailsHeader .returnAppBtn{
+    #zyAddPublic .detailsHeader .returnAppBtn{
         background: white;
         border-radius: 5px 0 0 5px;
         width: 150px;
@@ -103,12 +102,11 @@
         background-size: 20px 20px;
         background-position: 28px 10px;
         color: #68A593;
-        font-weight: bold;
         margin-right: 3px;
         float: left;
         cursor: pointer;
     }
-    #zyAddPublic #detailsHeader .detailsTab{
+    #zyAddPublic .detailsHeader .detailsTab{
         width: calc(100% - 153px);
         background: white;
         display: inline-block;
@@ -118,7 +116,7 @@
         line-height: 40px;
         position: relative;
     }
-    #zyAddPublic #detailsHeader .detailsTab #appName{
+    #zyAddPublic .detailsHeader .detailsTab #appName{
         padding-left: 20px;
         width: 150px;
         float: left;
@@ -130,16 +128,16 @@
         margin-right: 50px;
     }
 
-    #zyAddPublic #detailsHeader .detailsTab ul{
+    #zyAddPublic .detailsHeader .detailsTab ul{
         float: left;
     }
-    #zyAddPublic #detailsHeader .detailsTab li{
+    #zyAddPublic .detailsHeader .detailsTab li{
         float: left;
         width: 90px;
         text-align: center;
         cursor:pointer;
     }
-    #zyAddPublic #detailsHeader .activeTab{
+    #zyAddPublic .detailsHeader .activeTab{
         position: absolute;
         bottom: 0;
         left: 0;
@@ -151,7 +149,7 @@
         transition: left .3s cubic-bezier(.645,.045,.355,1);
         list-style: none;
     }
-    #zyAddPublic  #detailsBody{
+    #zyAddPublic  .detailsBody{
         text-align:center;
         background: white;
         width: 100%;
@@ -166,19 +164,19 @@
     #zyAddPublic .el-button:hover{
         background: #E4EDE2;
     }
-   /* #detailsBody .sidebar{
+   /* .detailsBody .sidebar{
         width:650px;
         margin:0 auto;
         padding-top:80px;
 
     }*/
-    #zyAddPublic #detailsBody .el-steps.is-horizontal{
+    #zyAddPublic .detailsBody .el-steps.is-horizontal{
         padding-top:80px;
         padding-left:100px;
         width:420px;
         margin:0 auto;
     }
-    #zyAddPublic #detailsBody .el-step__description{
+    #zyAddPublic .detailsBody .el-step__description{
         line-height:20px;
         text-align:center;
         font-size:14px;
@@ -187,7 +185,7 @@
         margin-top: 10px;
         margin-left: -25px;
     }
-    #zyAddPublic #detailsBody .el-step__head.is-text.is-process {
+    #zyAddPublic .detailsBody .el-step__head.is-text.is-process {
         color: #bfcbd9;
         background-color: #fbfdff;
         border-color: #bfcbd9;
@@ -199,7 +197,7 @@
     #zyAddPublic .logos{
         margin-top:40px;
     }
-    #zyAddPublic #detailsBody .father{
+    #zyAddPublic .detailsBody .father{
         margin:35px auto;
         padding: 20px 0 59px 0px;
         width:800px;

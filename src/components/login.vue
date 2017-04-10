@@ -174,13 +174,13 @@
                                 password:this.register.onePwd
                             },
                         }).then((res) => {
-                            console.log('success ' , res);
                             if(res.data.status == 0){
                                 this.$message.error(res.data.message);
                             }else if(res.data.status == 1){
                                 this.$message('注册成功');
                                 this.zylogin = true;
                                 this.validationText = '';
+                                this.data.body.username = this.register.phoneNub;
                             }
 
                         }, (res) => {
@@ -192,8 +192,6 @@
             getValidationImg(){
                 var random=Math.random()*20;
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
-                console.log(this.$http.options.root) ;
-                console.log(localStorage.getItem('default-auth-token'));
             },
 
         },

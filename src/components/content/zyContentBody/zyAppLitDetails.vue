@@ -13,7 +13,7 @@
                             <p>{{!state?'未开通':'已开通'}}</p>
                         </div>
                         <el-button type="primary" v-if="!state" @click="dialogVisible = true">开通</el-button>
-                        <el-button type="primary" v-else @click="enter" @mouseover="onhover">进入后台</el-button>
+                        <el-button type="primary" v-else @click="enter">进入后台</el-button>
                     </div>
                 </div>
             </el-col>
@@ -42,7 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <p v-if="state" @mouseover="onhover" @mouseout='onseout' :style="{color:detail.background_color}" class="cancels" ref="acitve" @click="canselServe">取消服务</p>
+        <p v-if="state"  :style="{color:'#CE6D72'}" class="cancels" ref="acitve">取消服务</p>
         <el-dialog class="operation" title="是否开通" v-model="dialogVisible" size="tiny">
             <span>{{detail.charge_standard}}</span>
             <span slot="footer" class="dialog-footer">
@@ -118,14 +118,14 @@
 
                 });
             },
-            onhover(){
-                this.$refs.acitve.style.background = this.color;
-
-            },
-            onseout(){
-                this.$refs.acitve.style.background = "white";
-
-            },
+//            onhover(){
+//                this.$refs.acitve.style.background = this.color;
+//
+//            },
+//            onseout(){
+//                this.$refs.acitve.style.background = "white";
+//
+//            },
         }
         }
 </script>

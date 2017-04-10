@@ -7,4 +7,7 @@ export default{
     [types.UPDATE_USER_IMG](state,img){
         state.userImg = img;
     },
+    [types.ADD_APP_LIST](state,app){
+        state.appList.push(app);
+    },
 }

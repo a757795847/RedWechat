@@ -6,11 +6,13 @@
         <p id="juta">聚塔微客户管理平台</p>
         <div v-show="zylogin" >
             <div class="mb-housite">
-                <el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"  @keyup.enter="login()"></el-input>
-                <el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd" @keyup.enter="login()"></el-input>
+                <!--<el-input v-model="data.body.username" placeholder="请输入账号" class="form-control"  @keyup.13.prevent="aa($event)"></el-input>-->
+                <!--<el-input v-model="data.body.password" placeholder="请输入密码" type="password" class="form-control pwd" @click="aa($event)"></el-input>-->
+                <input type="text" v-model="data.body.username" @keyup.13="login" class="form-control keyInput" placeholder="请输入账号">
+                <input type="password" v-model="data.body.password" @keyup.13="login" class="form-control keyInput" placeholder="请输入密码">
             </div>
             <!--<p v-show="errorLogin" class="errorLogin">账号密码错误</p>-->
-            <el-button v-on:click.prevent="login()">立即登录</el-button>
+            <el-button v-on:click.prevent="login()" >立即登录</el-button>
             <p class="text-right">
                 <a href="" class="text-muted">忘记密码?</a>
             </p>
@@ -46,7 +48,7 @@
                 <el-input type="password" class="form-control" placeholder="请再次输入确认密码" v-model="register.twoPwd" :style="{ marginBottom: 30 + 'px' }"></el-input>
                 <!--<p v-show="errorRegistered" class="errorLogin">{{errorRegisteredText}}</p>-->
                 <p class="text-center mb-housite">
-                    <el-button class="btn btn-primary btn-lg btn-block" id="addID" v-on:click="create()">创建账号</el-button>
+                    <el-button class="btn btn-primary btn-lg btn-block" id="addID" v-on:click="create()" >创建账号</el-button>
                 </p>
                 <p class="text-center">已经有账号?</p>
                 <p class="text-center">
@@ -89,23 +91,26 @@
         },
         methods: {
             login() {
-                var redirect = this.$auth.redirect();
-
-                this.$auth.login({
-                    body: this.data.body,
-                    rememberMe: this.data.rememberMe,
-                    redirect: {name: redirect ? redirect.from.name : 'indexBody'},
-                    success(res) {
-                        console.log(res);
-                    },
-                    error(res) {
-                        console.log(res);
-                        if(res.status === 401){
-                            this.$message.error('账号密码错误');
+                if(this.data.body.username == '' || this.data.body.password == ''){
+                    this.$message.error('账号密码不能为空');
+                }else{
+                    var redirect = this.$auth.redirect();
+                    this.$auth.login({
+                        body: this.data.body,
+                        rememberMe: this.data.rememberMe,
+                        redirect: {name: redirect ? redirect.from.name : 'indexBody'},
+                        success(res) {
+                            console.log(res);
+                        },
+                        error(res) {
+                            console.log(res);
+                            if(res.status === 401){
+                                this.$message.error('账号密码错误');
+                            }
+                            this.error = res.data;
                         }
-                        this.error = res.data;
-                    }
-                });
+                    });
+                }
             },
             validation(){
 //                this.getValidationImg();
@@ -436,5 +441,34 @@
         margin-bottom: 0;
         color: #c73636;
     }
-
+    #login .keyInput{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: none;
+        border-radius: 4px;
+        border: 1px solid #bfcbd9;
+        box-sizing: border-box;
+        color: #1f2d3d;
+        display: block;
+        font-size: inherit;
+        height: 36px;
+        line-height: 1;
+        outline: 0;
+        padding: 3px 10px;
+        transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+        width: 100%;
+        border-radius: 4px;
+        border: none;
+        box-shadow: none;
+        padding-left: 18px;
+        margin-bottom: 10px;
+    }
+    #login .keyInput::-webkit-input-placeholder{
+        color: #9eadc2;
+    }
+    #login .keyInput::-moz-placeholder{
+        color: #9eadc2;
+    }
 </style>

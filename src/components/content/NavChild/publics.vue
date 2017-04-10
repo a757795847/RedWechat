@@ -13,7 +13,7 @@
                 <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
                 <!--<el-menu-item index="2">我的应用</el-menu-item>-->
                 <div class="temporary" index="2" style="border-radius:0">我的应用</div>
-                <el-menu-item  index="/details/bag" @click="toDetailsBag"
+                <el-menu-item  :index="'/details/'+item.abbreviation" @click="toDetailsBag"
                                v-for="(item,index) in this.$store.state.cart.appList"
                                :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
@@ -40,25 +40,6 @@
           return{
           }
         },
-      /*  beforeCreate(){
-            console.log(this);
-            this.$http({
-                url: 'app/info',
-                method: 'POST',
-                params: {
-                    id: this.$route.params.id
-                }
-            }).then((res) => {
-                if(res.data.status == 1){
-                this.detail = res.data.applicationInfo;
-                console.log(res.data.isOpened);
-                this.state = res.data.isOpened;
-
-            }
-        }, (res) => {
-
-            });
-        },*/
         methods:{
             handleSelect(key, keyPath) {
 
@@ -78,7 +59,6 @@
             }
         },
         beforeCreate(){
-
             this.$store.dispatch('update_db',''+this.$route.path)
         }
     }

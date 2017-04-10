@@ -31,7 +31,8 @@
                     </ul>
                     <ul>
                         <li class="service">服务内容</li>
-                        <li>{{detail.description}}
+                        <li>
+                            <pre>{{detail.description.replace(/(<br />)+/g,'')}}</pre>
                         </li>
                     </ul>
                     <!--<ul>-->
@@ -42,12 +43,19 @@
                 </div>
             </el-col>
         </el-row>
-        <p v-if="state"  :style="{color:'#CE6D72'}" class="cancels" ref="acitve">取消服务</p>
+        <p v-if="state"  :style="{color:'#CE6D72'}" class="cancels" @click="cancelState = true" >取消服务</p>
         <el-dialog class="operation" title="是否开通" v-model="dialogVisible" size="tiny">
             <span>{{detail.charge_standard}}</span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="text" @click="dialogVisible = false" :style="{color:'#2B2C2F'}">取 消</el-button>
-                <el-button type="text" @click="click">确 定</el-button>
+                <el-button type="text" @click="clickOpen">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog class="operation" title="是否取消" v-model="cancelState" size="tiny">
+            <p>是否取消<span>{{detail.name}}</span>应用</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="text" @click="cancelState = false" :style="{color:'#2B2C2F'}">取 消</el-button>
+                <el-button type="text" @click="cancelServer">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -59,9 +67,10 @@
             return {
                 dialogVisible: false,
                 detail: {},
-                state: '',
+                state: false,
                 color:'',
-                title:''
+                title:'',
+                cancelState:false
             }
         },
         beforeCreate(){
@@ -72,7 +81,7 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
-                console.log('appListDetails=>app详情=>',res)
+                console.log('app/info',res)
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
                     this.color=res.data.applicationInfo.font_color;
@@ -85,49 +94,51 @@
         },
         methods:{
             enter(){
-                this.$router.push('/details/bag');
+                this.$router.push('/details/'+this.detail.abbreviation);
             },
-            click(){
+            clickOpen(){
                 this.dialogVisible = false;
                 this.$http({
                     url: 'app/open',
                     method: 'POST',
                     body: {
-                        id: this.$route.params.id
+                        id: this.detail.id
                     }
                 }).then((res) => {
-                    console.log(res);
                     if(res.body.status!=0){
                         this.state = true;
+                        this.$store.dispatch('add_app_list',{
+                            abbreviation: "bag",
+                            applicationInfo: "追游的第一个应用",
+                            backgroundColor: "#F2D9D9",
+                            id: "zyappid1",
+                            isOpened: false,
+                            name: "红包2"
+                        })
                     }
                 }, (res) => {
 
                 });
             },
-            canselServe(){
+            cancelServer(){
                 this.$http({
-                    url: 'app/close',
-                    method: 'POST',
-                    body: {
-                        id: this.$route.params.id
-                    }
+                    url: 'app/close?appid='+this.detail.id,
+                    method: 'POST'
                 }).then((res) => {
-                    console.log(res);
-
-            }, (res) => {
+                    console.log('cancelServer=>',res)
+                    if(res.body.status == 1){
+                        this.state = false;
+                        this.$store.dispatch('delete_app_list',{
+                            id: this.detail.id,
+                        })
+                        this.cancelState = false;
+                    }
+                }, (res) => {
 
                 });
-            },
-//            onhover(){
-//                this.$refs.acitve.style.background = this.color;
-//
-//            },
-//            onseout(){
-//                this.$refs.acitve.style.background = "white";
-//
-//            },
+            }
         }
-        }
+    }
 </script>
 <style>
     #appListDetails{
@@ -221,7 +232,6 @@
     #appListDetails .operation .el-button--text:hover{
         background: #E4EDE2;
     }
-
   /*  #appListDetails .cancels:hover{
         background: black;
     }*/

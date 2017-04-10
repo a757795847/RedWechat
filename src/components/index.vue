@@ -28,6 +28,7 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
+                console.log(res)
                 let list = res.body.list;
                 for(var i=0;i<list.length;i++){
                     if(list[i].isOpened == true){

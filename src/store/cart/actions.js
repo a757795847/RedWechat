@@ -9,5 +9,8 @@ export default {
     },
     add_app_list:({commit},app)=>{
         commit(types.ADD_APP_LIST,app)
+    },
+    delete_app_list:({commit},app)=>{
+        commit(types.DELETE_APP_LIST,app)
     }
 }

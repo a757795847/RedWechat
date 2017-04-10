@@ -10,4 +10,11 @@ export default{
     [types.ADD_APP_LIST](state,app){
         state.appList.push(app);
     },
+    [types.DELETE_APP_LIST](state,app){
+        state.appList.map((elem,index,arr)=>{
+            if(elem.id == app.id){
+                state.appList.splice(index,1)
+            }
+        })
+    },
 }

@@ -155,6 +155,9 @@
   .el-menu-item, .el-submenu__title{
     color:#393a3e
   }
+  .el-dialog__close:hover {
+    color: #68A593;
+  }
   .el-pager li.active{
     background: #589680;
     border-color: #589680;

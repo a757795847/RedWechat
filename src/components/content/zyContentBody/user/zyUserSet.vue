@@ -35,7 +35,7 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
-        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" id="changePwd" :show-close="false">
+        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" class="changePwd" :show-close="false">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="旧密码">
                     <el-input v-model="passwordFrorm.oldPW" type="password" :minlength="6"></el-input>
@@ -65,7 +65,7 @@
                 activeName: 'first',
                 form: {
                     name: this.$auth.user().name,
-                    phone:this.$auth.user().phone,
+                    phone:this.$auth.user().username,
                     pwd:'123456',
                 },
                 dialogVisible: false,
@@ -218,10 +218,13 @@
     #zyUserSet .dialog-footer button:hover{
         background:#E4EDE2;
     }
-    #zyUserSet #changePwd .el-form-item{
+    #zyUserSet .changePwd .el-form-item{
         margin-bottom:20px;
     }
     #zyUserSet .el-dialog__body{
         padding:27px 20px 0 20px;
+    }
+    #zyUserSet .changePwd .el-dialog--tiny{
+        width: 400px;
     }
 </style>

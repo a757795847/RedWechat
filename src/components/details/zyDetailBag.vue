@@ -226,7 +226,7 @@
                         </el-col>
                     </el-row>
                     <div slot="footer" class="dialog-footer">
-                        <el-button  type="text" @click="dialogFormVisible = false" :style="{color:'#393A3E'}">取 消</el-button>
+                        <el-button  type="text" @click="closeForm" :style="{color:'#393A3E'}">取 消</el-button>
                         <el-button type="text" @click="submitUpload">上 传</el-button>
                     </div>
                 </el-dialog>
@@ -248,7 +248,7 @@
                         <el-col :span="24">
                             <img src="../../assets/wechat-auth-4.png">
                             <p>导入完毕，共导入{{uploadFormData.num}}条订单数</p>
-                            <p v-if="uploadFormData.error != 0">有{{uploadFormData.error}}条数据导入失败，点击
+                            <p v-if="uploadFormData.error != 0">有<span style="color:#CE6D72">{{uploadFormData.error}}</span>条数据导入失败，点击
                                 <a :href="this.$http.options.root+'/order/downloadErrorList?key='+uploadFormData.url+'&jwt='+token"
                                    :style="{textDecoration:'none',color:'#589680'}"
                                 >这里下载</a>
@@ -260,8 +260,8 @@
                       </span>
                 </el-dialog>
                 <!--订单详情-->
-                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length > 0">
-                    <el-tabs active-name="detail">
+                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length > 0" @close="closeOrderDetail">
+                    <el-tabs v-model="orderDetail">
                         <el-tab-pane label="订单详情" class="order" name="detail">
                             <el-row>
                                 <el-col :span="10">订单属性</el-col>
@@ -469,13 +469,8 @@ export default{
                     }
                 ]
             },
+            orderDetail:'detail',
         }
-    },
-    watch:{
-
-    },
-    computed:{
-
     },
     methods:{
         auditState(index){
@@ -521,6 +516,7 @@ export default{
                 this.uploadFormData.num = response.data.successCount;
                 this.uploadFormData.error = response.data.errorCount;
                 this.uploadFormData.url = response.data.errorKey;
+                this.clearForm();
             }else{
                 this.$message.error(response.message);
                 this.clearUpState()
@@ -588,6 +584,17 @@ export default{
 //            this.$refs.upload.clearFiles();
 //            this.upLoading = false ;
             this.dialogFormVisible = false;
+        },
+        //关闭上传表单
+        closeForm(){
+            this.dialogFormVisible = false;
+            this.clearForm();
+        },
+        //清除表单
+        clearForm(){
+            this.form.name = '';
+            this.form.money = '';
+            this.$refs.upload.clearFiles();
         },
         //分页
         currentChange(val){
@@ -684,6 +691,10 @@ export default{
         bagType(index){
             this.orderDetailIndex = index;
             this.$refs.bagTypeOperation.open();
+        },
+        //关闭详情页
+        closeOrderDetail(){
+            this.orderDetail = 'detail'
         }
     },
     beforeCreate(){

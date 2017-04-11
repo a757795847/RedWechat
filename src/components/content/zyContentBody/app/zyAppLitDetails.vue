@@ -110,14 +110,7 @@
                     console.log('res=>applistDetail=>',res)
                     if(res.body.status!=0){
                         this.state = true;
-                        this.$store.dispatch('add_app_list',{
-                            abbreviation: "bag",
-                            applicationInfo: "追游的第一个应用",
-                            backgroundColor: "#F2D9D9",
-                            id: "zyappid1",
-                            isOpened: false,
-                            name: "红包2"
-                        })
+                        this.$store.dispatch('add_app_list',res.body.data)
                     }
                 }, (res) => {
 
@@ -226,6 +219,9 @@
     }
     #appListDetails .cancels:hover{
         background: #F2D9D9;
+    }
+    #appListDetails .operation .el-dialog--tiny{
+        width: 400px;
     }
     #appListDetails .operation .el-button--text{
         color: #68A593;

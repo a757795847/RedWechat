@@ -42,13 +42,15 @@
 
             </div>
     </div>
-    <el-dialog title="Sorry" v-model="dialogVisible" size="tiny">
-        <span>绑定公众号正在马不停蹄的日夜开发中</span>
-        <span>敬请期待</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button type="text" @click="dialogVisible = false" :style="{color:'#393a3e'}">取 消</el-button>
-                <el-button type="text" @click="dialogVisible = false">确 定</el-button>
-            </span>
+    <el-dialog title="Sorry" class="expect" v-model="dialogVisible" size="tiny" :top="'25%'">
+        <div style="text-align: center">
+            <p>绑定公众号正在马不停蹄的日夜开发中</p>
+            <p>敬请期待</p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="text" @click="dialogVisible = false" :style="{color:'#393a3e'}">取 消</el-button>
+            <el-button type="text" @click="dialogVisible = false">确 定</el-button>
+        </span>
     </el-dialog>
     </div>
 
@@ -231,6 +233,12 @@
         margin-right: 8px;
     }
 
+    #zyAddPublic .expect .el-dialog__body{
+        padding-bottom: 10px;
+    }
+    #zyAddPublic .expect .el-dialog--tiny{
+        width: 400px;
+    }
 
 
 </style>

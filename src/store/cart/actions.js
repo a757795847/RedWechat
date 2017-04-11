@@ -12,5 +12,8 @@ export default {
     },
     delete_app_list:({commit},app)=>{
         commit(types.DELETE_APP_LIST,app)
+    },
+    empty_app_list:({commit})=>{
+        commit(types.EMPTY_APP_LIST)
     }
 }

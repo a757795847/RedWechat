@@ -11,10 +11,13 @@ export default{
         state.appList.push(app);
     },
     [types.DELETE_APP_LIST](state,app){
-        state.appList.map((elem,index,arr)=>{
+        state.appList.map((elem,index)=>{
             if(elem.id == app.id){
                 state.appList.splice(index,1)
             }
         })
+    },
+    [types.EMPTY_APP_LIST](state){
+        state.appList = []
     },
 }

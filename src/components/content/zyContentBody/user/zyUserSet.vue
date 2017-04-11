@@ -1,5 +1,4 @@
 <template>
-
     <div id="zyUserSet">
         <p class="appListHeader">用户账号设置</p>
         <el-tabs v-model="activeName">
@@ -32,70 +31,34 @@
                             <el-button type="text" @click="dialogVisible = true">修改密码</el-button>
                             <p>本密码用于账号登录、登录后可进行所有操作、请妥善保管。</p>
                         </el-form-item>
-
                     </el-form>
                 </div>
             </el-tab-pane>
         </el-tabs>
-        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" id="changePwd">
-            <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="旧密码" prop="pass">
-                    <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" id="changePwd" :show-close="false">
+            <el-form ref="form" :model="form" label-width="80px">
+                <el-form-item label="旧密码">
+                    <el-input v-model="passwordFrorm.oldPW" type="password" :minlength="6"></el-input>
                 </el-form-item>
-                <el-form-item label="新密码" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
+                <el-form-item label="新密码">
+                    <el-input v-model="passwordFrorm.newPW" type="password" :minlength="6"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="outPass">
-                    <el-input type="password" v-model="ruleForm2.outPass" auto-complete="off"></el-input>
+                <el-form-item label="确认密码">
+                    <el-input v-model="passwordFrorm.newPW2" type="password" :minlength="6"></el-input>
                 </el-form-item>
-                <el-form-item>
-                </el-form-item>
-
             </el-form>
 
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="submitForm('ruleForm2')">确 定</el-button>
-  </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="restorePasswordFrorm" style="color:#393a3e">取 消</el-button>
+                <el-button type="primary" @click="modification">确 定</el-button>
+            </span>
         </el-dialog>
-
     </div>
-
 </template>
 <script>
     export default{
         name: 'zyUserSet',
         data() {
-
-            var validatePass = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入密码'));
-                } else {
-                    if (this.ruleForm2.checkPass !== '') {
-                        this.$refs.ruleForm2.validateField('checkPass');
-                    }
-                    callback();
-                }
-            };
-            var validatePass2 = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入密码'));
-                } else {
-                    if (this.ruleForm2.checkPass !== '') {
-                        this.$refs.ruleForm2.validateField('checkPass');
-                    }
-                    callback();
-                }
-            };
-            var outPass = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleForm2.checkPass) {
-                    callback(new Error('两次输入密码不一致!'));
-                } else {
-                    callback();
-                }
-            };
             return {
                 token:'Bearer ' + localStorage.getItem('default-auth-token'),
                 imgSrc:this.$http.options.root+'/order/picture/',
@@ -111,16 +74,10 @@
                     checkPass: '',
                     outPass: ''
                 },
-                rules2: {
-                    pass: [
-                        { validator: validatePass, trigger: 'blur' }
-                    ],
-                    checkPass: [
-                        { validator: validatePass2, trigger: 'blur' }
-                    ],
-                    outPass: [
-                        { validator: outPass, trigger: 'blur' }
-                    ]
+                passwordFrorm: {
+                    oldPW:'',
+                    newPW:'',
+                    newPW2:''
                 }
             };
         },
@@ -133,11 +90,11 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                       console.log('submit!!');
-                    } else {
+                    }else{
                         console.log('error submit!!');
-                return false;
-            }
-            });
+                        return false;
+                    }
+                });
             },
             beforeAvatarUpload(file) {
                 const isNPG = file.type === 'image/png';
@@ -150,7 +107,50 @@
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isNPG && isLt2M;
-            }
+            },
+            modification(){
+                 if(this.passwordFrorm.oldPW == ''|| this.passwordFrorm.newPW == ''||this.passwordFrorm.newPW2 == ''){
+                    this.$message({
+                        message: '请输入密码',
+                        type: 'warning'
+                    });
+                }else /*if(this.passwordFrorm.oldPW.length < 6 || this.passwordFrorm.newPW.length < 6 || this.passwordFrorm.newPW2 < 6){
+                    this.$message({
+                        message: '密码最小长度为6',
+                        type: 'warning'
+                    });
+                }else*/ if( this.passwordFrorm.newPW !== this.passwordFrorm.newPW2){
+                    this.$message({
+                        message: '两次新密码不一致',
+                        type: 'warning'
+                    });
+                }else{
+                    this.$http({
+                        url: 'user/innerUpdatePassword',
+                        method: 'POST',
+                        body:{
+                            oldpassword:this.passwordFrorm.oldPW,
+                            newpassword:this.passwordFrorm.newPW
+                        }
+                    }).then((res) => {
+                        console.log('修改密码=》succeed',res)
+                        if(res.body.status == 1){
+                            this.restorePasswordFrorm()
+                            this.$message('修改成功');
+                        }else{
+                         this.$message.error('修改失败');
+                        }
+                    }, (res) => {
+                        console.log('修改密码=》error',res)
+                    });
+                }
+            },
+            restorePasswordFrorm(){
+                this.passwordFrorm.oldPW = '';
+                this.passwordFrorm.newPW = '';
+                this.passwordFrorm.newPW2 = '';
+                this.dialogVisible = false
+            },
         }
     }
 </script>

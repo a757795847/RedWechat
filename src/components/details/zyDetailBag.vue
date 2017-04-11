@@ -45,137 +45,127 @@
                         </el-col>
                     </el-row>
                 </div>
-                <el-table
-                        class="detailsBodyTBody"
-                        :data="tableData"
-                        border
-                        style="width: 100%"
-                        empty-text="目前没有任何需要处理的返现申请"
-                        @selection-change="handleSelectionChange"
-                >
-                    <el-table-column
-                            fixed
-                            type="selection"
-                            width="40"
-                            :selectable="selectables"
-                            >
-                    </el-table-column>
-                    <el-table-column
-                            label="订单编号"
-                            width="190"
-                            >
-                        <template scope="scope">
-                            <p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>
-
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="wechat_name"
-                            width="100"
-                            label="微信用户名"
-                            >
-                    </el-table-column>
-                    <el-table-column
-                            label="用户上传图片"
-                            width="150"
+                <div class="detailsBodyTBody">
+                    <el-table
+                            :data="tableData"
+                            border
+                            style="width: 100%"
+                            empty-text="目前没有任何需要处理的返现申请"
                     >
-                        <template scope="scope">
-                            <el-popover
-                                    ref="popover1"
-                                    placement="right"
-                                    trigger="hover"
-                            >
-                                <div>
-                                    <img class="magnifyImg" v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
-                                    <img class="magnifyImg" v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
-                                    <img class="magnifyImg" style="marginRight: 0" v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                        <el-table-column
+                                fixed
+                                type="selection"
+                                width="40"
+                                :selectable="selectableState"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="订单编号"
+                                width="190"
+                        >
+                            <template scope="scope">
+                                <p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="wechat_name"
+                                width="100"
+                                label="微信用户名"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="用户上传图片"
+                                width="150"
+                        >
+                            <template scope="scope">
+                                <el-popover
+                                        ref="popoverImg"
+                                        placement="right"
+                                        trigger="hover"
+                                >
+                                    <div>
+                                        <img class="magnifyImg" v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
+                                        <img class="magnifyImg" v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
+                                        <img class="magnifyImg" style="marginRight: 0" v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                                    </div>
+                                </el-popover>
+                                <el-button class="magnifyImgBtn" v-popover:popoverImg>
+                                    <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
+                                    <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
+                                    <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
+                                </el-button>
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="label"
+                                label="订单标签"
+                                width="100"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="状态"
+                                width="100"
+                        >
+                            <template scope="scope">
+                                {{ auditState(scope.row.gift_state) }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="导入日期"
+                                width="100"
+                        >
+                            <template scope="scope">
+                                {{new Date(scope.row.create_date).toLocaleDateString()}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="返现日期"
+                                width="100"
+                        >
+                            <template scope="scope">
+                                <div v-if="scope.row.send_date != null">
+                                    {{new Date(scope.row.send_date).toLocaleDateString()}}
                                 </div>
-                            </el-popover>
-                            <el-button class="magnifyImgBtn" v-popover:popover1>
-                                <img v-if="scope.row.comment_file1" :src="imgSrc+scope.row.comment_file1+'?jwt='+token" >
-                                <img v-if="scope.row.comment_file2" :src="imgSrc+scope.row.comment_file2+'?jwt='+token" >
-                                <img v-if="scope.row.comment_file3" :src="imgSrc+scope.row.comment_file3+'?jwt='+token" >
-                            </el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="amount"
+                                label="付款金额"
+                                width="80"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="type"
+                                label="红包类型"
+                                width="100"
+                        >
+                            <template scope="scope">
+                                <p>固定</p>
+                                <!--<p @click="bagType(scope.$index)">固定</p>-->
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="红包金额"
+                                width="80"
+                        >
+                            <template scope="scope">
+                                {{scope.row.red_package_size/100}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                fixed="right"
+                                label="操作"
+                                width="140"
+                        >
+                            <template scope="scope">
+                                <el-button v-show="scope.row.gift_state == 1" type="text" @click="sendBag(scope.$index)">发送红包</el-button>
+                                <el-button v-show="scope.row.gift_state == 1" type="text">拒绝</el-button>
+                            </template>
+                        </el-table-column>
 
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="label"
-                            label="订单标签"
-                            width="100"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                            label="状态"
-                            width="100"
-                    >
-                        <template scope="scope">
-                            {{ auditState(scope.row.gift_state) }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            label="导入日期"
-                            width="100"
-                    >
-                        <template scope="scope">
-                            {{new Date(scope.row.create_date).toLocaleDateString()}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            label="返现日期"
-                            width="100"
-                    >
-                        <template scope="scope">
-                            <div v-if="scope.row.send_date != null">
-                                {{new Date(scope.row.send_date).toLocaleDateString()}}
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="amount"
-                            label="付款金额"
-                            width="80"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                            prop="type"
-                            label="红包类型"
-                            width="100"
-                    >
-                        <template scope="scope">
-                            <p>固定</p>
-                            <!--<p @click="bagType(scope.$index)">固定</p>-->
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            label="红包金额"
-                            width="80"
-                    >
-                        <template scope="scope">
-                            {{scope.row.red_package_size/100}}
-                        </template>
-                    </el-table-column>
-                    <!--<el-table-column-->
-                            <!--label="状态"-->
-                            <!--width="100"-->
-                    <!--&gt;-->
-                        <!--<template scope="scope">-->
-                            <!--{{ auditState(scope.row.gift_state) }}-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <el-table-column
-                            fixed="right"
-                            label="操作"
-                            width="140"
-                    >
-                        <template scope="scope">
-                            <el-button v-show="scope.row.gift_state == 1" type="text" @click="sendBag(scope.$index)">发送红包</el-button>
-                            <el-button v-show="scope.row.gift_state == 1" type="text">拒绝</el-button>
-                        </template>
-                    </el-table-column>
-
-                </el-table>
-
+                    </el-table>
+                </div>
                 <div class="block" v-show="pageData.count>0">
                     <el-pagination
                             layout="prev, pager, next"
@@ -482,7 +472,7 @@ export default{
                         value:1
                     }
                 ]
-            }
+            },
         }
     },
     watch:{
@@ -607,9 +597,9 @@ export default{
                 body:data
             }).then((res) => {
                 console.log(res);
-                if(res.data.status == 1){
-                    this.tableData = res.data.list;
-                    this.pageData = res.data.page;
+                if(res.body.status == 1){
+                    this.tableData = res.body.list;
+                    this.pageData = res.body.page;
                 }
             }, (res) => {
 
@@ -617,11 +607,13 @@ export default{
         },
         //发送红包
         sendBag(index){
+            var token = this.serve.url.split('/');
             this.$http({
                 url: 'order/redSend',
                 method: 'POST',
                 body:{
-                    id:this.tableData[index].id
+                    id:this.tableData[index].id,
+                    token:token[token.length-1]
                 }
             }).then((res) => {
                 console.log('发送红包',res)
@@ -671,10 +663,10 @@ export default{
             var arr =  val == 4 ? [0,1,3]:[parseInt(val)];
             this.pageAjax(1,arr);
         },
-        selectables(row, index){
-            if(row.gift_state != 1){
-                return false;
-            }
+        selectableState(row, index){
+
+            return row.gift_state != 1;
+
         },
         bagType(index){
             this.orderDetailIndex = index;
@@ -691,9 +683,9 @@ export default{
                 status:[1]
             }
         }).then((res) => {
-            if(res.data.status == 1){
-                this.tableData = res.data.list;
-                this.pageData = res.data.page;
+            if(res.body.status == 1){
+                this.tableData = res.body.list;
+                this.pageData = res.body.page;
             }
         }, (res) => {
             if(res.status == 400){
@@ -707,11 +699,11 @@ export default{
             method: 'POST',
         }).then((res) => {
             new QArt({
-                value: res.data.data[0].url,
+                value: res.body.data[0].url,
                 imagePath: erwei,
                 filter:'filter'
             }).make(this.$refs.qart);
-            this.serve.url = res.data.data[0].url;
+            this.serve.url = res.body.data[0].url;
         }, (res) => {
 
         });

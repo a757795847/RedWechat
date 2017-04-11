@@ -6,3 +6,5 @@ export const UPDATE_USER_IMG = 'UPDATE_USER_IMG';
 export const ADD_APP_LIST = 'ADD_APP_LIST'
 //删除app应用
 export const DELETE_APP_LIST = 'DELETE_APP_LIST'
+//清空app应用
+export const EMPTY_APP_LIST = 'EMPTY_APP_LIST'

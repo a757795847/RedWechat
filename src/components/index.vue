@@ -28,7 +28,8 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
-                console.log(res)
+                console.log('index=>',res)
+                this.$store.dispatch('empty_app_list')
                 let list = res.body.list;
                 for(var i=0;i<list.length;i++){
                     if(list[i].isOpened == true){

@@ -13,7 +13,7 @@
           </span>
           <el-dropdown-menu slot="dropdown" :style="{width: '145px',marginTop: '-10px',borderRadius: '3px'}" >
             <el-dropdown-item class="setUser" command="user" >用户账户设置</el-dropdown-item>
-            <el-dropdown-item class="setFinance" command="finance">财务账户设置</el-dropdown-item>
+            <el-dropdown-item class="setFinance" command="finance">我的账户</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
           <img v-if="this.$store.state.cart.userImg != ''" :src="this.$store.state.cart.userImg" alt="user">
@@ -135,6 +135,9 @@
     cursor:pointer;
     margin-left: 20px;
   }
+  #header .el-dropdown-menu__item{
+    padding:0;
+  }
   .el-input__inner:focus ,.el-select .el-input__inner:focus{
     outline: 0;
     border-color: #68A593;
@@ -167,14 +170,14 @@
     cursor:pointer;
   }
   .setUser{
-    text-indent: 6px;
+    text-indent: 16px;
     background: url("../../assets/user-menu-setting.png") no-repeat;
     background-size: 20px;
     background-position: 7px 8px;
     text-align: center;
   }
   .setFinance{
-    text-indent: 6px;
+    text-indent: -14px;
     background: url("../../assets/user-menu-amount.png") no-repeat;
     background-size: 20px;
     background-position: 7px 8px;

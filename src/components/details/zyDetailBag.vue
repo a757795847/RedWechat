@@ -51,6 +51,7 @@
                             border
                             style="width: 100%"
                             empty-text="目前没有任何需要处理的返现申请"
+                            @selection-change="handleSelectionChange"
                     >
                         <el-table-column
                                 fixed
@@ -211,7 +212,7 @@
                                     :headers="{'Authorization':token}"
                                     :auto-upload="false"
                                     :on-success="upSuccessful"
-                                    :on-progress="upProcess"
+                                    :on-error="upError"
                                     :data="{
                                         'redPackageSize':parseInt(form.money*100),
                                         'label':form.name
@@ -230,7 +231,7 @@
                     </div>
                 </el-dialog>
                 <!--订单上传结束-->
-                <el-dialog class="upLoading" :title="upLoadingState?'订单导入完成':'订单导入中'" v-model="upLoading"
+                <el-dialog class="upLoading" :title="!upLoadingState?'订单导入中':'订单导入完成'" v-model="upLoading"
                            size="tiny"
                            :close-on-click-modal="false"
                            :close-on-press-escape="false"
@@ -427,7 +428,7 @@ export default{
             multipleSelection: [],
             pageData:{},
             //上传文件
-            dialogFormVisible:false,
+            dialogFormVisible:false,//表单页面
             form: {
                 type: '选项1',
                 name: '',
@@ -439,22 +440,17 @@ export default{
                     }
                 ],
                 file:false
-            },
-            upLoading:false,
-            upLoadingIn:0,
-            upLoadingState:true,
-            orderDetailIndex:0,
-            serve:{
-                url:''
-            },
-            config: {
-                value: 'https://www.baidu.com',
-                imagePath: '../../assets/erwei.png',
-                filter: 'color'
-            },
+            },//表单信息
+            upLoading:false,//上传中页面
+            upLoadingIn:0,//进度条
+            upLoadingState:false,//是否上传成功
             uploadFormData:{
                 num:0,
                 error:0,
+                url:''
+            },//成功后返回正确错误条数及下载地址
+            orderDetailIndex:0,
+            serve:{
                 url:''
             },
             bagTypes:{
@@ -508,6 +504,14 @@ export default{
             this.multipleSelection = val;
         },
         //上传文件
+        //上传失败清除表单
+        clearUpState(){
+            this.upLoadingIn = 0;
+            this.upLoading = false;
+            this.upLoadingState = false;
+            this.$refs.upload.clearFiles();
+        },
+        //订单导入完成
         upSuccessful(response, file, fileList){
             if(response.status == 1){
                 this.upLoadingIn = 100;
@@ -517,13 +521,12 @@ export default{
                 this.uploadFormData.num = response.data.successCount;
                 this.uploadFormData.error = response.data.errorCount;
                 this.uploadFormData.url = response.data.errorKey;
+            }else{
+                this.$message.error(response.message);
+                this.clearUpState()
             }
         },
-        upProcess(event, file, fileList){
-            console.log(event)
-            console.log(file)
-            console.log(fileList)
-        },
+        //文件上传之前
         beforeUpload(file){
             if(file == undefined){
                 return false;
@@ -531,6 +534,15 @@ export default{
             this.form.file = true;
             return true;
         },
+        //文件上传错误
+        upError(err, file, fileList){
+            if(err){
+                this.$message.error('上传失败');
+                this.upLoadingIn = 0;
+                this.clearUpState()
+            }
+        },
+        //文件上传
         submitUpload() {
             if(this.form.money == ''){
                 this.$message({
@@ -545,35 +557,36 @@ export default{
                     });
                 }else{
                     this.$refs.upload.submit();
-                    this.upLoadingIn = 0;
                     this.upLoading = true;
-                    this.upLoadingState = false;
                     this.upload(10);
                 }
 
             }
 
         },
+        //计时器
         upload(i){
-            console.log(this.upLoadingIn)
-            if(this.upLoadingIn == 100){
+            if(this.upLoadingIn >= 100){
+                this.upLoadingIn = 100;
                 return;
             }
             this.upLoadingIn += i;
-            if(this.upLoadingIn > 90){
-                i = i/2;
+            if(this.upLoadingIn > 80){
+                i = Math.ceil(i/2);
             }
             setTimeout(function () {
                 this.upload(i);
             }.bind(this),100)
 
         },
+        //上传成功关闭
         uploadClose(){
+            this.clearUpState();
             this.form.name='';
             this.form.type = '选项1';
             this.form.money = '';
-            this.$refs.upload.clearFiles();
-            this.upLoading = false ;
+//            this.$refs.upload.clearFiles();
+//            this.upLoading = false ;
             this.dialogFormVisible = false;
         },
         //分页
@@ -665,7 +678,7 @@ export default{
         },
         selectableState(row, index){
 
-            return row.gift_state != 1;
+            return row.gift_state == 1;
 
         },
         bagType(index){

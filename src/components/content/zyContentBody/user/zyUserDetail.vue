@@ -16,6 +16,9 @@
                             <el-table-column
                                     prop="date"
                                     label="充值日期">
+                                <template scope="scope">
+                                    {{dateText(scope.row.date)}}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="type"
@@ -185,7 +188,6 @@ export default{
             }, (res) => {
 
             });
-
         },
         //分页
         currentChange(val){
@@ -215,6 +217,12 @@ export default{
             this.dialogVisible = false;
             this.rechargeState = false;
             this.forAjaxState == false;
+        },
+        dateText(time){
+            var times = new Date(time).toLocaleDateString()+' '+new Date(time).toTimeString();
+
+//            times = times.replace(/T|Z/g,' ').slice(0,19);
+            return times.split('G')[0]
         }
     },
     mounted(){

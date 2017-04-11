@@ -114,12 +114,12 @@
                         message: '请输入密码',
                         type: 'warning'
                     });
-                }else /*if(this.passwordFrorm.oldPW.length < 6 || this.passwordFrorm.newPW.length < 6 || this.passwordFrorm.newPW2 < 6){
+                }else if(this.passwordFrorm.oldPW.length < 6 || this.passwordFrorm.newPW.length < 6 || this.passwordFrorm.newPW2 < 6){
                     this.$message({
                         message: '密码最小长度为6',
                         type: 'warning'
                     });
-                }else*/ if( this.passwordFrorm.newPW !== this.passwordFrorm.newPW2){
+                }else if( this.passwordFrorm.newPW !== this.passwordFrorm.newPW2){
                     this.$message({
                         message: '两次新密码不一致',
                         type: 'warning'

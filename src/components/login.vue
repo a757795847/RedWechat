@@ -133,13 +133,12 @@
                         method: 'GET',
                         params:{
                             code:this.validationText,
-                            phone:this.register.phoneNubF
+                            phone:this.register.phoneNub
                         },
                     }).then((res) => {
                         console.log('success ' , res);
-                        if(res.body.status==0){
+                        if(res.body.status == 0){
                             this.$message.error('验证码不正确');
-
                             this.validationText = '';
                         }else{
                             this.disabled=true;
@@ -149,12 +148,12 @@
                                   clearInterval(sub);
                                   this.disabled=false;
                                   return;
-
                               }
                               this.countdown --;
                           }.bind(this), 1000)
                         }
                         this.dialogVisible = false;
+                        this.getValidationImg();
                     }, (res) => {
 
                         this.dialogVisible = true;
@@ -179,6 +178,7 @@
                                 password:this.register.onePwd
                             },
                         }).then((res) => {
+                            console.log('创建账号=>',res)
                             if(res.data.status == 0){
                                 this.$message.error(res.data.message);
                             }else if(res.data.status == 1){
@@ -186,8 +186,8 @@
                                 this.zylogin = true;
                                 this.validationText = '';
                                 this.data.body.username = this.register.phoneNub;
+                                this.clearRegister();
                             }
-
                         }, (res) => {
 
                         });
@@ -198,7 +198,14 @@
                 var random=Math.random()*20;
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
             },
-
+            clearRegister(){
+                this.register.phoneNub = '';
+                this.register.messCode = '';
+                this.register.onePwd = '';
+                this.register.twoPwd = '';
+                this.validationImgSrc = '';
+                this.getValidationImg();
+            }
         },
         beforeCreate(){
             this.$http({

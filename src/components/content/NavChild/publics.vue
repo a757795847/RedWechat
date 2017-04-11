@@ -68,6 +68,9 @@
     #publicList{
         height: 750px;
         overflow: hidden;
+        border-radius: 5px 0 0 5px;
+        position: relative;
+        z-index: 100;
     }
     #publicList .el-menu{
         background-color:#EAF2E9;

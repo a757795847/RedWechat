@@ -1,5 +1,5 @@
 <template>
-    <div id="appListDetails">
+    <div id="appListDetails"  v-loading="loading">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
             <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
@@ -32,7 +32,7 @@
                     <ul>
                         <li class="service">服务内容</li>
                         <li>
-                            <pre>{{detail.description.replace(/(<br />)+/g,'')}}</pre>
+                            <pre>{{detail.description}}</pre>
                         </li>
                     </ul>
                     <!--<ul>-->
@@ -65,6 +65,7 @@
         name: 'zyAppListDetails',
         data(){
             return {
+                loading:true,
                 dialogVisible: false,
                 detail: {},
                 state: false,
@@ -86,7 +87,8 @@
                     this.detail = res.data.applicationInfo;
                     this.color=res.data.applicationInfo.font_color;
                     this.state = res.data.isOpened;
-                    this.title = res.data.applicationInfo.name
+                    this.title = res.data.applicationInfo.name;
+                    this.loading = false;
                 }
             }, (res) => {
 
@@ -105,6 +107,7 @@
                         id: this.detail.id
                     }
                 }).then((res) => {
+                    console.log('res=>applistDetail=>',res)
                     if(res.body.status!=0){
                         this.state = true;
                         this.$store.dispatch('add_app_list',{
@@ -149,7 +152,7 @@
     }
     #appListDetails .appListDetailsHeader{
         height: 80px;
-        background: url("../../../assets/app-fanxian.png") no-repeat;
+        background: url("../../../../assets/app-fanxian.png") no-repeat;
         margin-top: 30px;
         background-size: 60px;
         background-position: 20px 10px;
@@ -200,15 +203,15 @@
         line-height: 25px;
     }
     #appListDetails .appListDetailsBody .open{
-        background: url("../../../assets/app-detail-tiaojian.png") no-repeat;
+        background: url("../../../../assets/app-detail-tiaojian.png") no-repeat;
         background-size: 20px;
     }
     #appListDetails .appListDetailsBody .standard{
-        background: url("../../../assets/app-detail-shoufei.png") no-repeat;
+        background: url("../../../../assets/app-detail-shoufei.png") no-repeat;
         background-size: 20px;
     }
     #appListDetails .appListDetailsBody .service{
-        background: url("../../../assets/app-detail-neirong.png") no-repeat;
+        background: url("../../../../assets/app-detail-neirong.png") no-repeat;
         background-size: 20px;
     }
     #appListDetails .cancels{

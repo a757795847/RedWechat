@@ -6,7 +6,7 @@
                 <div v-show="!zyBody">
                     <div class="cardItem">
                         <div class="cardItemNews clear">
-                            <img src="../../../assets/logo.jpg" alt="">
+                            <img src="../../../../assets/logo.jpg" alt="">
                             <p>杭州追游科技</p>
                             <p>认证服务号</p>
                         </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="bodyFather" v-show="zyBody">
-                    <img src="../../../assets/404.png" alt="" id="cancel">
+                    <img src="../../../../assets/404.png" alt="" id="cancel">
                     <p :style="{ color:'#949494'}">您一个公众号都还没有绑定 TT</p>
                     <div class="elDiv" @click="addpublic">
                         <p class="elP"><i class="addImage"></i>添加公众号</p>
@@ -93,7 +93,7 @@ export default{
         cursor:pointer;
     }
     #gzhCard .bodyFather .addImage{
-        background: url("../../../assets/menu-add.png") no-repeat;
+        background: url("../../../../assets/menu-add.png") no-repeat;
         display: inline-block;
         width: 20px;
         height: 20px;

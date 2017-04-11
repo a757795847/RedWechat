@@ -65,7 +65,7 @@
                         <el-button type="primary" class="closeRecharge" @click="erweiPayState = false;forAjaxState = true">取消</el-button>
                     </div>
                     <div v-else  slot="footer" class="succeed">
-                        <img src="../../../assets/pay-success.png">
+                        <img src="../../../../assets/pay-success.png">
                         <p>充值成功</p>
                         <p>我们会努力为您提供优质的服务</p>
                         <el-button type="primary" class="closeRecharge" @click="recoverState()">关闭</el-button>
@@ -78,7 +78,7 @@
 </template>
 <script>
     import QArt from 'qartjs'
-    import erweima from '../../../assets/erwei.png'
+    import erweima from '../../../../assets/erwei.png'
 export default{
     name:'zyAppList',
     data() {
@@ -327,7 +327,7 @@ export default{
     #userDetail .recharge .isActive.el-button.el-button--default{
         color: #589680;
         border-color:#589680;
-        background: url("../../../assets/input-selected.png") no-repeat;
+        background: url("../../../../assets/input-selected.png") no-repeat;
         background-size: 20px;
         background-position: 79px 14px;
     }
@@ -340,7 +340,7 @@ export default{
         background-position: 120px 14px;
     }
     #userDetail .recharge .weixinLogo{
-        background: url("../../../assets/weixinpay.png") no-repeat;
+        background: url("../../../../assets/weixinpay.png") no-repeat;
         display: inline-block;
         width: 20px;
         height: 20px;

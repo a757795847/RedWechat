@@ -10,7 +10,7 @@
                     </div>
                 </el-menu-item-group>
 
-                <i class="appList"></i><el-menu-item-group title="应用" :style="{ marginTop: 4 + 'px' }">
+                <i class="appList"></i><el-menu-item-group class="appLists" title="应用" :style="{ marginTop: 4 + 'px'}">
                 <!--<el-menu-item index="2">我的应用</el-menu-item>-->
                 <div class="temporary" index="2" style="border-radius:0">我的应用</div>
                 <el-menu-item  :index="'/details/'+item.abbreviation" @click="toDetailsBag"
@@ -98,6 +98,9 @@
         line-height: 40px;
         padding-top:0;
         color: #949494;
+    }
+    #publicList .appLists .el-menu-item-group__title{
+        border-radius: 0;
     }
     #publicList .el-menu-item.is-active{
         padding-left:39px;

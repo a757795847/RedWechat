@@ -33,42 +33,42 @@ export default new Router({
               path: '/',
               name: 'indexBody',
               component:function (resolve) {
-                require(['../components/content/zyContentBody/gzhBody.vue'],resolve)
+                require(['../components/content/zyContentBody/gzh/gzhBody.vue'],resolve)
               }
             },
             {
               path: '/userSet',
               name: 'zyUserSet',
               component:function (resolve) {
-                require(['../components/content/zyContentBody/zyUserSet.vue'],resolve)
+                require(['../components/content/zyContentBody/user/zyUserSet.vue'],resolve)
               }
             },
             {
               path: '/userDetail',
               name: 'zyUserDetail',
               component:function (resolve) {
-                require(['../components/content/zyContentBody/zyUserDetail.vue'],resolve)
+                require(['../components/content/zyContentBody/user/zyUserDetail.vue'],resolve)
               }
             },
             {
               path: '/addMyapplist',
               name: 'zyMyappList',
               component: function (resolve) {
-                require(['../components/content/zyContentBody/zyMyapplist.vue'],resolve)
+                require(['../components/content/zyContentBody/app/zyMyapplist.vue'],resolve)
               }
             },
             {   
               path: '/appList',
               name: 'zyAppLit',
               component:function (resolve) {
-                require(['../components/content/zyContentBody/zyAppList.vue'],resolve)
+                require(['../components/content/zyContentBody/app/zyAppList.vue'],resolve)
               }
             },
             {
               path: '/appList/:id',
               name: 'zyAppLitDetails',
               component:function (resolve) {
-                require(['../components/content/zyContentBody/zyAppLitDetails.vue'],resolve)
+                require(['../components/content/zyContentBody/app/zyAppLitDetails.vue'],resolve)
               }
             },
           ]

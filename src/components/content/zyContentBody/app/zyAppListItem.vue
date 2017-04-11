@@ -50,7 +50,7 @@
     width: 100px;
     height: 100px;
     border:1px solid;
-    background: url("../../../assets/app-fanxian.png") no-repeat;
+    background: url("../../../../assets/app-fanxian.png") no-repeat;
     background-size: 100px 100px;
     background-position: -2px 0;
 }

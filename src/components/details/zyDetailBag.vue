@@ -565,6 +565,7 @@ export default{
 
         },
         upload(i){
+            console.log(this.upLoadingIn)
             if(this.upLoadingIn == 100){
                 return;
             }
@@ -624,9 +625,13 @@ export default{
                 }
             }).then((res) => {
                 console.log('发送红包',res)
-                this.tableData[index].gift_state = 3 ;
+                if(res.body.status == 1){
+                    this.tableData[index].gift_state = 3 ;
+                }else{
+                    this.$message.error('红包发送失败');
+                }
             }, (res) => {
-                console.log('发送红包失败',res)
+                this.$message.error('红包发送失败');
             });
         },
         //搜索

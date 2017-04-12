@@ -267,11 +267,11 @@
         border-radius: 4px;
         font-size: 16px;
         line-height: 17px;
-        background-color: rgb(66, 140, 187);
+        background-color: #68A593;
     }
     #login .el-button:hover {
-        background-color: #2791e1;
-        border-color: #2ca2fb;
+        background-color: #68A593;
+        border-color: #68A593;
         color:#fff;
     }
     #login .text-right{

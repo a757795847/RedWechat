@@ -49,6 +49,7 @@
   }
   #contentBody .el-tabs__item.is-active{
     color: #589680;
+    text-align: center;
   }
   #contentBody .el-tabs__active-bar{
     background: #589680;

@@ -108,7 +108,7 @@
     margin-right: 15px;
   }
    #header .user img{
-     display: inline-block;
+     display: i;
     float: right;
     width: 25px;
     height: 25px;
@@ -180,6 +180,7 @@
     background-size: 20px;
     background-position: 7px 8px;
     text-align: center;
+    color: #393a3e;
   }
   .setFinance{
     text-indent: -14px;

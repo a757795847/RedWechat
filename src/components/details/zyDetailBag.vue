@@ -116,7 +116,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="导入日期"
-                                width="100"
+                                width="120"
                         >
                             <template scope="scope">
                                 {{new Date(scope.row.create_date).toLocaleDateString()}}
@@ -124,7 +124,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="返现日期"
-                                width="100"
+                                width="120"
                         >
                             <template scope="scope">
                                 <div v-if="scope.row.send_date != null">
@@ -153,7 +153,7 @@
                                 width="80"
                         >
                             <template scope="scope">
-                                {{scope.row.red_package_size/100}}
+                                {{(scope.row.red_package_size/100).toFixed(2)}}
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -301,7 +301,11 @@
                             </el-row>
                             <el-row>
                                 <el-col :span="10">收货地址</el-col>
-                                <el-col :span="14" class="siteText">{{tableData[orderDetailIndex].receiver_address}}</el-col>
+                                <el-col :span="14" >
+                                    <el-tooltip class="item" effect="dark" :content="tableData[orderDetailIndex].receiver_address" placement="top-start">
+                                        <el-button class="siteText">{{tableData[orderDetailIndex].receiver_address}}</el-button>
+                                    </el-tooltip>
+                                </el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="10">收货人手机号</el-col>
@@ -310,16 +314,16 @@
                         </el-tab-pane>
                         <el-tab-pane label="红包日志" class="log" name="log">
                             <p v-if="tableData[orderDetailIndex].create_date" class="logImport">
-                                <span class="logTime">{{tableData[orderDetailIndex].create_date}}</span>订单导入
+                                <span class="logTime">{{ dateText(tableData[orderDetailIndex].create_date)}}</span>订单导入
                             </p>
                             <p v-if="tableData[orderDetailIndex].send_date"  class="logSend">
-                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>审核通过，红包发送
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].send_date)}}</span>审核通过，红包发送
                             </p>
                             <p v-if="tableData[orderDetailIndex].send_date" class="logSucceed">
-                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>红包发送成功
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].send_date)}}</span>红包发送成功
                             </p>
                             <p v-if="tableData[orderDetailIndex].recieve_date" class="logSucceed">
-                                <span class="logTime">{{tableData[orderDetailIndex].recieve_date}}</span>红包已领取
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].recieve_date)}}</span>红包已领取
                             </p>
                         </el-tab-pane>
                     </el-tabs>
@@ -725,6 +729,10 @@ export default{
         //关闭详情页
         closeOrderDetail(){
             this.orderDetail = 'detail'
+        },
+        dateText(time){
+            var times = new Date(time).toLocaleDateString()+' '+new Date(time).toTimeString();
+            return times.split('G')[0]
         }
     },
     beforeCreate(){
@@ -1059,6 +1067,15 @@ export default{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-right: 20px;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 90%;
+    color: #48576a;
+}
+#detailBag .detailsBody  .orderDetail .order .siteText:hover{
+    color: #48576a;
 }
 #detailBag .detailsBody  .orderDetail .log p{
     height: 25px;
@@ -1103,6 +1120,9 @@ export default{
 }
 #detailBag .detailsBody  .bagType .el-form-item{
     margin-bottom: 15px;
+}
+#detailBag .detailsBody  .bagType .el-select-dropdown__item{
+    font-size: 13px;
 }
 #detailBag .detailsBody  .bagType .el-select-dropdown__item.selected {
     background-color: #71A593;

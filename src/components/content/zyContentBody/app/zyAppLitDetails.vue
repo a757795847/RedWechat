@@ -51,8 +51,8 @@
                 <el-button type="text" @click="clickOpen">确 定</el-button>
             </span>
         </el-dialog>
-        <el-dialog class="operation" title="是否取消" v-model="cancelState" size="tiny">
-            <p>是否取消<span>{{detail.name}}</span>应用</p>
+        <el-dialog class="operation" title="是否取消" v-model="cancelState" size="tiny" :top="'25%'">
+            <p style="textIndent: 10px">是否取消<span>{{detail.name}}</span>应用</p>
             <span slot="footer" class="dialog-footer">
                 <el-button type="text" @click="cancelState = false" :style="{color:'#2B2C2F'}">取 消</el-button>
                 <el-button type="text" @click="cancelServer">确 定</el-button>
@@ -176,7 +176,7 @@
         border-color: #589680;
     }
     #appListDetails .appListDetailsBody{
-        min-height: 350px;
+        min-height: 330px;
         margin-top:7px;
         padding-left: 28px;
         max-width: 800px;
@@ -213,7 +213,6 @@
         color: #2B2C2F;
         padding: 7px 12px;
         font-size: 13px;
-        margin-top: 20px;
         cursor:pointer;
     }
     #appListDetails .cancels:hover{
@@ -221,6 +220,9 @@
     }
     #appListDetails .operation .el-dialog--tiny{
         width: 400px;
+    }
+    #appListDetails .operation .el-dialog--tiny .el-dialog__body{
+        padding-bottom: 0;
     }
     #appListDetails .operation .el-button--text{
         color: #68A593;

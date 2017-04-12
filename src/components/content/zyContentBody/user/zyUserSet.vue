@@ -6,21 +6,21 @@
                 <div class="Userform">
                     <el-form ref="form" :model="form" label-width="88px">
                         <el-form-item label="头像">
-                            <img :src="this.$store.state.cart.userImg" alt="" v-if="this.$store.state.cart.userImg !== ''">
-                            <el-upload v-else
+                            <el-upload
                                        class="avatar-uploader"
                                        action="http://115.29.188.190:8085/user/uploadHeadImage"
                                        :headers="{'Authorization':token}"
                                        :show-file-list="false"
                                        :on-success="handleAvatarSuccess"
                                        :before-upload="beforeAvatarUpload">
-                                <img v-if="this.$store.state.cart.userImg" :src="this.$store.state.cart.userImg" class="avatar">
+                                <img v-if="this.$store.state.cart.userImg !== ''" :src="this.$store.state.cart.userImg" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
 
                         </el-form-item>
-                        <el-form-item label="账户名称">
-                            <el-input v-model="form.name"></el-input>
+                        <el-form-item label="账户名称" class="username">
+                            <el-input v-model="form.name" @change="userNameChange"></el-input>
+                            <el-button v-if="usernameState" type="text" @click="userNameChangeAjax">确定修改</el-button>
                         </el-form-item>
                         <el-form-item label="登录手机号">
                             <el-input v-model="form.phone"></el-input>
@@ -78,24 +78,24 @@
                     oldPW:'',
                     newPW:'',
                     newPW2:''
-                }
+                },
+                usernameState:false,
             };
         },
         methods: {
             handleAvatarSuccess(res, file) {
-//                this.form.img = URL.createObjectURL(file.raw);
                 this.$store.dispatch('update_user_img',URL.createObjectURL(file.raw));
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-//                      console.log('submit!!');
-                    }else{
-//                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
+//            submitForm(formName) {
+//                this.$refs[formName].validate((valid) => {
+//                    if (valid) {
+////                      console.log('submit!!');
+//                    }else{
+////                        console.log('error submit!!');
+//                        return false;
+//                    }
+//                });
+//            },
             beforeAvatarUpload(file) {
                 const isNPG = file.type === 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
@@ -151,6 +151,16 @@
                 this.passwordFrorm.newPW2 = '';
                 this.dialogVisible = false
             },
+            userNameChange(val){
+                if(val == this.$auth.user().name){
+                    this.usernameState = false;
+                }else{
+                    this.usernameState = true;
+                }
+            },
+            userNameChangeAjax(){
+
+            }
         }
     }
 </script>
@@ -180,6 +190,7 @@
     }
     #zyUserSet .Userform img{
         width:34px;
+        height: 34px;
     }
     #zyUserSet .el-form-item__label{
         padding:12px 18px 11px 0px;
@@ -226,5 +237,18 @@
     }
     #zyUserSet .changePwd .el-dialog--tiny{
         width: 400px;
+    }
+    #zyUserSet .username .el-input{
+        width: 32%;
+    }
+    #zyUserSet .username button{
+        background: #fff;
+        border: none;
+        color: #68A593;
+        padding: 9px 16px;
+        font-size: 13px;
+    }
+    #zyUserSet .username button:hover{
+        background: #E4EDE2;
     }
 </style>

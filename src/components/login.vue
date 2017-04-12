@@ -147,6 +147,7 @@
                               if(this.countdown==0){
                                   clearInterval(sub);
                                   this.disabled=false;
+                                  this.validationText = '';
                                   return;
                               }
                               this.countdown --;

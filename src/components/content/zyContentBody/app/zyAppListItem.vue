@@ -25,7 +25,7 @@
         },
         methods:{
             handleClick(tab, event) {
-                console.log(tab, event);
+//                console.log(tab, event);
             },
             appDetails(){
                 this.$router.push({path:'/appList/'+this.item.id});

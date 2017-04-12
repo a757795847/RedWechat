@@ -52,6 +52,7 @@
                             style="width: 100%"
                             empty-text="目前没有任何需要处理的返现申请"
                             @selection-change="handleSelectionChange"
+                            @cell-click="openDetail"
                     >
                         <el-table-column
                                 fixed
@@ -63,10 +64,11 @@
                         <el-table-column
                                 label="订单编号"
                                 width="190"
+                                prop="order_number"
                         >
-                            <template scope="scope">
-                                <p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>
-                            </template>
+                            <!--<template scope="scope">-->
+                                <!--<p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>-->
+                            <!--</template>-->
                         </el-table-column>
                         <el-table-column
                                 prop="wechat_name"
@@ -173,11 +175,12 @@
                             :total="pageData.count"
                             :page-size="pageData.page_size"
                             @current-change="currentChange"
+                            :current-page="currentPage"
                     >
                     </el-pagination>
                 </div>
                 <!--订单上传-->
-                <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible">
+                <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible" @close="closeForm">
                     <el-row>
                         <el-col :span="12">
                             <el-form ref="form" :model="form" label-width="80px">
@@ -219,6 +222,7 @@
                                     }"
                                     accept="csv"
                                     :before-upload="beforeUpload"
+                                    :on-progress="upProgress"
                                     >
                                 <i class="el-icon-upload"></i>
                                 <div class="el-upload__text">将文件拖到此处，或<em :style="{color:'#68A593'}">点击上传</em><br/>文件后缀名: csv</div>
@@ -470,6 +474,7 @@ export default{
                 ]
             },
             orderDetail:'detail',
+            currentPage:1,//当前页
         }
     },
     methods:{
@@ -509,7 +514,6 @@ export default{
         //订单导入完成
         upSuccessful(response, file, fileList){
             if(response.status == 1){
-                this.upLoadingIn = 100;
                 this.upLoadingState = true;
                 this.pageAjax(1,[0,1,3]);
                 this.types.active = '4';
@@ -517,6 +521,7 @@ export default{
                 this.uploadFormData.error = response.data.errorCount;
                 this.uploadFormData.url = response.data.errorKey;
                 this.clearForm();
+                this.upLoadingIn = 100;
             }else{
                 this.$message.error(response.message);
                 this.clearUpState()
@@ -538,6 +543,12 @@ export default{
                 this.clearUpState()
             }
         },
+        //文件上传中
+        upProgress(event,file,fileList){
+            if(this.upLoadingIn < 98){
+                this.upLoadingIn = parseInt(event.percent * 10)/10;
+            }
+        },
         //文件上传
         submitUpload() {
             if(this.form.money == ''){
@@ -551,10 +562,22 @@ export default{
                         message: '请上传文件',
                         type: 'warning'
                     });
+                }else if(this.$refs.upload.uploadFiles.length > 1){
+                    this.$message({
+                        message: '只能上传一个文件',
+                        type: 'warning'
+                    });
+                    this.$refs.upload.clearFiles();
+                }else if(this.$refs.upload.uploadFiles[0].size > 5242880){
+                    this.$message({
+                        message: '文件大小不能大于5',
+                        type: 'warning'
+                    });
+                    this.$refs.upload.clearFiles();
                 }else{
                     this.$refs.upload.submit();
                     this.upLoading = true;
-                    this.upload(10);
+//                    this.upload(6);
                 }
 
             }
@@ -581,8 +604,6 @@ export default{
             this.form.name='';
             this.form.type = '选项1';
             this.form.money = '';
-//            this.$refs.upload.clearFiles();
-//            this.upLoading = false ;
             this.dialogFormVisible = false;
         },
         //关闭上传表单
@@ -598,6 +619,7 @@ export default{
         },
         //分页
         currentChange(val){
+            this.currentPage = val;
             var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
             this.pageAjax(val,arr);
         },
@@ -616,7 +638,7 @@ export default{
                 method: 'POST',
                 body:data
             }).then((res) => {
-                console.log(res);
+//                console.log('分页ajax=》',res);
                 if(res.body.status == 1){
                     this.tableData = res.body.list;
                     this.pageData = res.body.page;
@@ -636,7 +658,7 @@ export default{
                     token:token[token.length-1]
                 }
             }).then((res) => {
-                console.log('发送红包',res)
+//                console.log('发送红包',res)
                 if(res.body.status == 1){
                     this.tableData[index].gift_state = 3 ;
                 }else{
@@ -650,7 +672,9 @@ export default{
         handleSearchClick(){
             var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
             if(this.search == ''){
-                this.selectStateAjax(this.types.active);
+//                this.selectStateAjax(this.types.active);
+                this.pageAjax(1,arr);
+                this.currentPage = 1;
             }else{
                 this.$http({
                     url: 'order/lookup/'+this.search,
@@ -664,6 +688,7 @@ export default{
                     if(res.data.status == 1){
                         this.tableData = res.body.list;
                         this.pageData = res.body.page;
+                        this.currentPage = 1;
                     }
                 }, (res) => {
 
@@ -672,9 +697,16 @@ export default{
 
         },
         //打开详情
-        openDetail(index){
-            this.orderDetailIndex = index;
-            this.$refs.orderDetail.open();
+        openDetail(row, column, cell, event){
+            if(column.property=="order_number"){
+                for(var i =0;i<this.tableData.length;i++){
+                    if(this.tableData[i].order_number == row.order_number){
+                        this.orderDetailIndex = i;
+                        this.$refs.orderDetail.open();
+                    }
+                }
+
+            }
         },
         closeDetail(index){
             this.$refs.orderDetail.close();
@@ -684,9 +716,7 @@ export default{
             this.pageAjax(1,arr);
         },
         selectableState(row, index){
-
             return row.gift_state == 1;
-
         },
         bagType(index){
             this.orderDetailIndex = index;
@@ -861,12 +891,13 @@ export default{
     margin-right: 2px;
     padding-top: 5px;
 }
-#detailBag .detailsBody .detail{
+
+#detailBag .detailsBody .detailsBodyTBody tbody tr td:nth-child(2) .cell{
     background: url("../../assets/app-hongbao-detail.png") no-repeat;
     cursor: pointer;
     color: rgb(88, 150, 128);
     display: inline-block;
-    background-position: 154px 6px;
+    background-position: 160px 6px;
     background-size: 12px;
     border: none;
     padding: 0;

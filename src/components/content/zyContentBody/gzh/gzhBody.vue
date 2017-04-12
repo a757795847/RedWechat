@@ -58,11 +58,10 @@ export default{
             this.$router.push('indexBody');
         },
         handleClick(key, keyPath) {
-            console.log(key, keyPath);
+//            console.log(key, keyPath);
         },
         addpublic(){
             this.$router.push('/addPublic');
-            console.log(1);
         },
     }
 }

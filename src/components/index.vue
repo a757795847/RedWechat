@@ -19,7 +19,7 @@
             }).then((res) => {
                 this.$store.dispatch('update_user_img','http://115.29.188.190:8085/user/headImage?jwt=Bearer '+localStorage.getItem('default-auth-token'))
             }, (res) => {
-                console.log('header/error=>',res)
+//                console.log('header/error=>',res)
             });
             this.$http({
                 url: 'app/list',
@@ -28,7 +28,7 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
-                console.log('index=>list',res)
+//                console.log('index=>list',res)
                 this.$store.dispatch('empty_app_list')
                 let list = res.body.list;
                 for(var i=0;i<list.length;i++){

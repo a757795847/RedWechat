@@ -81,7 +81,7 @@
                     id: this.$route.params.id
                 }
             }).then((res) => {
-                console.log('app/info',res)
+//                console.log('app/info',res)
                 if(res.data.status == 1){
                     this.detail = res.data.applicationInfo;
                     this.color=res.data.applicationInfo.font_color;

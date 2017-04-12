@@ -89,9 +89,9 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                      console.log('submit!!');
+//                      console.log('submit!!');
                     }else{
-                        console.log('error submit!!');
+//                        console.log('error submit!!');
                         return false;
                     }
                 });
@@ -133,7 +133,7 @@
                             newpassword:this.passwordFrorm.newPW
                         }
                     }).then((res) => {
-                        console.log('修改密码=》succeed',res)
+//                        console.log('修改密码=》succeed',res)
                         if(res.body.status == 1){
                             this.restorePasswordFrorm()
                             this.$message('修改成功');
@@ -141,7 +141,7 @@
                          this.$message.error('修改失败');
                         }
                     }, (res) => {
-                        console.log('修改密码=》error',res)
+//                        console.log('修改密码=》error',res)
                     });
                 }
             },

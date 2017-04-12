@@ -203,7 +203,7 @@ export default{
                     currentPageIndex:index
                 }
             }).then((res) => {
-                console.log(res);
+//                console.log(res);
                 if(res.data.status == 1){
                     this.tableData = res.data.list;
                     this.pageData = res.data.page;

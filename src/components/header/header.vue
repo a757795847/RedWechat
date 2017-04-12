@@ -100,7 +100,7 @@
   }
    #header .user{
     float: right;
-    width: 200px;
+    width: 280px;
     height: 60px;
     line-height: 60px;
     color: white;
@@ -108,6 +108,7 @@
     margin-right: 15px;
   }
    #header .user img{
+     display: inline-block;
     float: right;
     width: 25px;
     height: 25px;

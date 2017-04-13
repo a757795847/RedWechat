@@ -136,6 +136,7 @@
                             phone:this.register.phoneNub
                         },
                     }).then((res) => {
+                        console.log(this.validationText);
                         console.log('success ' , res);
                         if(res.body.status == 0){
                             this.$message.error('验证码不正确');

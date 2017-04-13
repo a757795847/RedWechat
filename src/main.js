@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
       }
     }
     if(state == false){
-      router.go(-1)
+      next('/');
       return;
     }
   }

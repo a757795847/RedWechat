@@ -23,13 +23,14 @@
                             <el-button v-if="usernameState" type="text" @click="userNameChangeAjax">确定修改</el-button>
                         </el-form-item>
                         <el-form-item label="登录手机号" class="LoginPhone">
-                            <span :style="{ width:'110px' ,color:'#1f2d3d',height:'30px',marginRight:'10px',fontSize:'15px'}">{{form.phone}}</span>
+                            <span :style="{ width:'110px' ,color:'#393a3e',height:'30px',marginRight:'10px'}">{{form.phone}}</span>
                             <el-button type="text" @click="dialogVisibles = true"
                                        :style="{position:'absolute',left:120+'px'}">修改手机号</el-button>
                             <p>手机用于登录及登录密码找回、修改、同时接收重要提醒。</p>
                         </el-form-item>
                         <el-form-item label="登录密码" class="LoginPwd">
                             <el-input type="password" v-model="form.pwd" :disabled=disableds></el-input>
+                            <!--<span>********</span>-->
                             <el-button type="text" @click="dialogVisible = true">修改密码</el-button>
                             <p>本密码用于账号登录、登录后可进行所有操作、请妥善保管。</p>
                         </el-form-item>
@@ -56,13 +57,13 @@
             </span>
         </el-dialog>
 
-        <el-dialog title="手机号修改" v-model="dialogVisibles" size="tiny" :show-close="false" :style="{ marginBottom: 30 + 'px' }">
+        <el-dialog title="手机号修改" class="modificationPhone" v-model="dialogVisibles" size="tiny" :show-close="false" :style="{ marginBottom: 30 + 'px' }">
             <el-input type="text" class="form-control" v-model="form.phoneNub" placeholder="输入你的手机号" :style="{ marginBottom: 10 + 'px',width:300+'px' }"></el-input>
             <div class="input-group" :style="{ marginBottom: 30 + 'px' }">
                 <el-input v-model="form.messCode" placeholder="输入短信验证码" class="form-control validationText" :style="{ width: 204+ 'px'}"></el-input>
                     <span class="input-group-btn">
-                        <el-button class="btn btn-primary" :disabled="disabled"
-                                   id="getcode" :style="{ position:'relative',height:35+'px' }" v-on:click="validation()">{{countdown==0?"获取验证码":'重新发送'+countdown+''}}</el-button>
+                        <el-button class="btn btn-primary getcode" :disabled="disabled"
+                                    :style="{ position:'relative',height:36+'px',borderRadius:0}" v-on:click="validation()">{{countdown==0?"获取验证码":'重新发送'+countdown+''}}</el-button>
                     </span>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -71,7 +72,7 @@
             </span>
         </el-dialog>
 
-            <el-dialog title="请输入验证码" v-model="dialog" size="tiny" id="validationImg">
+            <el-dialog title="请输入验证码" v-model="dialog" size="tiny" class="validationImg" :top="'20%'">
 
                 <div>
                     <div class="input-group" >
@@ -104,7 +105,7 @@
                 countdown:0,
                 form: {
                     name: this.$auth.user().name,
-                    phone:this.$auth.user().phone,
+                    phone:this.$auth.user().username,
                     pwd:'123456',
                     phoneNub:'',
                     messCode:'',
@@ -293,7 +294,7 @@
                 this.passwordFrorm.newPW = '';
                 this.passwordFrorm.newPW2 = '';
                 this.passwordFrorm.errorText = '';
-                this.dialogVisible = false
+//                this.dialogVisible = false
                 this.dialogVisible = false;
                 this.dialogVisibles = false;
             },
@@ -305,6 +306,17 @@
                 }
             },
             userNameChangeAjax(){
+                if(this.form.name == ''){
+                    this.$message.error('修改失败,账户名称不能为空');
+                    this.form.name = this.$auth.user().name;
+                }else{
+                    this.$message({
+                        message: '修改成功',
+                        type: 'success'
+                    });
+                    this.$auth.user().name = this.form.name;
+                }
+                this.usernameState = false;
 
             }
         }
@@ -362,12 +374,13 @@
     #zyUserSet .LoginPwd input{
         width:70px;
     }
-    #zyUserSet .el-input{
+    #zyUserSet .LoginPwd .el-input{
         width:10%;
     }
     #zyUserSet .LoginPwd button{
         display:inline;
         color: #68A593;
+        margin-left: 20px;
     }
     #zyUserSet .dialog-footer button{
         background:#fff;
@@ -404,20 +417,20 @@
     #zyUserSet .validationText input{
         border-radius: 4px 0 0 4px;
     }
-    #zyUserSet #validationImg img{
+    #zyUserSet .validationImg img{
         height: 36px;
     }
-    #zyUserSet #validationImg .input-group {
+    #zyUserSet .validationImg .input-group {
         height: 18px;
     }
-    #zyUserSet #validationImg .el-button{
+    #zyUserSet .validationImg .el-button{
         width: initial;
         border-radius: 4px;
         margin-top: initial;
         height: initial;
         font-size: 14px;
     }
-    #zyUserSet #validationImg .el-input{
+    #zyUserSet .validationImg .el-input{
         position: relative;
         top: -13px;
         width: 53%;
@@ -425,12 +438,15 @@
     #zyUserSet .el-dialog__close:hover{
         color:#68A593;
     }
-    #zyUserSet #getcode:hover{
+    #zyUserSet .getcode:hover{
         color:#68A593;
        border-color:#68A593;
     }
     #zyUserSet .el-dialog.el-dialog--tiny{
-        width:344px;
+        width:360px;
+    }
+    #zyUserSet .changePwd .el-dialog__body{
+        padding:27px 60px 0 20px;
     }
     #zyUserSet .el-input.is-disabled .el-input__inner{
         background-color:#fff;
@@ -474,18 +490,18 @@
         cursor: pointer;
         border: 1px solid transparent;
     }
-    #zyUserSet .btn-primary {
+    #zyUserSet .modificationPhone .btn-primary {
         color:#fff;
         background-color: rgb(66, 140, 187);
         border-color: rgb(66, 140, 187);
     }
-    #zyUserSet .el-button{
-        border-radius:0;
+    #zyUserSet .modificationPhone .el-button{
+
     }
-    #zyUserSet .form-control el-input{
+    #zyUserSet .modificationPhone .form-control .el-input{
         width:300px;
     }
-    #zyUserSet #getcode:hover{
+    #zyUserSet .getcode:hover{
         color:#fff;
         border-color: #2ca2fb;
         background-color: #2ca2fb;

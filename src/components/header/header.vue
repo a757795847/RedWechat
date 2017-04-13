@@ -100,7 +100,7 @@
   }
    #header .user{
     float: right;
-    width: 280px;
+    width: 350px;
     height: 60px;
     line-height: 60px;
     color: white;
@@ -108,17 +108,16 @@
     margin-right: 15px;
   }
    #header .user img{
-     display: i;
     float: right;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background: white;
     margin-top: 15px;
+     margin-right: 20px;
   }
    #header .user span{
     float: right;
-    margin-left: 10px;
     color:#FBFCFF;
   }
   #header .returnBtn::before{

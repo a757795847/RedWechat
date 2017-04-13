@@ -59,6 +59,7 @@
                            :close-on-press-escape="false"
                            :close-on-click-modal="false"
                            :show-close="false"
+                           :class="rechargeState?'rechargeState':''"
                 >
                     <div v-if="!rechargeState"  slot="footer" >
                         <div ref="erwei"></div>
@@ -129,7 +130,7 @@ export default{
     },
     methods:{
         handleClick(tab, event) {
-            console.log(tab, event);
+//            console.log(tab, event);
         },
         moneyBtnActive(num){
             this.activeMoneyBtn = num;
@@ -373,6 +374,9 @@ export default{
     #userDetail .recharge .erweiPay .el-dialog.el-dialog--small{
         width: 250px;
         height: 260px;
+    }
+    #userDetail .recharge .erweiPay.rechargeState .el-dialog.el-dialog--small{
+        height: 245px;
     }
     #userDetail .recharge .erweiPay .el-dialog__body{
         padding-top: 0;

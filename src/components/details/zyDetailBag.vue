@@ -240,6 +240,7 @@
                            :close-on-click-modal="false"
                            :close-on-press-escape="false"
                            :show-close="false"
+                           :class="uploadFormData.error == 0 && upLoadingState?'upLoadingState':''"
                            top="20%"  >
                     <el-row v-if="!upLoadingState">
                         <el-col :span="24">
@@ -251,7 +252,7 @@
                     <el-row v-else>
                         <el-col :span="24">
                             <img src="../../assets/wechat-auth-4.png">
-                            <p>导入完毕，共导入{{uploadFormData.num}}条订单数</p>
+                            <p style="paddingBottom:5px">导入完毕，共导入{{uploadFormData.num}}条订单数</p>
                             <p v-if="uploadFormData.error != 0">有<span style="color:#CE6D72">{{uploadFormData.error}}</span>条数据导入失败，点击
                                 <a :href="this.$http.options.root+'/order/downloadErrorList?key='+uploadFormData.url+'&jwt='+token"
                                    :style="{textDecoration:'none',color:'#589680'}"
@@ -960,7 +961,10 @@ export default{
 
 #detailBag .detailsBody .upLoading .el-dialog--tiny {
     width: 300px;
-    height: 270px;
+    height: 260px;
+}
+#detailBag .detailsBody .upLoading.upLoadingState .el-dialog--tiny {
+    height: 240px;
 }
 #detailBag .detailsBody .upLoading .el-col-24 {
     padding: 0 17px;
@@ -975,11 +979,12 @@ export default{
 }
 #detailBag .detailsBody .upLoading .el-dialog__body{
     padding-top: 16px;
-    padding-bottom: 16px;
+    padding-bottom: 0px;
 }
 #detailBag .detailsBody .upLoading img{
     width: 80px;
     height: 80px;
+    margin-bottom: 5px;
 }
 #detailBag .detailsBody .upLoading .el-button--primary {
     color: #fff;

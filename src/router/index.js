@@ -15,7 +15,6 @@ export default new Router({
       },
       meta:{auth:false}
     },
-
     {
       path: '/',
       name: 'index',
@@ -89,6 +88,15 @@ export default new Router({
         },
       ]
     },
+    {
+      path: '/404',
+      name: '404',
+      component: function (resolve) {
+        require(['../components/404.vue'],resolve)
+      },
+      meta:{auth:undefined}
+    },
+    { path: '/*', redirect:'/404'}
     // {
     //   path: '*',
     //   name:'404',

@@ -17,7 +17,7 @@
                 <span v-else>立即登录</span>
             </el-button>
             <p class="text-right">
-                <a href="" class="text-muted">忘记密码?</a>
+                <a href="javascript:;" class="text-muted">忘记密码?</a>
             </p>
             <el-button class="btn-block" v-on:click="zylogin = false">注册账号</el-button>
         </div>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     <span slot="footer" class="dialog-footer">
-                       <el-button type="primary" @click="getcode()">确 定</el-button>
+                       <el-button type="primary" @click="getcode()" style="background:rgb(66, 140, 187);padding: 6px 14px;">确 定</el-button>
                     </span>
                     </el-dialog>
                 </div>
@@ -103,9 +103,9 @@
                     this.$auth.login({
                         body: this.data.body,
                         rememberMe: this.data.rememberMe,
-                        redirect: {name: redirect ? redirect.from.name : 'indexBody'},
+                        redirect: {name: redirect ? redirect.from.name : 'indexDefault'},
                         success(res) {
-                            console.log('success=>',res);
+//                            console.log('success=>',res);
                             this.loginState = false;
                         },
                         error(res) {
@@ -189,15 +189,19 @@
                                 password:this.register.onePwd
                             },
                         }).then((res) => {
-                            console.log('创建账号=>',res)
+//                            console.log('创建账号=>',res)
                             if(res.data.status == 0){
                                 this.$message.error(res.data.message);
                             }else if(res.data.status == 1){
-                                this.$message('注册成功');
+                                this.$message({
+                                    message: '注册成功',
+                                    type: 'success'
+                                });
                                 this.zylogin = true;
                                 this.validationText = '';
                                 this.data.body.username = this.register.phoneNub;
                                 this.clearRegister();
+                                this.countdown = 0;
                             }
                         }, (res) => {
 
@@ -310,6 +314,9 @@
         float: left;
         margin-bottom: -10px;
         color: #c73636;
+    }
+    #login .el-dialog--tiny{
+        width: 420px;
     }
 
 

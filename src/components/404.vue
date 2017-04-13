@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <h1>
         404
-    </div>
+    </h1>
 </template>
 
 

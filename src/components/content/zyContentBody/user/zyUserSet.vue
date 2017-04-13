@@ -29,7 +29,7 @@
                             <p>手机用于登录及登录密码找回、修改、同时接收重要提醒。</p>
                         </el-form-item>
                         <el-form-item label="登录密码" class="LoginPwd">
-                            <el-input type="password" v-model="form.pwd" ></el-input>
+                            <el-input type="password" v-model="form.pwd" :disabled=disableds></el-input>
                             <el-button type="text" @click="dialogVisible = true">修改密码</el-button>
                             <p>本密码用于账号登录、登录后可进行所有操作、请妥善保管。</p>
                         </el-form-item>
@@ -57,12 +57,12 @@
         </el-dialog>
 
         <el-dialog title="手机号修改" v-model="dialogVisibles" size="tiny" :show-close="false" :style="{ marginBottom: 30 + 'px' }">
-            <el-input type="text" class="form-control" v-model="form.phoneNub" placeholder="输入你的手机号" :style="{ marginBottom: 10 + 'px' }"></el-input>
+            <el-input type="text" class="form-control" v-model="form.phoneNub" placeholder="输入你的手机号" :style="{ marginBottom: 10 + 'px',width:300+'px' }"></el-input>
             <div class="input-group" :style="{ marginBottom: 30 + 'px' }">
-                <el-input v-model="form.messCode" placeholder="输入短信验证码" class="form-control validationText" :style="{ width: 65+ '%'}"></el-input>
+                <el-input v-model="form.messCode" placeholder="输入短信验证码" class="form-control validationText" :style="{ width: 204+ 'px'}"></el-input>
                     <span class="input-group-btn">
                         <el-button class="btn btn-primary" :disabled="disabled"
-                                   id="getcode" :style="{ position:'relative' }" v-on:click="validation()">{{countdown==0?"获取验证码":'重新发送'+countdown+''}}</el-button>
+                                   id="getcode" :style="{ position:'relative',height:35+'px' }" v-on:click="validation()">{{countdown==0?"获取验证码":'重新发送'+countdown+''}}</el-button>
                     </span>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -77,7 +77,7 @@
                     <div class="input-group" >
                         <el-input v-model="form.validationText" placeholder="请输入验证码" class="form-control validationText" :style="{ width: 52+ '%'}"></el-input>
                                 <span class="input-group-btn">
-                                    <img :src="validationImgSrc" v-on:click="getValidationImg()">
+                                    <img :src="validationImgSrc" v-on:click="getValidationImg()" :style="{ marginTop:-14+'px'}">
                                 </span>
                         <p></p>
                     </div>
@@ -115,6 +115,7 @@
                 dialogVisibles: false,
                 dialog: false,
                 disabled:false,
+                disableds:true,
                 validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
                 ruleForm2: {
                     pass: '',
@@ -429,7 +430,66 @@
        border-color:#68A593;
     }
     #zyUserSet .el-dialog.el-dialog--tiny{
-        width:420px;
+        width:344px;
     }
+    #zyUserSet .el-input.is-disabled .el-input__inner{
+        background-color:#fff;
+    }
+    #zyUserSet .el-input__inner {
+        display: block;
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        border-radius: 4px;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-color: #f2f2f2;
+        box-shadow: none;
+    }
+    #zyUserSet .input-group .form-control {
+        display: table-cell;
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    #zyUserSet .validationText input{
+        border-radius: 4px 0 0 4px;
+    }
+    #zyUserSet .btn {
+        background-color: #2ca2fb;
+        border-color: #2ca2fb;
+        display: inline-block;
+        padding: 7px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    #zyUserSet .btn-primary {
+        color:#fff;
+        background-color: rgb(66, 140, 187);
+        border-color: rgb(66, 140, 187);
+    }
+    #zyUserSet .el-button{
+        border-radius:0;
+    }
+    #zyUserSet .form-control el-input{
+        width:300px;
+    }
+    #zyUserSet #getcode:hover{
+        color:#fff;
+        border-color: #2ca2fb;
+        background-color: #2ca2fb;
+    }
+
 
 </style>

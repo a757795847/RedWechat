@@ -47,7 +47,7 @@
                     <el-input v-model="passwordFrorm.newPW2" type="password" :minlength="6"></el-input>
                 </el-form-item>
             </el-form>
-
+            <p v-if="passwordFrorm.errorText != ''" style="color:rgb(206, 109, 114);textIndent:5px;">{{passwordFrorm.errorText}}</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="restorePasswordFrorm" style="color:#393a3e">取 消</el-button>
                 <el-button type="primary" @click="modification">确 定</el-button>
@@ -77,7 +77,8 @@
                 passwordFrorm: {
                     oldPW:'',
                     newPW:'',
-                    newPW2:''
+                    newPW2:'',
+                    errorText:''
                 },
                 usernameState:false,
             };
@@ -110,20 +111,11 @@
             },
             modification(){
                  if(this.passwordFrorm.oldPW == ''|| this.passwordFrorm.newPW == ''||this.passwordFrorm.newPW2 == ''){
-                    this.$message({
-                        message: '请输入密码',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '密码不能为空';
                 }else if(this.passwordFrorm.oldPW.length < 6 || this.passwordFrorm.newPW.length < 6 || this.passwordFrorm.newPW2 < 6){
-                    this.$message({
-                        message: '密码最小长度为6',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '密码长度不能小于6位';
                 }else if( this.passwordFrorm.newPW !== this.passwordFrorm.newPW2){
-                    this.$message({
-                        message: '两次新密码不一致',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '两次新密码不一致';
                 }else{
                     this.$http({
                         url: 'user/innerUpdatePassword',
@@ -135,10 +127,13 @@
                     }).then((res) => {
 //                        console.log('修改密码=》succeed',res)
                         if(res.body.status == 1){
-                            this.restorePasswordFrorm()
-                            this.$message('修改成功');
+                            this.restorePasswordFrorm();
+                            this.$message({
+                                message: '修改成功',
+                                type: 'success'
+                            })
                         }else{
-                         this.$message.error('修改失败');
+                            this.passwordFrorm.errorText = res.body.message;
                         }
                     }, (res) => {
 //                        console.log('修改密码=》error',res)
@@ -149,6 +144,7 @@
                 this.passwordFrorm.oldPW = '';
                 this.passwordFrorm.newPW = '';
                 this.passwordFrorm.newPW2 = '';
+                this.passwordFrorm.errorText = '';
                 this.dialogVisible = false
             },
             userNameChange(val){

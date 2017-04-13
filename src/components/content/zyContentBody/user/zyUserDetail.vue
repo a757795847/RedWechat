@@ -51,7 +51,7 @@
                     <p style="marginTop:20px">选择充值金额</p>
                     <el-button class="isActive payBtn"><i class="weixinLogo"></i>微信支付</el-button>
                     <span slot="footer" class="dialog-footer">
-                      <el-button type="text" @click="dialogVisible = false" style="color:#2B2C2F">取 消</el-button>
+                      <el-button type="text" @click="dialogVisibleClose" style="color:#2B2C2F">取 消</el-button>
                       <el-button type="text" @click="recharge">确 定</el-button>
                     </span>
                 </el-dialog>
@@ -220,9 +220,13 @@ export default{
         },
         dateText(time){
             var times = new Date(time).toLocaleDateString()+' '+new Date(time).toTimeString();
-
-//            times = times.replace(/T|Z/g,' ').slice(0,19);
             return times.split('G')[0]
+        },
+        dialogVisibleClose(){
+            this.dialogVisible = false;
+            setTimeout(()=>{
+                this.activeMoneyBtn = 1;
+            },300);
         }
     },
     mounted(){

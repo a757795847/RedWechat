@@ -498,7 +498,7 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            if(this.$router._from.path == '/login'){
+            if(this.$router._from.path == '/login' || this.$router._from.name == null){
                 this.$router.push('/')
             }else{
                 this.$router.go(-1)
@@ -728,7 +728,9 @@ export default{
         },
         //关闭详情页
         closeOrderDetail(){
-            this.orderDetail = 'detail'
+            setTimeout(()=>{
+                this.orderDetail = 'detail'
+            },300)
         },
         dateText(time){
             var times = new Date(time).toLocaleDateString()+' '+new Date(time).toTimeString();
@@ -750,10 +752,9 @@ export default{
                 this.pageData = res.body.page;
             }
         }, (res) => {
-            if(res.status == 400){
-                this.$router.go(-1)
-            }
+
         });
+
     },
     mounted(){
         this.$http({

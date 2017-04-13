@@ -1,5 +1,5 @@
 <template>
-    <div id="appListDetails">
+    <div id="appListDetails" v-loading="loading">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
             <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
@@ -65,6 +65,7 @@
         name: 'zyAppListDetails',
         data(){
             return {
+                loading:true,
                 dialogVisible: false,
                 detail: {},
                 state: false,

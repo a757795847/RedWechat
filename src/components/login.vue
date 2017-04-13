@@ -12,7 +12,10 @@
                 <input type="password" v-model="data.body.password" @keyup.13="login" class="form-control keyInput" placeholder="请输入密码">
             </div>
             <!--<p v-show="errorLogin" class="errorLogin">账号密码错误</p>-->
-            <el-button v-on:click.prevent="login()" >立即登录</el-button>
+            <el-button v-on:click.prevent="login()">
+                <span v-if="loginState"><i class="el-icon-loading"></i>   登录中</span>
+                <span v-else>立即登录</span>
+            </el-button>
             <p class="text-right">
                 <a href="" class="text-muted">忘记密码?</a>
             </p>
@@ -65,6 +68,7 @@
         name:'zyLogin',
         data() {
             return {
+                loginState:false,
                 data: {
                     body: {
                         username: '',
@@ -94,20 +98,25 @@
                 if(this.data.body.username == '' || this.data.body.password == ''){
                     this.$message.error('账号密码不能为空');
                 }else{
+                    this.loginState = true;
                     var redirect = this.$auth.redirect();
                     this.$auth.login({
                         body: this.data.body,
                         rememberMe: this.data.rememberMe,
                         redirect: {name: redirect ? redirect.from.name : 'indexBody'},
                         success(res) {
-                            console.log(res);
+                            console.log('success=>',res);
+                            this.loginState = false;
                         },
                         error(res) {
-                            console.log(res);
                             if(res.status === 401){
                                 this.$message.error('账号密码错误');
-                            }
-                            this.error = res.data;
+
+                            }else if(res.status == 0 && res.data == null){
+                                this.$message.error('登录失败,网络连接出错');
+                            };
+                            this.loginState = false;
+
                         }
                     });
                 }

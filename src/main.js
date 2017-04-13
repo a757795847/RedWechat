@@ -22,10 +22,25 @@ Vue.use(require('@websanova/vue-auth'), {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-  refreshData: {enabled: false}
+  refreshData: {enabled: false},
 });
 
+const administrationRouter = ['/details/bag'];
 router.beforeEach((to, from, next) => {
+  var list = store.state.cart.appList;
+  var state = false;
+  if(administrationRouter.indexOf(to.path) != -1 ){
+    for(var i=0;i<list.length;i++){
+      if('/details/'+list[i].abbreviation == to.path){
+        state = true;
+      }
+    }
+    if(state == false){
+      router.go(-1)
+      return;
+    }
+  }
+
   Vue.router._to = to;
   Vue.router._from = from;
   next();

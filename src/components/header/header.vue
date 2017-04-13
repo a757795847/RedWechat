@@ -100,7 +100,7 @@
   }
    #header .user{
     float: right;
-    width: 200px;
+    width: 280px;
     height: 60px;
     line-height: 60px;
     color: white;
@@ -108,6 +108,7 @@
     margin-right: 15px;
   }
    #header .user img{
+     display: i;
     float: right;
     width: 25px;
     height: 25px;
@@ -155,6 +156,9 @@
   .el-menu-item, .el-submenu__title{
     color:#393a3e
   }
+  .el-dialog__close:hover {
+    color: #68A593;
+  }
   .el-pager li.active{
     background: #589680;
     border-color: #589680;
@@ -176,6 +180,7 @@
     background-size: 20px;
     background-position: 7px 8px;
     text-align: center;
+    color: #393a3e;
   }
   .setFinance{
     text-indent: -14px;

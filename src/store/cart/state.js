@@ -3,5 +3,5 @@ export default {
     activeList:'/',
     userImg:'',
     //开通的app应用
-    appList:[]
+    appList:[],
 };

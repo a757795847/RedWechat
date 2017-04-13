@@ -6,21 +6,21 @@
                 <div class="Userform">
                     <el-form ref="form" :model="form" label-width="88px">
                         <el-form-item label="头像">
-                            <img :src="this.$store.state.cart.userImg" alt="" v-if="this.$store.state.cart.userImg !== ''">
-                            <el-upload v-else
+                            <el-upload
                                        class="avatar-uploader"
                                        action="http://115.29.188.190:8085/user/uploadHeadImage"
                                        :headers="{'Authorization':token}"
                                        :show-file-list="false"
                                        :on-success="handleAvatarSuccess"
                                        :before-upload="beforeAvatarUpload">
-                                <img v-if="this.$store.state.cart.userImg" :src="this.$store.state.cart.userImg" class="avatar">
+                                <img v-if="this.$store.state.cart.userImg !== ''" :src="this.$store.state.cart.userImg" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
 
                         </el-form-item>
-                        <el-form-item label="账户名称">
-                            <el-input v-model="form.name"></el-input>
+                        <el-form-item label="账户名称" class="username">
+                            <el-input v-model="form.name" @change="userNameChange"></el-input>
+                            <el-button v-if="usernameState" type="text" @click="userNameChangeAjax">确定修改</el-button>
                         </el-form-item>
                         <el-form-item label="登录手机号" class="LoginPhone">
                             <span :style="{ width:'110px' ,color:'#1f2d3d',height:'30px',marginRight:'10px',fontSize:'15px'}">15824127852</span>
@@ -36,7 +36,7 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
-        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" id="changePwd" :show-close="false">
+        <el-dialog title="密码修改" v-model="dialogVisible" size="tiny" class="changePwd" :show-close="false">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="旧密码">
                     <el-input v-model="passwordFrorm.oldPW" type="password" :minlength="6"></el-input>
@@ -48,7 +48,7 @@
                     <el-input v-model="passwordFrorm.newPW2" type="password" :minlength="6"></el-input>
                 </el-form-item>
             </el-form>
-
+            <p v-if="passwordFrorm.errorText != ''" style="color:rgb(206, 109, 114);textIndent:5px;">{{passwordFrorm.errorText}}</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="restorePasswordFrorm" style="color:#393a3e">取 消</el-button>
                 <el-button type="primary" @click="modification">确 定</el-button>
@@ -103,7 +103,7 @@
                 countdown:0,
                 form: {
                     name: this.$auth.user().name,
-                    phone:this.$auth.user().phone,
+                    phone:this.$auth.user().username,
                     pwd:'123456',
                     phoneNub:'',
                     messCode:'',
@@ -123,8 +123,10 @@
                 passwordFrorm: {
                     oldPW:'',
                     newPW:'',
-                    newPW2:''
-                }
+                    newPW2:'',
+                    errorText:''
+                },
+                usernameState:false,
             };
         },
         methods: {
@@ -132,6 +134,16 @@
 //                this.form.img = URL.createObjectURL(file.raw);
                 this.$store.dispatch('update_user_img',URL.createObjectURL(file.raw));
             },
+//            submitForm(formName) {
+//                this.$refs[formName].validate((valid) => {
+//                    if (valid) {
+////                      console.log('submit!!');
+//                    }else{
+////                        console.log('error submit!!');
+//                        return false;
+//                    }
+//                });
+//            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -244,20 +256,11 @@
             },
             modification(){
                  if(this.passwordFrorm.oldPW == ''|| this.passwordFrorm.newPW == ''||this.passwordFrorm.newPW2 == ''){
-                    this.$message({
-                        message: '请输入密码',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '密码不能为空';
                 }else if(this.passwordFrorm.oldPW.length < 6 || this.passwordFrorm.newPW.length < 6 || this.passwordFrorm.newPW2 < 6){
-                    this.$message({
-                        message: '密码最小长度为6',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '密码长度不能小于6位';
                 }else if( this.passwordFrorm.newPW !== this.passwordFrorm.newPW2){
-                    this.$message({
-                        message: '两次新密码不一致',
-                        type: 'warning'
-                    });
+                     this.passwordFrorm.errorText = '两次新密码不一致';
                 }else{
                     this.$http({
                         url: 'user/innerUpdatePassword',
@@ -267,15 +270,18 @@
                             newpassword:this.passwordFrorm.newPW
                         }
                     }).then((res) => {
-                        console.log('修改密码=》succeed',res)
+//                        console.log('修改密码=》succeed',res)
                         if(res.body.status == 1){
-                            this.restorePasswordFrorm()
-                            this.$message('修改成功');
+                            this.restorePasswordFrorm();
+                            this.$message({
+                                message: '修改成功',
+                                type: 'success'
+                            })
                         }else{
-                         this.$message.error('修改失败');
+                            this.passwordFrorm.errorText = res.body.message;
                         }
                     }, (res) => {
-                        console.log('修改密码=》error',res)
+//                        console.log('修改密码=》error',res)
                     });
                 }
             },
@@ -283,9 +289,21 @@
                 this.passwordFrorm.oldPW = '';
                 this.passwordFrorm.newPW = '';
                 this.passwordFrorm.newPW2 = '';
+                this.passwordFrorm.errorText = '';
+                this.dialogVisible = false
                 this.dialogVisible = false;
                 this.dialogVisibles = false;
             },
+            userNameChange(val){
+                if(val == this.$auth.user().name){
+                    this.usernameState = false;
+                }else{
+                    this.usernameState = true;
+                }
+            },
+            userNameChangeAjax(){
+
+            }
         }
     }
 </script>
@@ -310,9 +328,12 @@
     #zyUserSet .el-tabs__content {
         padding: 26px 73px;
     }
+    #zyUserSet .Userform{
 
+    }
     #zyUserSet .Userform img{
         width:34px;
+        height: 34px;
     }
     #zyUserSet .el-form-item__label{
         padding:12px 18px 11px 0px;
@@ -355,11 +376,27 @@
     #zyUserSet .dialog-footer button:hover{
         background:#E4EDE2;
     }
-    #zyUserSet #changePwd .el-form-item{
+    #zyUserSet .changePwd .el-form-item{
         margin-bottom:20px;
     }
     #zyUserSet .el-dialog__body{
         padding:27px 20px 0 20px;
+    }
+    #zyUserSet .changePwd .el-dialog--tiny{
+        width: 400px;
+    }
+    #zyUserSet .username .el-input{
+        width: 32%;
+    }
+    #zyUserSet .username button{
+        background: #fff;
+        border: none;
+        color: #68A593;
+        padding: 9px 16px;
+        font-size: 13px;
+    }
+    #zyUserSet .username button:hover{
+        background: #E4EDE2;
     }
     #zyUserSet .validationText input{
         border-radius: 4px 0 0 4px;

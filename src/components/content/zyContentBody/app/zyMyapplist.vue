@@ -41,9 +41,9 @@
                     currentPageIndex:1
                 }
             }).then((res) => {
-                console.log(res)
-            this.list = res.data.list;
-        }, (res) => {
+//                console.log(res)
+                this.list = res.data.list;
+            }, (res) => {
 
             });
         }

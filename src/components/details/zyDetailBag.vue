@@ -51,6 +51,8 @@
                             border
                             style="width: 100%"
                             empty-text="目前没有任何需要处理的返现申请"
+                            @selection-change="handleSelectionChange"
+                            @cell-click="openDetail"
                     >
                         <el-table-column
                                 fixed
@@ -62,10 +64,11 @@
                         <el-table-column
                                 label="订单编号"
                                 width="190"
+                                prop="order_number"
                         >
-                            <template scope="scope">
-                                <p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>
-                            </template>
+                            <!--<template scope="scope">-->
+                                <!--<p @click="openDetail(scope.$index)"  class="detail">{{ scope.row.order_number }}</p>-->
+                            <!--</template>-->
                         </el-table-column>
                         <el-table-column
                                 prop="wechat_name"
@@ -113,7 +116,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="导入日期"
-                                width="100"
+                                width="120"
                         >
                             <template scope="scope">
                                 {{new Date(scope.row.create_date).toLocaleDateString()}}
@@ -121,7 +124,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="返现日期"
-                                width="100"
+                                width="120"
                         >
                             <template scope="scope">
                                 <div v-if="scope.row.send_date != null">
@@ -150,7 +153,7 @@
                                 width="80"
                         >
                             <template scope="scope">
-                                {{scope.row.red_package_size/100}}
+                                {{(scope.row.red_package_size/100).toFixed(2)}}
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -172,11 +175,12 @@
                             :total="pageData.count"
                             :page-size="pageData.page_size"
                             @current-change="currentChange"
+                            :current-page="currentPage"
                     >
                     </el-pagination>
                 </div>
                 <!--订单上传-->
-                <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible">
+                <el-dialog class="upTable" title="订单上传" v-model="dialogFormVisible" @close="closeForm">
                     <el-row>
                         <el-col :span="12">
                             <el-form ref="form" :model="form" label-width="80px">
@@ -211,13 +215,14 @@
                                     :headers="{'Authorization':token}"
                                     :auto-upload="false"
                                     :on-success="upSuccessful"
-                                    :on-progress="upProcess"
+                                    :on-error="upError"
                                     :data="{
                                         'redPackageSize':parseInt(form.money*100),
                                         'label':form.name
                                     }"
                                     accept="csv"
                                     :before-upload="beforeUpload"
+                                    :on-progress="upProgress"
                                     >
                                 <i class="el-icon-upload"></i>
                                 <div class="el-upload__text">将文件拖到此处，或<em :style="{color:'#68A593'}">点击上传</em><br/>文件后缀名: csv</div>
@@ -225,12 +230,12 @@
                         </el-col>
                     </el-row>
                     <div slot="footer" class="dialog-footer">
-                        <el-button  type="text" @click="dialogFormVisible = false" :style="{color:'#393A3E'}">取 消</el-button>
+                        <el-button  type="text" @click="closeForm" :style="{color:'#393A3E'}">取 消</el-button>
                         <el-button type="text" @click="submitUpload">上 传</el-button>
                     </div>
                 </el-dialog>
                 <!--订单上传结束-->
-                <el-dialog class="upLoading" :title="upLoadingState?'订单导入完成':'订单导入中'" v-model="upLoading"
+                <el-dialog class="upLoading" :title="!upLoadingState?'订单导入中':'订单导入完成'" v-model="upLoading"
                            size="tiny"
                            :close-on-click-modal="false"
                            :close-on-press-escape="false"
@@ -247,7 +252,7 @@
                         <el-col :span="24">
                             <img src="../../assets/wechat-auth-4.png">
                             <p>导入完毕，共导入{{uploadFormData.num}}条订单数</p>
-                            <p v-if="uploadFormData.error != 0">有{{uploadFormData.error}}条数据导入失败，点击
+                            <p v-if="uploadFormData.error != 0">有<span style="color:#CE6D72">{{uploadFormData.error}}</span>条数据导入失败，点击
                                 <a :href="this.$http.options.root+'/order/downloadErrorList?key='+uploadFormData.url+'&jwt='+token"
                                    :style="{textDecoration:'none',color:'#589680'}"
                                 >这里下载</a>
@@ -259,8 +264,8 @@
                       </span>
                 </el-dialog>
                 <!--订单详情-->
-                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length > 0">
-                    <el-tabs active-name="detail">
+                <el-dialog  class="orderDetail" ref="orderDetail" v-if="tableData.length > 0" @close="closeOrderDetail">
+                    <el-tabs v-model="orderDetail">
                         <el-tab-pane label="订单详情" class="order" name="detail">
                             <el-row>
                                 <el-col :span="10">订单属性</el-col>
@@ -296,7 +301,11 @@
                             </el-row>
                             <el-row>
                                 <el-col :span="10">收货地址</el-col>
-                                <el-col :span="14" class="siteText">{{tableData[orderDetailIndex].receiver_address}}</el-col>
+                                <el-col :span="14" >
+                                    <el-tooltip class="item" effect="dark" :content="tableData[orderDetailIndex].receiver_address" placement="top-start">
+                                        <el-button class="siteText">{{tableData[orderDetailIndex].receiver_address}}</el-button>
+                                    </el-tooltip>
+                                </el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="10">收货人手机号</el-col>
@@ -305,16 +314,16 @@
                         </el-tab-pane>
                         <el-tab-pane label="红包日志" class="log" name="log">
                             <p v-if="tableData[orderDetailIndex].create_date" class="logImport">
-                                <span class="logTime">{{tableData[orderDetailIndex].create_date}}</span>订单导入
+                                <span class="logTime">{{ dateText(tableData[orderDetailIndex].create_date)}}</span>订单导入
                             </p>
                             <p v-if="tableData[orderDetailIndex].send_date"  class="logSend">
-                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>审核通过，红包发送
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].send_date)}}</span>审核通过，红包发送
                             </p>
                             <p v-if="tableData[orderDetailIndex].send_date" class="logSucceed">
-                                <span class="logTime">{{tableData[orderDetailIndex].send_date}}</span>红包发送成功
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].send_date)}}</span>红包发送成功
                             </p>
                             <p v-if="tableData[orderDetailIndex].recieve_date" class="logSucceed">
-                                <span class="logTime">{{tableData[orderDetailIndex].recieve_date}}</span>红包已领取
+                                <span class="logTime">{{dateText(tableData[orderDetailIndex].recieve_date)}}</span>红包已领取
                             </p>
                         </el-tab-pane>
                     </el-tabs>
@@ -427,7 +436,7 @@ export default{
             multipleSelection: [],
             pageData:{},
             //上传文件
-            dialogFormVisible:false,
+            dialogFormVisible:false,//表单页面
             form: {
                 type: '选项1',
                 name: '',
@@ -439,22 +448,17 @@ export default{
                     }
                 ],
                 file:false
-            },
-            upLoading:false,
-            upLoadingIn:0,
-            upLoadingState:true,
-            orderDetailIndex:0,
-            serve:{
-                url:''
-            },
-            config: {
-                value: 'https://www.baidu.com',
-                imagePath: '../../assets/erwei.png',
-                filter: 'color'
-            },
+            },//表单信息
+            upLoading:false,//上传中页面
+            upLoadingIn:0,//进度条
+            upLoadingState:false,//是否上传成功
             uploadFormData:{
                 num:0,
                 error:0,
+                url:''
+            },//成功后返回正确错误条数及下载地址
+            orderDetailIndex:0,
+            serve:{
                 url:''
             },
             bagTypes:{
@@ -473,13 +477,9 @@ export default{
                     }
                 ]
             },
+            orderDetail:'detail',
+            currentPage:1,//当前页
         }
-    },
-    watch:{
-
-    },
-    computed:{
-
     },
     methods:{
         auditState(index){
@@ -498,7 +498,7 @@ export default{
             this.isActive = index;
         },
         returnIndex(){
-            if(this.$router._from.path == '/login'){
+            if(this.$router._from.path == '/login' || this.$router._from.name == null){
                 this.$router.push('/')
             }else{
                 this.$router.go(-1)
@@ -508,22 +508,30 @@ export default{
             this.multipleSelection = val;
         },
         //上传文件
+        //上传失败清除表单
+        clearUpState(){
+            this.upLoadingIn = 0;
+            this.upLoading = false;
+            this.upLoadingState = false;
+            this.$refs.upload.clearFiles();
+        },
+        //订单导入完成
         upSuccessful(response, file, fileList){
             if(response.status == 1){
-                this.upLoadingIn = 100;
                 this.upLoadingState = true;
                 this.pageAjax(1,[0,1,3]);
                 this.types.active = '4';
                 this.uploadFormData.num = response.data.successCount;
                 this.uploadFormData.error = response.data.errorCount;
                 this.uploadFormData.url = response.data.errorKey;
+                this.clearForm();
+                this.upLoadingIn = 100;
+            }else{
+                this.$message.error(response.message);
+                this.clearUpState()
             }
         },
-        upProcess(event, file, fileList){
-            console.log(event)
-            console.log(file)
-            console.log(fileList)
-        },
+        //文件上传之前
         beforeUpload(file){
             if(file == undefined){
                 return false;
@@ -531,6 +539,21 @@ export default{
             this.form.file = true;
             return true;
         },
+        //文件上传错误
+        upError(err, file, fileList){
+            if(err){
+                this.$message.error('上传失败');
+                this.upLoadingIn = 0;
+                this.clearUpState()
+            }
+        },
+        //文件上传中
+        upProgress(event,file,fileList){
+            if(this.upLoadingIn < 98){
+                this.upLoadingIn = parseInt(event.percent * 10)/10;
+            }
+        },
+        //文件上传
         submitUpload() {
             if(this.form.money == ''){
                 this.$message({
@@ -543,41 +566,64 @@ export default{
                         message: '请上传文件',
                         type: 'warning'
                     });
+                }else if(this.$refs.upload.uploadFiles.length > 1){
+                    this.$message({
+                        message: '只能上传一个文件',
+                        type: 'warning'
+                    });
+                    this.$refs.upload.clearFiles();
+                }else if(this.$refs.upload.uploadFiles[0].size > 5242880){
+                    this.$message({
+                        message: '文件大小不能大于5',
+                        type: 'warning'
+                    });
+                    this.$refs.upload.clearFiles();
                 }else{
                     this.$refs.upload.submit();
-                    this.upLoadingIn = 0;
                     this.upLoading = true;
-                    this.upLoadingState = false;
-                    this.upload(10);
+//                    this.upload(6);
                 }
 
             }
 
         },
+        //计时器
         upload(i){
-            console.log(this.upLoadingIn)
-            if(this.upLoadingIn == 100){
+            if(this.upLoadingIn >= 100){
+                this.upLoadingIn = 100;
                 return;
             }
             this.upLoadingIn += i;
-            if(this.upLoadingIn > 90){
-                i = i/2;
+            if(this.upLoadingIn > 80){
+                i = Math.ceil(i/2);
             }
             setTimeout(function () {
                 this.upload(i);
             }.bind(this),100)
 
         },
+        //上传成功关闭
         uploadClose(){
+            this.clearUpState();
             this.form.name='';
             this.form.type = '选项1';
             this.form.money = '';
-            this.$refs.upload.clearFiles();
-            this.upLoading = false ;
             this.dialogFormVisible = false;
+        },
+        //关闭上传表单
+        closeForm(){
+            this.dialogFormVisible = false;
+            this.clearForm();
+        },
+        //清除表单
+        clearForm(){
+            this.form.name = '';
+            this.form.money = '';
+            this.$refs.upload.clearFiles();
         },
         //分页
         currentChange(val){
+            this.currentPage = val;
             var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
             this.pageAjax(val,arr);
         },
@@ -596,7 +642,7 @@ export default{
                 method: 'POST',
                 body:data
             }).then((res) => {
-                console.log(res);
+//                console.log('分页ajax=》',res);
                 if(res.body.status == 1){
                     this.tableData = res.body.list;
                     this.pageData = res.body.page;
@@ -616,7 +662,7 @@ export default{
                     token:token[token.length-1]
                 }
             }).then((res) => {
-                console.log('发送红包',res)
+//                console.log('发送红包',res)
                 if(res.body.status == 1){
                     this.tableData[index].gift_state = 3 ;
                 }else{
@@ -630,7 +676,9 @@ export default{
         handleSearchClick(){
             var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
             if(this.search == ''){
-                this.selectStateAjax(this.types.active);
+//                this.selectStateAjax(this.types.active);
+                this.pageAjax(1,arr);
+                this.currentPage = 1;
             }else{
                 this.$http({
                     url: 'order/lookup/'+this.search,
@@ -644,6 +692,7 @@ export default{
                     if(res.data.status == 1){
                         this.tableData = res.body.list;
                         this.pageData = res.body.page;
+                        this.currentPage = 1;
                     }
                 }, (res) => {
 
@@ -652,9 +701,16 @@ export default{
 
         },
         //打开详情
-        openDetail(index){
-            this.orderDetailIndex = index;
-            this.$refs.orderDetail.open();
+        openDetail(row, column, cell, event){
+            if(column.property=="order_number"){
+                for(var i =0;i<this.tableData.length;i++){
+                    if(this.tableData[i].order_number == row.order_number){
+                        this.orderDetailIndex = i;
+                        this.$refs.orderDetail.open();
+                    }
+                }
+
+            }
         },
         closeDetail(index){
             this.$refs.orderDetail.close();
@@ -664,13 +720,21 @@ export default{
             this.pageAjax(1,arr);
         },
         selectableState(row, index){
-
-            return row.gift_state != 1;
-
+            return row.gift_state == 1;
         },
         bagType(index){
             this.orderDetailIndex = index;
             this.$refs.bagTypeOperation.open();
+        },
+        //关闭详情页
+        closeOrderDetail(){
+            setTimeout(()=>{
+                this.orderDetail = 'detail'
+            },300)
+        },
+        dateText(time){
+            var times = new Date(time).toLocaleDateString()+' '+new Date(time).toTimeString();
+            return times.split('G')[0]
         }
     },
     beforeCreate(){
@@ -688,10 +752,9 @@ export default{
                 this.pageData = res.body.page;
             }
         }, (res) => {
-            if(res.status == 400){
-                this.$router.go(-1)
-            }
+
         });
+
     },
     mounted(){
         this.$http({
@@ -837,12 +900,13 @@ export default{
     margin-right: 2px;
     padding-top: 5px;
 }
-#detailBag .detailsBody .detail{
+
+#detailBag .detailsBody .detailsBodyTBody tbody tr td:nth-child(2) .cell{
     background: url("../../assets/app-hongbao-detail.png") no-repeat;
     cursor: pointer;
     color: rgb(88, 150, 128);
     display: inline-block;
-    background-position: 154px 6px;
+    background-position: 160px 6px;
     background-size: 12px;
     border: none;
     padding: 0;
@@ -1004,6 +1068,15 @@ export default{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-right: 20px;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 90%;
+    color: #48576a;
+}
+#detailBag .detailsBody  .orderDetail .order .siteText:hover{
+    color: #48576a;
 }
 #detailBag .detailsBody  .orderDetail .log p{
     height: 25px;
@@ -1048,6 +1121,9 @@ export default{
 }
 #detailBag .detailsBody  .bagType .el-form-item{
     margin-bottom: 15px;
+}
+#detailBag .detailsBody  .bagType .el-select-dropdown__item{
+    font-size: 13px;
 }
 #detailBag .detailsBody  .bagType .el-select-dropdown__item.selected {
     background-color: #71A593;

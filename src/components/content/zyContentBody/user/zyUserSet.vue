@@ -23,8 +23,9 @@
                             <el-button v-if="usernameState" type="text" @click="userNameChangeAjax">确定修改</el-button>
                         </el-form-item>
                         <el-form-item label="登录手机号" class="LoginPhone">
-                            <span :style="{ width:'110px' ,color:'#1f2d3d',height:'30px',marginRight:'10px',fontSize:'15px'}">15824127852</span>
-                            <el-button type="text" @click="dialogVisibles = true">修改手机号</el-button>
+                            <span :style="{ width:'110px' ,color:'#1f2d3d',height:'30px',marginRight:'10px',fontSize:'15px'}">{{form.phone}}</span>
+                            <el-button type="text" @click="dialogVisibles = true"
+                                       :style="{position:'absolute',left:120+'px'}">修改手机号</el-button>
                             <p>手机用于登录及登录密码找回、修改、同时接收重要提醒。</p>
                         </el-form-item>
                         <el-form-item label="登录密码" class="LoginPwd">
@@ -65,12 +66,12 @@
                     </span>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="restorePasswordFrorm" style="color:#393a3e">取 消</el-button>
+                <el-button @click="clearPhone" style="color:#393a3e">取 消</el-button>
                 <el-button type="primary" @click="phoneOk">确 定</el-button>
             </span>
         </el-dialog>
 
-            <el-dialog title="请输入验证码" v-model="dialog" size="tiny" id="validationImg" :style="{ top: 30 + '%' ,width:420+'px'}">
+            <el-dialog title="请输入验证码" v-model="dialog" size="tiny" id="validationImg">
 
                 <div>
                     <div class="input-group" >
@@ -103,7 +104,7 @@
                 countdown:0,
                 form: {
                     name: this.$auth.user().name,
-                    phone:this.$auth.user().username,
+                    phone:this.$auth.user().phone,
                     pwd:'123456',
                     phoneNub:'',
                     messCode:'',
@@ -134,6 +135,14 @@
 //                this.form.img = URL.createObjectURL(file.raw);
                 this.$store.dispatch('update_user_img',URL.createObjectURL(file.raw));
             },
+            clearPhone(){
+                console.log(12);
+                this.dialogVisibles=false;
+                this.form.phoneNub='';
+                this.form.messCode='';
+                console.log(this.$auth.user());
+
+            },
 //            submitForm(formName) {
 //                this.$refs[formName].validate((valid) => {
 //                    if (valid) {
@@ -144,22 +153,12 @@
 //                    }
 //                });
 //            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                      console.log('submit!!');
-                    }else{
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
             validation(){
 //                this.getValidationImg();
                 if(this.form.phoneNub != ''){
                         if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.form.phoneNub)){
                         this.dialog = true;
-                       this.dialogVisibles= false;
+                       this.dialogVisibles= true;
 
                         return true;
                     }else{
@@ -218,7 +217,10 @@
                 if(this.form.phoneNub != ''||this.form.messCode != ''){
                     if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.form.phoneNub)){
                         if(this.form.messCode == 1111){
+                            this.form.phone=this.form.phoneNub;
                             this.$message('修改成功');
+                            this.form.phoneNub='';
+                            this.form.messCode='';
                             this.dialogVisibles= false;
                         }else{
                             this.$message.error('修改失败');
@@ -244,16 +246,16 @@
                 }
                 return isNPG && isLt2M;
             },
-            beforeCreate(){
-                this.$http({
-                    url: 'test',
-                    method: 'GET',
-                }).then((res) => {
-                    console.log(11);
-                   /* this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');*/
-            }, (res) => {
-                });
-            },
+//            beforeCreate(){
+//                this.$http({
+//                    url: 'test',
+//                    method: 'GET',
+//                }).then((res) => {
+//                    console.log(11);
+//                    this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
+//            }, (res) => {
+//                });
+//            },
             modification(){
                  if(this.passwordFrorm.oldPW == ''|| this.passwordFrorm.newPW == ''||this.passwordFrorm.newPW2 == ''){
                      this.passwordFrorm.errorText = '密码不能为空';

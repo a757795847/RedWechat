@@ -36,8 +36,9 @@
         this.$auth.logout({
           makeRequest: true,
           success() {
-            that.$store.dispatch('empty_app_list')
+            this.$store.dispatch('empty_app_list')
             this.$router.push('/');
+            localStorage.clear();
           },
           error() {
           }

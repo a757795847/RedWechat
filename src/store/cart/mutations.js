@@ -28,6 +28,6 @@ export default{
         localStorage.setItem('jurisdiction',JSON.stringify(list))
     },
     [types.EMPTY_APP_LIST](state){
-        state.appList = []
+        state.appList = [];
     },
 }

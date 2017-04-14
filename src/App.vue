@@ -32,7 +32,8 @@
     padding-left: 40px;
   }
   .el-message.messageError .el-message__icon{
-    background: #F2D9D9;
+    background: rgb(206, 109, 114);
   }
+
 </style>
 

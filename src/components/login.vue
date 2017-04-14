@@ -52,7 +52,7 @@
                 <el-input type="password" class="form-control" placeholder="请再次输入确认密码" v-model="register.twoPwd" :style="{ marginBottom: 30 + 'px' }"></el-input>
                 <!--<p v-show="errorRegistered" class="errorLogin">{{errorRegisteredText}}</p>-->
                 <p class="text-center mb-housite">
-                    <el-button class="btn btn-primary btn-lg btn-block" id="addID" v-on:click="create()" >创建账号</el-button>
+                    <el-button class="btn btn-primary btn-lg btn-block addID"  v-on:click="create()" >创建账号</el-button>
                 </p>
                 <p class="text-center">已经有账号?</p>
                 <p class="text-center">
@@ -441,13 +441,13 @@
         background-color: #68A593;
         border-color: #68A593;
     }
-    #father #addID{
+    #father .addID{
         width:100%;
         padding:12px 16px;
         font-size:16px;
         border-radius: 4px;
     }
-    #father #addID:hover{
+    #father .addID:hover{
         color:#fff;
         background-color: #68A593;
         border-color: #68A593;
@@ -502,10 +502,7 @@
         font-size:85%;
     }
     #father .text-center .text-info {
-        color: #2ca2fb;
-    }
-    #father .text-center .text-info:hover{
-        color:#337ab7;
+        color: #68A593;
     }
     #father #getcode{
         margin-top: 0px;
@@ -569,7 +566,7 @@
         color:#68A593;
     }
     #validationImg .sure:hover{
-        background-color: #68A593;
-        color:#fff;
+        background-color: #E4EDE2;
+        color:#68A593;
     }
 </style>

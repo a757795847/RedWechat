@@ -13,7 +13,7 @@
                 <i class="appList"></i><el-menu-item-group class="appLists" title="应用" :style="{ marginTop: 4 + 'px'}">
                 <!--<el-menu-item index="2">我的应用</el-menu-item>-->
                 <div class="temporary" index="2" style="border-radius:0">我的应用</div>
-                <el-menu-item  :index="'/details/'+item.abbreviation" @click="toDetailsBag"
+                <el-menu-item  :index="'/app/'+item.abbreviation" @click="toDetailsBag"
                                v-for="(item,index) in this.$store.state.cart.appList"
                                :key="index">{{ item.name }}</el-menu-item>
                 <div class="elDiv" @click="addApp">
@@ -55,7 +55,7 @@
                 this.$router.push('/')
             },
             toDetailsBag(){
-                this.$router.push('/details/bag')
+                this.$router.push('/app/bag')
             }
         },
         beforeCreate(){

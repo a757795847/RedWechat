@@ -1,5 +1,5 @@
 <template>
-    <div id="appListDetails">
+    <div id="appListDetails" v-loading="loading">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
             <el-breadcrumb-item>{{title}}</el-breadcrumb-item>
@@ -75,6 +75,10 @@
             }
         },
         beforeCreate(){
+
+            if(this.$route.params.id == undefined){
+                this.$router.push('/');
+            }
             this.$http({
                 url: 'app/info',
                 method: 'POST',
@@ -88,6 +92,7 @@
                     this.color=res.data.applicationInfo.font_color;
                     this.state = res.data.isOpened;
                     this.title = res.data.applicationInfo.name;
+//                    setTimeout(()=>{this.loading = false;},300)
                     this.loading = false;
                 }
             }, (res) => {
@@ -96,7 +101,7 @@
         },
         methods:{
             enter(){
-                this.$router.push('/details/'+this.detail.abbreviation);
+                this.$router.push('/app/'+this.detail.abbreviation);
             },
             clickOpen(){
 

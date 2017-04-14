@@ -23,7 +23,8 @@
                             <el-button v-if="usernameState" type="text" @click="userNameChangeAjax">确定修改</el-button>
                         </el-form-item>
                         <el-form-item label="登录手机号" class="LoginPhone">
-                            <span :style="{ width:'110px' ,color:'#393a3e',height:'30px',marginRight:'10px'}">{{form.phone}}</span>
+
+                            <el-input  v-model="form.phone" :disabled=disableds :style="{width:120+'px'}" class="changePhone"></el-input>
                             <el-button type="text" @click="dialogVisibles = true"
                                        :style="{position:'absolute',left:120+'px'}">修改手机号</el-button>
                             <p>手机用于登录及登录密码找回、修改、同时接收重要提醒。</p>
@@ -435,10 +436,9 @@
     #zyUserSet .LoginPwd .el-input{
         width:10%;
     }
-    #zyUserSet .LoginPwd button{
+    #zyUserSet button{
         display:inline;
         color: #68A593;
-        margin-left: 20px;
     }
     #zyUserSet .dialog-footer button{
         background:#fff;
@@ -521,6 +521,9 @@
         border: 1px solid #ccc;
         border-color: #f2f2f2;
         box-shadow: none;
+    }
+    #zyUserSet .changePhone input{
+        border:none;
     }
     #zyUserSet .input-group .form-control {
         display: table-cell;

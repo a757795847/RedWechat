@@ -113,8 +113,8 @@
     height: 25px;
     border-radius: 50%;
     background: white;
-    margin-top: 15px;
-     margin-right: 20px;
+    margin-top: 18px;
+     margin-right: 10px;
   }
    #header .user span{
     float: right;

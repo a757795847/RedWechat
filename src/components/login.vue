@@ -96,7 +96,13 @@
         methods: {
             login() {
                 if(this.data.body.username == '' || this.data.body.password == ''){
-                    this.$message.error('账号密码不能为空');
+//                    this.$message.error('账号密码不能为空');
+                    this.$message({
+                        type: 'error',
+                        message: '账号密码不能为空',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                 }else{
                     this.loginState = true;
                     var redirect = this.$auth.redirect();
@@ -110,10 +116,22 @@
                         },
                         error(res) {
                             if(res.status === 401){
-                                this.$message.error('账号密码错误');
+//                                this.$message.error('账号密码错误');
+                                this.$message({
+                                    type: 'error',
+                                    message: '账号密码错误',
+                                    customClass:'messageError',
+                                    iconClass:'el-icon-close',
+                                });
 
                             }else if(res.status == 0 && res.data == null){
-                                this.$message.error('登录失败,网络连接出错');
+//                                this.$message.error('登录失败,网络连接出错');
+                                this.$message({
+                                    type: 'error',
+                                    message: '登录失败,网络连接出错',
+                                    customClass:'messageError',
+                                    iconClass:'el-icon-close',
+                                });
                             };
                             this.loginState = false;
 
@@ -127,11 +145,23 @@
                     if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.register.phoneNub)){
                         return true;
                     }else{
-                        this.$message.error('请输入正确手机号');
+//                        this.$message.error('请输入正确手机号');
+                        this.$message({
+                            type: 'error',
+                            message: '请输入正确手机号',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
                         return false;
                     }
                 }else{
-                    this.$message.error('请输入手机号');
+//                    this.$message.error('请输入手机号');
+                    this.$message({
+                        type: 'error',
+                        message: '请输入手机号',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                     return false;
                 }
             },
@@ -148,7 +178,13 @@
                         console.log(this.validationText);
                         console.log('success ' , res);
                         if(res.body.status == 0){
-                            this.$message.error('验证码不正确');
+//                            this.$message.error('验证码不正确');
+                            this.$message({
+                                type: 'error',
+                                message: '验证码不正确',
+                                customClass:'messageError',
+                                iconClass:'el-icon-close',
+                            });
                             this.validationText = '';
                         }else{
                             this.disabled=true;
@@ -174,11 +210,29 @@
             create(){
                 if(this.validation()){
                     if(this.register.onePwd.length < 6){
-                        this.$message.error('密码长度小于6位');
+//                        this.$message.error('密码长度小于6位');
+                        this.$message({
+                            type: 'error',
+                            message: '密码长度小于6位',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
                     }else if(this.register.onePwd !== this.register.twoPwd){
-                        this.$message.error('两次密码不匹配');
+//                        this.$message.error('两次密码不匹配');
+                        this.$message({
+                            type: 'error',
+                            message: '两次密码不匹配',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
                     }else if(this.register.onePwd == ''){
-                        this.$message.error('验证码不能为空');
+//                        this.$message.error('验证码不能为空');
+                        this.$message({
+                            type: 'error',
+                            message: '验证码不能为空',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
                     }else{
                         this.$http({
                             url: 'register',
@@ -191,11 +245,19 @@
                         }).then((res) => {
 //                            console.log('创建账号=>',res)
                             if(res.data.status == 0){
-                                this.$message.error(res.data.message);
+//                                this.$message.error(res.data.message);
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.message,
+                                    customClass:'messageError',
+                                    iconClass:'el-icon-close',
+                                });
                             }else if(res.data.status == 1){
                                 this.$message({
                                     message: '注册成功',
-                                    type: 'success'
+                                    type: 'success',
+                                    customClass:'messageSucceed',
+                                    iconClass:'el-icon-check'
                                 });
                                 this.zylogin = true;
                                 this.validationText = '';

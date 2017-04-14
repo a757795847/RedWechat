@@ -164,11 +164,23 @@
 
                         return true;
                     }else{
-                        this.$message.error('请输入正确手机号');
+//                        this.$message.error('请输入正确手机号');
+                            this.$message({
+                                type: 'error',
+                                message: '请输入正确手机号',
+                                customClass:'messageError',
+                                iconClass:'el-icon-close',
+                            });
                         return false;
                     }
                 }else{
-                    this.$message.error('请输入手机号');
+//                    this.$message.error('请输入手机号');
+                    this.$message({
+                        type: 'error',
+                        message: '请输入手机号',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                     return false;
                 }
             },
@@ -185,7 +197,13 @@
                         console.log(this.form.validationText);
                         console.log('success ' , res);
                     if(res.body.status == 0){
-                        this.$message.error('验证码不正确');
+//                        this.$message.error('验证码不正确');
+                        this.$message({
+                            type: 'error',
+                            message: '验证码不正确',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
                         this.validationText = '';
                     }else{
                         this.dialogVisibles= true;
@@ -225,14 +243,32 @@
                             this.form.messCode='';
                             this.dialogVisibles= false;
                         }else{
-                            this.$message.error('修改失败');
+//                            this.$message.error('修改失败');
+                            this.$message({
+                                type: 'error',
+                                message: '修改失败',
+                                customClass:'messageError',
+                                iconClass:'el-icon-close',
+                            });
                         }
                     }else{
-                        this.$message.error('请输入正确手机号');
+//                        this.$message.error('请输入正确手机号');
+                        this.$message({
+                            type: 'error',
+                            message: '请输入正确手机号',
+                            customClass:'messageError',
+                            iconClass:'el-icon-close',
+                        });
 
                     }
                 } else{
-                    this.$message.error('请输入手机号和验证码');
+//                    this.$message.error('请输入手机号和验证码');
+                    this.$message({
+                        type: 'error',
+                        message: '请输入手机号和验证码',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                 }
 
             },
@@ -241,10 +277,22 @@
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isNPG) {
-                    this.$message.error('上传头像图片只能是 PNG 格式!');
+//                    this.$message.error('上传头像图片只能是 PNG 格式!');
+                    this.$message({
+                        type: 'error',
+                        message: '上传头像图片只能是 PNG 格式!',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                 }
                 if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
+//                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                    this.$message({
+                        type: 'error',
+                        message: '上传头像图片大小不能超过 2MB!',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                 }
                 return isNPG && isLt2M;
             },
@@ -279,7 +327,9 @@
                             this.restorePasswordFrorm();
                             this.$message({
                                 message: '修改成功',
-                                type: 'success'
+                                type: 'success',
+                                customClass:'messageSucceed',
+                                iconClass:'el-icon-check'
                             })
                         }else{
                             this.passwordFrorm.errorText = res.body.message;
@@ -307,12 +357,20 @@
             },
             userNameChangeAjax(){
                 if(this.form.name == ''){
-                    this.$message.error('修改失败,账户名称不能为空');
+//                    this.$message.error('修改失败,账户名称不能为空');
+                    this.$message({
+                        type: 'error',
+                        message: '修改失败,账户名称不能为空',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                     this.form.name = this.$auth.user().name;
                 }else{
                     this.$message({
                         message: '修改成功',
-                        type: 'success'
+                        type: 'success',
+                        customClass:'messageSucceed',
+                        iconClass:'el-icon-check'
                     });
                     this.$auth.user().name = this.form.name;
                 }

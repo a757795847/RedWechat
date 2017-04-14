@@ -99,6 +99,7 @@
                 this.$router.push('/details/'+this.detail.abbreviation);
             },
             clickOpen(){
+
                 this.dialogVisible = false;
                 this.$http({
                     url: 'app/open',
@@ -107,10 +108,16 @@
                         id: this.detail.id
                     }
                 }).then((res) => {
-                    console.log('res=>applistDetail=>',res)
+//                    console.log('res=>applistDetail=>',res)
                     if(res.body.status!=0){
                         this.state = true;
-                        this.$store.dispatch('add_app_list',res.body.data)
+                        this.$store.dispatch('add_app_list',res.body.data);
+                        this.$message({
+                            type: 'success',
+                            message: '开通成功',
+                            customClass:'messageSucceed',
+                            iconClass:'el-icon-check'
+                        });
                     }
                 }, (res) => {
 
@@ -121,7 +128,7 @@
                     url: 'app/close?appid='+this.detail.id,
                     method: 'POST'
                 }).then((res) => {
-                    console.log('cancelServer=>',res)
+//                    console.log('cancelServer=>',res)
                     if(res.body.status == 1){
                         this.state = false;
                         this.$store.dispatch('delete_app_list',{

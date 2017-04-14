@@ -528,7 +528,13 @@ export default{
                 this.clearForm();
                 this.upLoadingIn = 100;
             }else{
-                this.$message.error(response.message);
+//                this.$message.error(response.message);
+                this.$message({
+                    type: 'error',
+                    message: response.message,
+                    customClass:'messageError',
+                    iconClass:'el-icon-close',
+                });
                 this.clearUpState()
             }
         },
@@ -543,7 +549,13 @@ export default{
         //文件上传错误
         upError(err, file, fileList){
             if(err){
-                this.$message.error('上传失败');
+//                this.$message.error('上传失败');
+                this.$message({
+                    type: 'error',
+                    message: '上传失败',
+                    customClass:'messageError',
+                    iconClass:'el-icon-close',
+                });
                 this.upLoadingIn = 0;
                 this.clearUpState()
             }
@@ -667,10 +679,22 @@ export default{
                 if(res.body.status == 1){
                     this.tableData[index].gift_state = 3 ;
                 }else{
-                    this.$message.error('红包发送失败');
+//                    this.$message.error('红包发送失败');
+                    this.$message({
+                        type: 'error',
+                        message: '红包发送失败',
+                        customClass:'messageError',
+                        iconClass:'el-icon-close',
+                    });
                 }
             }, (res) => {
-                this.$message.error('红包发送失败');
+//                this.$message.error('红包发送失败');
+                this.$message({
+                    type: 'error',
+                    message: '红包发送失败',
+                    customClass:'messageError',
+                    iconClass:'el-icon-close',
+                });
             });
         },
         //搜索

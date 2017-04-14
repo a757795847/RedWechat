@@ -135,27 +135,13 @@
         },
         methods: {
             handleAvatarSuccess(res, file) {
-//                this.form.img = URL.createObjectURL(file.raw);
                 this.$store.dispatch('update_user_img',URL.createObjectURL(file.raw));
             },
             clearPhone(){
-                console.log(12);
                 this.dialogVisibles=false;
                 this.form.phoneNub='';
                 this.form.messCode='';
-                console.log(this.$auth.user());
-
             },
-//            submitForm(formName) {
-//                this.$refs[formName].validate((valid) => {
-//                    if (valid) {
-////                      console.log('submit!!');
-//                    }else{
-////                        console.log('error submit!!');
-//                        return false;
-//                    }
-//                });
-//            },
             validation(){
 //                this.getValidationImg();
                 if(this.form.phoneNub != ''){
@@ -303,16 +289,6 @@
                 }
                 return isNPG && isLt2M;
             },
-//            beforeCreate(){
-//                this.$http({
-//                    url: 'test',
-//                    method: 'GET',
-//                }).then((res) => {
-//                    console.log(11);
-//                    this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
-//            }, (res) => {
-//                });
-//            },
             modification(){
                  if(this.passwordFrorm.oldPW == ''|| this.passwordFrorm.newPW == ''||this.passwordFrorm.newPW2 == ''){
                      this.passwordFrorm.errorText = '密码不能为空';
@@ -351,7 +327,6 @@
                 this.passwordFrorm.newPW = '';
                 this.passwordFrorm.newPW2 = '';
                 this.passwordFrorm.errorText = '';
-//                this.dialogVisible = false
                 this.dialogVisible = false;
                 this.dialogVisibles = false;
             },

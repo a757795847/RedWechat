@@ -941,6 +941,12 @@ export default{
     cursor : pointer;
     color:#589680;
 }
+#detailBag .detailsBody .detailsBodyTBody tbody tr td:nth-child(3) .cell,
+#detailBag .detailsBody .detailsBodyTBody tbody tr td:nth-child(5) .cell{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 #detailBag .detailsBody .el-table_1_column_2{
     color:#589680;
 }

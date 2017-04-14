@@ -777,7 +777,9 @@ export default{
                 this.pageData = res.body.page;
             }
         }, (res) => {
-
+            if(res.status == 400){
+                this.$router.push('/')
+            }
         });
 
     },

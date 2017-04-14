@@ -399,10 +399,10 @@
     #father .el-button{
         border-radius:0;
     }
-    #father .el-button:hover{
+    /*#father .el-button:hover{
         background-color:#2e87ca;
         border-color:#2e87ca;
-    }
+    }*/
     #father .input-group {
         height: 34px;
         width: 310px;
@@ -437,14 +437,19 @@
 
     #father .btn-primary {
         color:#fff;
-        background-color: rgb(66, 140, 187);
-        border-color: rgb(66, 140, 187);
+        background-color: #68A593;
+        border-color: #68A593;
     }
     #father #addID{
         width:100%;
         padding:12px 16px;
         font-size:16px;
         border-radius: 4px;
+    }
+    #father #addID:hover{
+        color:#fff;
+        background-color: #68A593;
+        border-color: #68A593;
     }
     #father .btn-block {
         display: block;

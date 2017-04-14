@@ -27,7 +27,7 @@
     text-align: center;
     color: white;
   }
-  .el-message.messageSucceed .el-message__group ,
+  .el-message.messageSucceed .el-message__group,
   .el-message.messageError .el-message__group{
     padding-left: 40px;
   }

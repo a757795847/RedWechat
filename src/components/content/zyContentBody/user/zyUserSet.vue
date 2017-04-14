@@ -170,6 +170,7 @@
                                 message: '请输入正确手机号',
                                 customClass:'messageError',
                                 iconClass:'el-icon-close',
+
                             });
                         return false;
                     }
@@ -270,7 +271,6 @@
                         iconClass:'el-icon-close',
                     });
                 }
-
             },
             beforeAvatarUpload(file) {
                 const isNPG = file.type === 'image/png';
@@ -290,8 +290,8 @@
                     this.$message({
                         type: 'error',
                         message: '上传头像图片大小不能超过 2MB!',
-                        customClass:'messageError',
-                        iconClass:'el-icon-close',
+                        customClass: 'messageError',
+                        iconClass: 'el-icon-close',
                     });
                 }
                 return isNPG && isLt2M;
@@ -496,10 +496,10 @@
     #zyUserSet .el-dialog__close:hover{
         color:#68A593;
     }
-    #zyUserSet .getcode:hover{
+   /* #zyUserSet #getcode:hover{
         color:#68A593;
        border-color:#68A593;
-    }
+    }*/
     #zyUserSet .el-dialog.el-dialog--tiny{
         width:360px;
     }
@@ -550,8 +550,8 @@
     }
     #zyUserSet .modificationPhone .btn-primary {
         color:#fff;
-        background-color: rgb(66, 140, 187);
-        border-color: rgb(66, 140, 187);
+        background-color: #68A593;
+        border-color: #68A593;
     }
     #zyUserSet .modificationPhone .el-button{
 
@@ -559,11 +559,11 @@
     #zyUserSet .modificationPhone .form-control .el-input{
         width:300px;
     }
-    #zyUserSet .getcode:hover{
+    /*#zyUserSet #getcode:hover{
         color:#fff;
-        border-color: #2ca2fb;
-        background-color: #2ca2fb;
-    }
+        border-color: #68A593;
+        background-color: #68A593;
+    }*/
 
 
 </style>

@@ -109,7 +109,7 @@
                     this.$auth.login({
                         body: this.data.body,
                         rememberMe: this.data.rememberMe,
-                        redirect: {name: redirect ? redirect.from.name : 'indexDefault'},
+                        redirect: {name: redirect ? redirect.from.name : 'indexBody'},
                         success(res) {
 //                            console.log('success=>',res);
                             this.loginState = false;

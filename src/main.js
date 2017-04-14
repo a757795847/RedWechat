@@ -30,6 +30,7 @@ router.beforeEach((to, from, next) => {
   var list = JSON.parse(localStorage.getItem('jurisdiction'));
   var state = false;
   if(administrationRouter.indexOf(to.path) != -1){
+    console.log('进入拦截器')
     for(var i=0;i< list.length;i++){
       if('/details/'+list[i] == to.path){
         state = true;

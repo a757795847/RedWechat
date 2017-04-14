@@ -31,11 +31,15 @@
 //                console.log('index=>list',res)
                 this.$store.dispatch('empty_app_list')
                 let list = res.body.list;
+                var applist = []
                 for(var i=0;i<list.length;i++){
                     if(list[i].isOpened == true){
+                        console.log(list[i]);
                         this.$store.dispatch('add_app_list',list[i]);
+                        applist.push(list[i].abbreviation)
                     }
                 }
+                localStorage.setItem('jurisdiction',JSON.stringify(applist))
             }, (res) => {
 
             });

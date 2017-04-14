@@ -27,11 +27,11 @@ Vue.use(require('@websanova/vue-auth'), {
 
 const administrationRouter = ['/details/bag'];
 router.beforeEach((to, from, next) => {
-  var list = store.state.cart.appList;
+  var list = JSON.parse(localStorage.getItem('jurisdiction'));
   var state = false;
-  if(administrationRouter.indexOf(to.path) != -1 ){
-    for(var i=0;i<list.length;i++){
-      if('/details/'+list[i].abbreviation == to.path){
+  if(administrationRouter.indexOf(to.path) != -1){
+    for(var i=0;i< list.length;i++){
+      if('/details/'+list[i] == to.path){
         state = true;
       }
     }
@@ -40,7 +40,6 @@ router.beforeEach((to, from, next) => {
       return;
     }
   }
-
   Vue.router._to = to;
   Vue.router._from = from;
   next();

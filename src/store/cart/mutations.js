@@ -9,6 +9,11 @@ export default{
     },
     [types.ADD_APP_LIST](state,app){
         state.appList.push(app);
+        var list = JSON.parse(localStorage.getItem('jurisdiction'));
+        if(list.indexOf(app.abbreviation) == -1){
+            list.push(app.abbreviation)
+        }
+        localStorage.setItem('jurisdiction',JSON.stringify(list))
     },
     [types.DELETE_APP_LIST](state,app){
         state.appList.map((elem,index)=>{
@@ -16,6 +21,11 @@ export default{
                 state.appList.splice(index,1)
             }
         })
+        var list = JSON.parse(localStorage.getItem('jurisdiction'));
+        if(list.indexOf(app.abbreviation) != -1){
+            list.splice(list.indexOf(app.abbreviation),1)
+        }
+        localStorage.setItem('jurisdiction',JSON.stringify(list))
     },
     [types.EMPTY_APP_LIST](state){
         state.appList = []

@@ -133,8 +133,15 @@
                         this.state = false;
                         this.$store.dispatch('delete_app_list',{
                             id: this.detail.id,
+                            abbreviation:this.detail.abbreviation
                         })
                         this.cancelState = false;
+                        this.$message({
+                            type: 'success',
+                            message: '取消成功',
+                            customClass:'messageSucceed',
+                            iconClass:'el-icon-check'
+                        });
                     }
                 }, (res) => {
 

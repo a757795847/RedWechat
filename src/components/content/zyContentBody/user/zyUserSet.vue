@@ -239,8 +239,14 @@
                 if(this.form.phoneNub != ''||this.form.messCode != ''){
                     if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.form.phoneNub)){
                         if(this.form.messCode == 1111){
+                            this.countdown=0;
                             this.form.phone=this.form.phoneNub;
-                            this.$message('修改成功');
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功',
+                                customClass:'messageSucceed',
+                                iconClass:'el-icon-check'
+                            });
                             this.form.phoneNub='';
                             this.form.messCode='';
                             this.dialogVisibles= false;

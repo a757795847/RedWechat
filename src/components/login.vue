@@ -43,7 +43,8 @@
                             </div>
                         </div>
                     <span slot="footer" class="dialog-footer">
-                       <el-button type="primary" @click="getcode()" style="background:rgb(66, 140, 187);padding: 6px 14px;">确 定</el-button>
+                         <el-button type="text" @click="getcode()" class="sure">确 定</el-button>
+
                     </span>
                     </el-dialog>
                 </div>
@@ -561,5 +562,14 @@
     }
     #login .keyInput::-moz-placeholder{
         color: #9eadc2;
+    }
+    #validationImg .sure{
+        padding:6px 14px;
+        background-color:#fff;
+        color:#68A593;
+    }
+    #validationImg .sure:hover{
+        background-color: #68A593;
+        color:#fff;
     }
 </style>

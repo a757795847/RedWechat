@@ -4,7 +4,11 @@
 
 <script>
   export default {
-
+    beforeCreate(){
+      if(localStorage.getItem('jurisdiction') == null){
+        localStorage.setItem('jurisdiction',"[]")
+      }
+    }
   }
 </script>
 <style>

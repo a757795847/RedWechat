@@ -1,5 +1,5 @@
 <template>
-    <div id="appListDetails" v-loading="loading">
+    <div id="appListDetails">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/appList' }">应用中心</el-breadcrumb-item>
             <el-breadcrumb-item>{{title}}</el-breadcrumb-item>

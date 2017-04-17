@@ -25,22 +25,22 @@ Vue.use(require('@websanova/vue-auth'), {
   refreshData: {enabled: false},
 });
 
-const administrationRouter = ['/app/bag'];
+// const administrationRouter = ['/app/bag'];
 router.beforeEach((to, from, next) => {
-  var list = JSON.parse(localStorage.getItem('jurisdiction'));
-  var state = false;
-  if(administrationRouter.indexOf(to.path) != -1){
-    console.log('进入拦截器')
-    for(var i=0;i< list.length;i++){
-      if('/app/'+list[i] == to.path){
-        state = true;
-      }
-    }
-    if(state == false){
-      next('/');
-      return;
-    }
-  }
+  // var list = JSON.parse(localStorage.getItem('jurisdiction'));
+  // var state = false;
+  // if(administrationRouter.indexOf(to.path) != -1){
+  //   console.log('进入拦截器');
+  //   for(var i=0;i< list.length;i++){
+  //     if('/app/'+list[i] == to.path){
+  //       state = true;
+  //     }
+  //   }
+  //   if(state == false){
+  //     next('/');
+  //     return;
+  //   }
+  // }
   Vue.router._to = to;
   Vue.router._from = from;
   next();

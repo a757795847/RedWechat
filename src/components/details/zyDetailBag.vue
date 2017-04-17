@@ -1,5 +1,5 @@
 <template>
-    <div id="detailBag">
+    <div id="detailBag" v-show="isShow">
         <div class="detailsHeader">
             <div class="returnAppBtn" v-on:click="returnIndex"><i class="el-icon-arrow-left"></i>返回我的应用</div>
             <div class="detailsTab">
@@ -397,6 +397,7 @@ export default{
     name:'zyDetails',
     data(){
         return{
+            isShow:false,
             token:'Bearer ' + localStorage.getItem('default-auth-token'),
             imgSrc:this.$http.options.root+'/order/picture/',
             search:'',
@@ -775,6 +776,7 @@ export default{
             if(res.body.status == 1){
                 this.tableData = res.body.list;
                 this.pageData = res.body.page;
+                this.isShow = true;
             }
         }, (res) => {
             if(res.status == 400){

@@ -28,7 +28,14 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      chunks: ['app']//需要引入的Chunk，不配置就会引入所有页面的资源
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'phone.html',//生成的html
+      template: 'phone.html',//来源html
+      inject: true,//是否开启注入
+      chunks: ['app2']//需要引入的Chunk，不配置就会引入所有页面的资源
     }),
     new FriendlyErrorsPlugin()
   ]

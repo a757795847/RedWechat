@@ -13,7 +13,7 @@ export default new Router({
       component: function (resolve) {
         require(['../components/login.vue'],resolve)
       },
-      meta:{auth:false}
+      meta:{auth:undefined}
     },
     {
       path: '/',
@@ -88,17 +88,17 @@ export default new Router({
         },
       ]
     },
-    // {
-    //   path: '/404',
-    //   name: '404',
-    //   component: function (resolve) {
-    //     require(['../components/404.vue'],resolve)
-    //   },
-    //   meta:{auth:undefined}
-    // },
-    // { path: '/*', redirect:'/404'}
+    {
+      path: '/404',
+      name: '404',
+      component: function (resolve) {
+        require(['../components/404.vue'],resolve)
+      },
+      meta:{auth:undefined}
+    },
+    { path: '/*', redirect:'/404'}
 
-      
+
     // {
     //   path: '*',
     //   name:'404',

@@ -13,6 +13,7 @@
             zyHeader
         },
         beforeCreate(){
+            console.log(this.$auth.check())
             this.$http({
                 url: 'user/headImage',
                 method: 'GET',

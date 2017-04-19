@@ -65,8 +65,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunks: ['manifest','vendor','app']
     }),
     new HtmlWebpackPlugin({
-      filename: config.build.phone,
-      template: 'phone.html',
+      filename: config.build.wechat,
+      template: 'wechat.html',
       inject: true,
       minify: {
         removeComments: true,

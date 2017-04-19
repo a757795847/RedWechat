@@ -32,8 +32,8 @@ module.exports = merge(baseWebpackConfig, {
       chunks: ['app']//需要引入的Chunk，不配置就会引入所有页面的资源
     }),
     new HtmlWebpackPlugin({
-      filename: 'phone.html',//生成的html
-      template: 'phone.html',//来源html
+      filename: 'wechat.html',//生成的html
+      template: 'wechat.html',//来源html
       inject: true,//是否开启注入
       chunks: ['app2']//需要引入的Chunk，不配置就会引入所有页面的资源
     }),

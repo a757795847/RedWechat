@@ -1,5 +1,5 @@
 <template>
-    <div id="login">
+    <div id="login" v-if="isCheck">
         <div class="custom-header">
             <img src="../assets/logo.jpg" alt="user" class="logo">
         </div>
@@ -69,6 +69,7 @@
         name:'zyLogin',
         data() {
             return {
+                isCheck:false,
                 loginState:false,
                 data: {
                     body: {
@@ -286,13 +287,20 @@
             }
         },
         beforeCreate(){
+            console.log(this.$auth.check())
+            if(this.$auth.check()){
+                this.$router.push('/')
+            }
+
             this.$http({
                 url: 'test',
                 method: 'GET',
             }).then((res) => {
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
+                this.isCheck = true;
             }, (res) => {
             });
+
         }
     }
 </script>

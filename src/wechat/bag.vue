@@ -82,6 +82,7 @@
 
             },
             uploadImg(){
+                const that = this;
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -97,7 +98,7 @@
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
                                     console.log('uploadImage=>',id);
-                                    this.images.push({'id':id})
+                                    that.images.push({'id':id})
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     console.log('uploadImage=>serverId=>',serverId);
 //                                    console.log(serverId);

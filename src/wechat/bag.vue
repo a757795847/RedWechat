@@ -97,11 +97,12 @@
                                 localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
+                                    console.log('uploadImage=>res=>',res)
                                     console.log('uploadImage=>this=>',this)
                                     console.log('uploadImage=>',id);
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     console.log('uploadImage=>serverId=>',serverId);
-                                    that.images.push({'id':serverId})
+                                    that.images.push({'id':id},{'id':this.localId})
 //                                    console.log(serverId);
 //
 //                                    ids.push(serverId);
@@ -112,6 +113,15 @@
 //                                    }
 //
 //                                    $("#odd").before(image);
+                                    wx.downloadImage({
+                                        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+                                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                                        success: function (res) {
+                                            console.log('下载downloadImage=》res=》',res)
+                                            var localId = res.localId; // 返回图片下载后的本地ID
+                                            that.images.push({'id':localId})
+                                        }
+                                    });
 
                                 }
                             });

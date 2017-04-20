@@ -7,10 +7,12 @@ Vue.use(Router);
 export default new Router({
     mode: 'history',
     routes: [
-            // {
-            //     path: '/phone/login',
-            //     name: 'c',
-            //     component: index,
-            // },
+            {
+                path: '/wechat/bag/:id',
+                name: 'bag',
+                component: function (resolve) {
+                    require(['../wechat/bag.vue'],resolve)
+                },
+            },
     ]
 })

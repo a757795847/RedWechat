@@ -8,7 +8,7 @@ export default new Router({
     mode: 'history',
     routes: [
             {
-                path: '/wechat/bag/:id',
+                path: '/wechat/:id',
                 name: 'bag',
                 component: function (resolve) {
                     require(['../wechat/bag.vue'],resolve)

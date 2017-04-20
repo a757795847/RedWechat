@@ -17,13 +17,13 @@
             <div id="hide" v-show="!succeed">
                 <ul>
                     <li class="lict" v-for="(item,index) in images" :key="index"><img :src="item.id"></li>
-                    <li class="last" id="odd" @touchstart="uploadImg" v-show="images.length < 3"><p><img src="../assets/7.png" alt=""></p><p>第一步:</p><p>上传图片</p></li>
+                    <li class="last" id="odd" @touchstart.stop="uploadImg" v-show="images.length < 3"><p><img src="../assets/7.png" alt=""></p><p>第一步:</p><p>上传图片</p></li>
                 </ul>
             </div>
 
             <input type="text" v-model="input" class="form-control Orders" placeholder="请输入订单号" v-show="!succeed">
 
-            <button class="addID" :class="succeed?'addIDState':''" @touchstart="submit">{{submitText}}</button>
+            <button class="addID" :class="succeed?'addIDState':''" @touchstart.stop="submit">{{submitText}}</button>
 
             <p class="father" :class="succeed?'fatherState':''">
                 <a href="javascript:;" class="text-info">活动规则</a>
@@ -82,15 +82,23 @@
 
             },
             uploadImg(){
+                function getBase64Image(img) {
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 10, 10);
+                    var dataURL = canvas.toDataURL("image/png");
+                    return dataURL;
+                }
                 const that = this;
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
-                        console.log('chooseImage=>',res);
+                            console.log('chooseImage=>',res);
+
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        that.images.push({'id':localIds[0]})
+                        that.images.push({'id':localIds[0]},{'id':getBase64Image(localIds[0])})
                         console.log('chooseImage=>',localIds);
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);

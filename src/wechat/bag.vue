@@ -82,46 +82,28 @@
 
             },
             uploadImg(){
-                function getBase64Image(img) {
-                    var canvas = document.createElement("canvas");
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-
-                    var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0, img.width, img.height);
-                    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
-                    var dataURL = canvas.toDataURL("image/" + ext);
-                    return dataURL;
-                }
-
                 const that = this;
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
-                            console.log('chooseImage=>',res);
-
+                        console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
-
-
-                        var image = new Image();
-                        image.crossOrigin = '';
-                        image.src = localIds[0];
-                        image.onload = function() {
-                            var base64 = getBase64Image(image);
-                            console.log(base64);
-                            that.images.push({'id':base64})
-                        }
-
                         console.log('chooseImage=>',localIds);
+
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);
                             wx.uploadImage({
                                 localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
+                                    wx.previewImage({
+                                        current: id, // 当前显示图片的http链接
+                                        urls: [id] // 需要预览的图片http链接列表
+                                    });
+
                                     console.log('uploadImage=>res=>',res)
                                     console.log('uploadImage=>this=>',this)
                                     console.log('uploadImage=>',id);
@@ -129,42 +111,15 @@
                                     console.log('uploadImage=>serverId=>',serverId);
                                     that.images.push({'id':id},{'id':this.localId})
 
-
-                                    var image = new Image();
-                                    image.crossOrigin = '';
-                                    image.src = this.localId;
-                                    image.onload = function() {
-                                        var base64 = getBase64Image(this.localId);
-                                        console.log(base64);
-                                        that.images.push({'id':base64})
-                                    }
-//                                    console.log(serverId);
-//
-//                                    ids.push(serverId);
-//                                    console.log(ids);
-//                                    var image='<li class="lict"><img src="'+id+'" alt=""></li>';
-//                                    if(ids.length == 3){
-//                                        $("#odd").hide();
-//                                    }
-//
-//                                    $("#odd").before(image);
                                     wx.downloadImage({
                                         serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
                                         isShowProgressTips: 1, // 默认为1，显示进度提示
                                         success: function (res) {
+
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
 
-
-                                            var image = new Image();
-                                            image.crossOrigin = '';
-                                            image.src = localId;
-                                            image.onload = function() {
-                                                var base64 = getBase64Image(localId);
-                                                console.log(base64);
-                                                that.images.push({'id':base64})
-                                            }
                                         }
                                     });
 

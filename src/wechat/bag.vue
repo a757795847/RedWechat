@@ -122,7 +122,7 @@
 //            const config = document.querySelector('title').getAttribute('data-json');
             let config = {}
             this.$http({
-                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id,
+                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',
             }).then((res) => {
                 console.log(res)

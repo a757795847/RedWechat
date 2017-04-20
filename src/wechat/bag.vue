@@ -90,6 +90,7 @@
                     success: function (res) {
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);

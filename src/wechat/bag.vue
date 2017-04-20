@@ -97,10 +97,11 @@
                                 localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
+                                    console.log('uploadImage=>this=>',this)
                                     console.log('uploadImage=>',id);
-                                    that.images.push({'id':id})
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     console.log('uploadImage=>serverId=>',serverId);
+                                    that.images.push({'id':serverId})
 //                                    console.log(serverId);
 //
 //                                    ids.push(serverId);
@@ -158,8 +159,6 @@
 
     #image img {
         width: 100%;
-        position: relative;
-        z-index: 1000;
     }
 
     #form {
@@ -282,7 +281,8 @@
         position: absolute;
         left: calc(50% - 90px);
         background: white;
-        border-radius: 10px
+        border-radius: 10px;
+        z-index: 1000;
     }
     #errorHint p{
         padding: 0 10px;

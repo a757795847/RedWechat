@@ -84,11 +84,16 @@
             uploadImg(){
                 function getBase64Image(img) {
                     var canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
                     var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 10, 10);
-                    var dataURL = canvas.toDataURL("image/png");
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+                    var dataURL = canvas.toDataURL("image/" + ext);
                     return dataURL;
                 }
+
                 const that = this;
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -98,7 +103,18 @@
                             console.log('chooseImage=>',res);
 
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        that.images.push({'id':localIds[0]},{'id':getBase64Image(localIds[0])})
+                        that.images.push({'id':localIds[0]})
+
+
+                        var image = new Image();
+                        image.crossOrigin = '';
+                        image.src = img;
+                        image.onload = function() {
+                            var base64 = getBase64Image(image);
+                            console.log(base64);
+                            that.images.push({'id':base64})
+                        }
+
                         console.log('chooseImage=>',localIds);
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);
@@ -112,6 +128,16 @@
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     console.log('uploadImage=>serverId=>',serverId);
                                     that.images.push({'id':id},{'id':this.localId})
+
+
+                                    var image = new Image();
+                                    image.crossOrigin = '';
+                                    image.src = img;
+                                    image.onload = function() {
+                                        var base64 = getBase64Image(this.localId);
+                                        console.log(base64);
+                                        that.images.push({'id':base64})
+                                    }
 //                                    console.log(serverId);
 //
 //                                    ids.push(serverId);
@@ -129,6 +155,16 @@
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
+
+
+                                            var image = new Image();
+                                            image.crossOrigin = '';
+                                            image.src = img;
+                                            image.onload = function() {
+                                                var base64 = getBase64Image(localId);
+                                                console.log(base64);
+                                                that.images.push({'id':base64})
+                                            }
                                         }
                                     });
 

@@ -108,7 +108,7 @@
 
                         var image = new Image();
                         image.crossOrigin = '';
-                        image.src = img;
+                        image.src = localIds[0];
                         image.onload = function() {
                             var base64 = getBase64Image(image);
                             console.log(base64);
@@ -132,7 +132,7 @@
 
                                     var image = new Image();
                                     image.crossOrigin = '';
-                                    image.src = img;
+                                    image.src = this.localId;
                                     image.onload = function() {
                                         var base64 = getBase64Image(this.localId);
                                         console.log(base64);
@@ -159,7 +159,7 @@
 
                                             var image = new Image();
                                             image.crossOrigin = '';
-                                            image.src = img;
+                                            image.src = localId;
                                             image.onload = function() {
                                                 var base64 = getBase64Image(localId);
                                                 console.log(base64);

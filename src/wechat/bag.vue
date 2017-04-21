@@ -113,16 +113,27 @@
 
             },
             uploadImg(){
+                const that = this;
+
+                var img = "https://img.alicdn.com/bao/uploaded/TB1qimQIpXXXXXbXFXXSutbFXXX.jpg";
+
                 function getBase64Image(img) {
                     var canvas = document.createElement("canvas");
-                    canvas.width = 10;
-                    canvas.height = 10;
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
                     var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 10,10);
-                    var dataURL = canvas.toDataURL("image/jpg" );
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+                    var dataURL = canvas.toDataURL("image/" + ext);
                     return dataURL;
                 }
-                const that = this;
+                var image = new Image();
+                image.crossOrigin = '';
+                image.src = img;
+                image.onload = function() {
+                    that.images.push({'id':getBase64Image(image)});
+                }
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -132,12 +143,14 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
-                        console.log(getBase64Image(localIds[0]))
+                        console.log(convertImgToBase64(localIds[0],function(base64Img){
+                            that.images.push({'id':base64Img})
+                        }))
 //                        var image = new Image();
 //
 //                        image.crossOrigin = '';
 //                        image.src = localIds[0];
-                        that.images.push({'id':getBase64Image(localIds[0])})
+
 
 
                         localIds.map(function (id){

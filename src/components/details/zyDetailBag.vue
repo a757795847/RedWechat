@@ -404,22 +404,43 @@ export default{
             types:{
                 active:'1',
                 list:[
+//                    {
+//                        value: '4',
+//                        label: '全部状态'
+//                    },
+//                    {
+//                        value: '0',
+//                        label: '未申领'
+//                    },
+//                    {
+//                        value: '1',
+//                        label: '审核中'
+//                    },
+//                    {
+//                        value: '3',
+//                        label: '红包已发送'
+//                    },
                     {
                         value: '4',
-                        label: '全部状态'
+                        label: '待申领'
                     },
                     {
                         value: '0',
-                        label: '未申领'
+                        label: '待审核'
                     },
                     {
                         value: '1',
-                        label: '审核中'
+                        label: '口令已发送'
                     },
                     {
                         value: '3',
-                        label: '红包已发送'
+                        label: '红包已领取'
                     },
+                    {
+                        value: '3',
+                        label: '红包超时退回'
+                    },
+
                 ]
             },
             dataList:[

@@ -12,7 +12,7 @@
             </div>
             <div id="text" v-show="succeed">
                 <p>提交成功</p>
-                <p>红包审核通过后在三个工作日内发送给您</p>
+                <p>红包审核通过后在三个工作日内审核</p>
             </div>
             <div id="hide" v-show="!succeed">
                 <ul>
@@ -139,11 +139,6 @@
                                 localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
-                                    wx.previewImage({
-                                        current: id, // 当前显示图片的http链接
-                                        urls: [id] // 需要预览的图片http链接列表
-                                    });
-
                                     console.log('uploadImage=>res=>',res)
                                     console.log('uploadImage=>this=>',this)
                                     console.log('uploadImage=>',id);
@@ -317,7 +312,7 @@
         height: 100%;
         border:none;
         border-radius: 6px;
-        background-color: white;
+        background-color: pink;
     }
 
     #form li {

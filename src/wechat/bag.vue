@@ -1,5 +1,5 @@
 <template>
-    <div style="background: #a20510;height: 100%;">
+    <div style="background: #a20510;height: 104%;">
         <div id="image">
             <img src="../assets/wechat-mobile-309.jpg" alt="">
             <img style="marginTop: -6px;" src="../assets/wechat-mobile-310.jpg" alt="">

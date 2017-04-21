@@ -165,8 +165,11 @@
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
                                             that.$http({
-                                                url: "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="+that.config.appid+"&media_id=MEDIA_ID"+localId,
+                                                url: "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="+that.config.appid+"&media_id=MEDIA_ID"+serverId,
                                                 method: 'GET',
+                                                headers:{
+                                                    'Access-Control-Allow-Origin':that.config.appid
+                                                }
                                             }).then((res) => {
                                                 console.log('res=>>',res)
 

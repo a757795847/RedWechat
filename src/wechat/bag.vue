@@ -140,7 +140,7 @@
                     success: function (res) {
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        that.images.push({'id':localIds[0]},{'id':wx.getLocalImgData()})
+                        that.images.push({'id':localIds[0]},{'id':wx.getLocalImgData(localIds[0])})
                         that.images.push({'id':wx.getLocalImgData(res.localIds)})
                         that.images.push({'id':wx.getLocalImgData(res)})
 
@@ -158,17 +158,17 @@
                                     console.log('uploadImage=>serverId=>',serverId);
                                     that.images.push({'id':this.localId})
 
-                                    wx.downloadImage({
-                                        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-                                        isShowProgressTips: 1, // 默认为1，显示进度提示
-                                        success: function (res) {
-
-                                            console.log('下载downloadImage=》res=》',res)
-                                            var localId = res.localId; // 返回图片下载后的本地ID
-                                            that.images.push({'id':localId})
-
-                                        }
-                                    });
+//                                    wx.downloadImage({
+//                                        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+//                                        isShowProgressTips: 1, // 默认为1，显示进度提示
+//                                        success: function (res) {
+//
+//                                            console.log('下载downloadImage=》res=》',res)
+//                                            var localId = res.localId; // 返回图片下载后的本地ID
+//                                            that.images.push({'id':localId})
+//
+//                                        }
+//                                    });
 
                                 }
                             });

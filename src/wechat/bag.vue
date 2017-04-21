@@ -127,13 +127,20 @@
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (res) {
                                     var serverId = res.serverId; // 返回图片的服务器端ID
-                                    wx.getLocalImgData({
-                                        localId: id, // 图片的localID
-                                        success: (res) => {
-                                            let img = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                            that.images.push({'id':img})
-                                        }
-                                    })
+                                    var ua = navigator.userAgent.toLowerCase();
+                                    console.log(ua)
+                                    if (/iphone|ipad|ipod/.test(ua)) {
+                                        wx.getLocalImgData({
+                                            localId: id, // 图片的localID
+                                            success: (res) => {
+                                                let img = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                                that.images.push({'id':img})
+                                            }
+                                        })
+                                    } else if (/android/.test(ua)) {
+                                        that.images.push({'id':id})
+                                    }
+
 
                                 }
                             });

@@ -22,7 +22,7 @@
             </div>
 
             <input type="text" v-model="input" class="form-control Orders" placeholder="请输入订单号" v-show="!succeed">
-
+            <input type="file" id="xdaTanFileImg" ref="aa" @change="xmTanUploadImg" accept="image/*" />
             <button class="addID" :class="succeed?'addIDState':''" @touchstart.stop="submit">{{submitText}}</button>
 
             <p class="father" :class="succeed?'fatherState':''">
@@ -35,6 +35,7 @@
 
 <script>
     import wx from 'weixin-js-sdk'
+
     export default {
         name:'bag',
         data(){
@@ -47,6 +48,36 @@
             }
         },
         methods:{
+            xmTanUploadImg(obj) {
+                var file = this.$refs.aa.files[0];
+
+                var that = this
+                console.log(file);
+                console.log("file.size = " + file.size); //file.size 单位为byte
+
+                var reader = new FileReader();
+
+                //读取文件过程方法
+                reader.onloadstart = function(e) {
+                    console.log("开始读取....");
+                }
+                reader.onprogress = function(e) {
+                    console.log("正在读取中....");
+                }
+                reader.onabort = function(e) {
+                    console.log("中断读取....");
+                }
+                reader.onerror = function(e) {
+                    console.log("读取异常....");
+                }
+                reader.onload = function(e) {
+                    console.log("成功读取....");
+                    that.images.push({id:e.target.result})
+                    //或者 img.src = this.result;  //e.target == this
+                }
+
+                reader.readAsDataURL(file)
+            },
             cancelError(){
                 this.errorText = ''
             },
@@ -82,6 +113,15 @@
 
             },
             uploadImg(){
+                function getBase64Image(img) {
+                    var canvas = document.createElement("canvas");
+                    canvas.width = 10;
+                    canvas.height = 10;
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 10,10);
+                    var dataURL = canvas.toDataURL("image/jpg" );
+                    return dataURL;
+                }
                 const that = this;
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -120,6 +160,15 @@
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
 
+                                            var image = new Image();
+
+                                            image.crossOrigin = '';
+                                            image.src = localId;
+                                            image.onload = function() {
+                                                var base64 = getBase64Image(localId);
+                                                console.log(base64);
+                                                that.images.push({'id':base64})
+                                            }
                                         }
                                     });
 
@@ -132,27 +181,27 @@
         },
         beforeCreate(){
 //            const config = document.querySelector('title').getAttribute('data-json');
-            let config = {}
-            this.$http({
-                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
-                method: 'GET',
-            }).then((res) => {
-                console.log(res)
-                if (res.body.status == "1") {
-                    config = res.body;
-                    wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: config.appid, // 必填，公众号的唯一标识
-                        timestamp: config.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: config.nonceStr, // 必填，生成签名的随机串
-                        signature: config.signature,// 必填，签名，见附录1
-                        jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-
-                    })
-                }
-            }, (res) => {
-
-            });
+//            let config = {}
+//            this.$http({
+//                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
+//                method: 'GET',
+//            }).then((res) => {
+//                console.log(res)
+//                if (res.body.status == "1") {
+//                    config = res.body;
+//                    wx.config({
+//                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+//                        appId: config.appid, // 必填，公众号的唯一标识
+//                        timestamp: config.timestamp, // 必填，生成签名的时间戳
+//                        nonceStr: config.nonceStr, // 必填，生成签名的随机串
+//                        signature: config.signature,// 必填，签名，见附录1
+//                        jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+//
+//                    })
+//                }
+//            }, (res) => {
+//
+//            });
 
         }
     }

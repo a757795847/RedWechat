@@ -128,12 +128,7 @@
                     var dataURL = canvas.toDataURL("image/" + ext);
                     return dataURL;
                 }
-                var image = new Image();
-                image.crossOrigin = '';
-                image.src = img;
-                image.onload = function() {
-                    that.images.push({'id':getBase64Image(image)});
-                }
+
                 wx.chooseImage({
                     count: 1, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -143,9 +138,12 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
-                        console.log(convertImgToBase64(localIds[0],function(base64Img){
-                            that.images.push({'id':base64Img})
-                        }))
+                        var image = new Image();
+                        image.crossOrigin = '';
+                        image.src = localIds[0];
+                        image.onload = function() {
+                            that.images.push({'id':getBase64Image(localIds[0])});
+                        }
 //                        var image = new Image();
 //
 //                        image.crossOrigin = '';

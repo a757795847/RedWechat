@@ -133,10 +133,10 @@
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
 
-                        var image = new Image();
-
-                        image.crossOrigin = '';
-                        image.src = localIds[0];
+//                        var image = new Image();
+//
+//                        image.crossOrigin = '';
+//                        image.src = localIds[0];
                         that.images.push({'id':getBase64Image(localIds[0])})
 
 

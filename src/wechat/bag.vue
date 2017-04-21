@@ -17,7 +17,7 @@
             <div id="hide" v-show="!succeed">
                 <ul>
                     <li class="lict" v-for="(item,index) in images" :key="index"><img :src="item.id"></li>
-                    <li class="last" id="odd" @touchstart.stop="uploadImg" v-show="images.length < 3"><p><img src="../assets/7.png" alt=""></p><p>第一步:</p><p>上传图片</p></li>
+                    <li class="last" id="odd" @touchstart="uploadImg" v-show="images.length < 3"><p><img src="../assets/7.png" alt=""></p><p>第一步:</p><p>上传图片</p></li>
                 </ul>
             </div>
 
@@ -180,28 +180,27 @@
             }
         },
         beforeCreate(){
-//            const config = document.querySelector('title').getAttribute('data-json');
-//            let config = {}
-//            this.$http({
-//                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
-//                method: 'GET',
-//            }).then((res) => {
-//                console.log(res)
-//                if (res.body.status == "1") {
-//                    config = res.body;
-//                    wx.config({
-//                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-//                        appId: config.appid, // 必填，公众号的唯一标识
-//                        timestamp: config.timestamp, // 必填，生成签名的时间戳
-//                        nonceStr: config.nonceStr, // 必填，生成签名的随机串
-//                        signature: config.signature,// 必填，签名，见附录1
-//                        jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-//
-//                    })
-//                }
-//            }, (res) => {
-//
-//            });
+            let config = {}
+            this.$http({
+                url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
+                method: 'GET',
+            }).then((res) => {
+                console.log(res)
+                if (res.body.status == "1") {
+                    config = res.body;
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: config.appid, // 必填，公众号的唯一标识
+                        timestamp: config.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: config.nonceStr, // 必填，生成签名的随机串
+                        signature: config.signature,// 必填，签名，见附录1
+                        jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+                    })
+                }
+            }, (res) => {
+
+            });
 
         }
     }
@@ -325,7 +324,7 @@
         float: left;
         border:none;
         background-color: yellow;
-        margin-right: 6%
+        margin-right: 6%;
     }
 
     #form li:nth-child(2) {

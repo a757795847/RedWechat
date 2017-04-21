@@ -141,7 +141,7 @@
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
-                        image.src = img;
+                        image.src = localIds[0];
                         image.onload = function() {
                             that.images.push({'id':getBase64Image(localIds[0])});
                         }

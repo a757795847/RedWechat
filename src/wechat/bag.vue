@@ -129,6 +129,9 @@
                     var dataURL = canvas.toDataURL("image/" + ext);
                     return dataURL;
                 }
+                var image = new Image();
+                image.crossOrigin = '';
+
 
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -138,11 +141,11 @@
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
+                        image.src = img;
+                        image.onload = function() {
+                            that.images.push({'id':getBase64Image(localIds[0])});
+                        }
                         console.log('chooseImage=>',localIds);
-
-
-
-
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);
                             wx.uploadImage({
@@ -164,18 +167,7 @@
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
-                                            that.$http({
-                                                url: "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="+that.config.appid+"&media_id=MEDIA_ID"+serverId,
-                                                method: 'GET',
-                                                headers:{
-                                                    'Access-Control-Allow-Origin':that.config.appid
-                                                }
-                                            }).then((res) => {
-                                                console.log('res=>>',res)
 
-                                            }, (res) => {
-
-                                            });
                                         }
                                     });
 

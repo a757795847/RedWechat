@@ -132,50 +132,55 @@
                 var image = new Image();
                 image.crossOrigin = '';
 
-                wx.getLocalImgData(
-                    wx.chooseImage({
-                        count: 1, // 默认9
-                        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                        success: function (res) {
-                            console.log('chooseImage=>',res);
-                            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                            that.images.push({'id':localIds[0]},{'id':wx.getLocalImgData(localIds[0])})
-                            console.log()
 
-                            console.log('chooseImage=>',localIds);
-                            localIds.map(function (id){
-                                console.log('localIds.map=>',id);
-                                wx.uploadImage({
-                                    localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
-                                    isShowProgressTips: 1, // 默认为1，显示进度提示
-                                    success: function (res) {
-                                        console.log('uploadImage=>res=>',res)
-                                        console.log('uploadImage=>this=>',this)
-                                        console.log('uploadImage=>',id);
-                                        var serverId = res.serverId; // 返回图片的服务器端ID
-                                        console.log('uploadImage=>serverId=>',serverId);
-                                        that.images.push({'id':this.localId})
+                wx.chooseImage({
+                    count: 1, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        console.log('chooseImage=>',res);
+                        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        that.images.push({'id':localIds[0]})
+                        console.log()
+                        wx.getLocalImgData({
+                            localId: localIds[0], // 图片的localID
+                            success: (res) => {
+                                let img = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                that.images.push({'id':img})
+                            }
+                        })
 
-        //                                    wx.downloadImage({
-        //                                        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-        //                                        isShowProgressTips: 1, // 默认为1，显示进度提示
-        //                                        success: function (res) {
-        //
-        //                                            console.log('下载downloadImage=》res=》',res)
-        //                                            var localId = res.localId; // 返回图片下载后的本地ID
-        //                                            that.images.push({'id':localId})
-        //
-        //                                        }
-        //                                    });
+                        console.log('chooseImage=>',localIds);
+                        localIds.map(function (id){
+                            console.log('localIds.map=>',id);
+                            wx.uploadImage({
+                                localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
+                                isShowProgressTips: 1, // 默认为1，显示进度提示
+                                success: function (res) {
+                                    console.log('uploadImage=>res=>',res)
+                                    console.log('uploadImage=>this=>',this)
+                                    console.log('uploadImage=>',id);
+                                    var serverId = res.serverId; // 返回图片的服务器端ID
+                                    console.log('uploadImage=>serverId=>',serverId);
+                                    that.images.push({'id':this.localId})
 
-                                    }
-                                });
+//                                    wx.downloadImage({
+//                                        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+//                                        isShowProgressTips: 1, // 默认为1，显示进度提示
+//                                        success: function (res) {
+//
+//                                            console.log('下载downloadImage=》res=》',res)
+//                                            var localId = res.localId; // 返回图片下载后的本地ID
+//                                            that.images.push({'id':localId})
+//
+//                                        }
+//                                    });
+
+                                }
                             });
-                        }
-                    })
-                )
-
+                        });
+                    }
+                });
             }
         },
         beforeCreate(){

@@ -132,7 +132,7 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
-
+                        console.log(getBase64Image(localIds[0]))
 //                        var image = new Image();
 //
 //                        image.crossOrigin = '';

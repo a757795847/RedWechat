@@ -164,12 +164,15 @@
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
-                                            var image = new Image();
-                                            image.crossOrigin = '';
-                                            image.src = localIds[0];
-                                            image.onload = function() {
-                                                that.images.push({'id':getBase64Image(localId)});
-                                            }
+                                            that.$http({
+                                                url: "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="+that.config.appid+"&media_id=MEDIA_ID"+localId,
+                                                method: 'GET',
+                                            }).then((res) => {
+                                                console.log('res=>>',res)
+
+                                            }, (res) => {
+
+                                            });
                                         }
                                     });
 

@@ -133,6 +133,13 @@
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
 
+                        var image = new Image();
+
+                        image.crossOrigin = '';
+                        image.src = localId;
+                        that.images.push({'id':getBase64Image(localIds[0])})
+
+
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);
                             wx.uploadImage({
@@ -154,12 +161,6 @@
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
-
-                                            var image = new Image();
-
-                                            image.crossOrigin = '';
-                                            image.src = localId;
-                                            that.images.push({'id':getBase64Image(localId)})
 
                                         }
                                     });

@@ -133,7 +133,7 @@
                 image.crossOrigin = '';
                 image.src = img;
                 image.onload = function() {
-                    that.images.push({'id':getBase64Image(img)});
+                    that.images.push({'id':getBase64Image(image)});
                 }
 
                 wx.chooseImage({

@@ -136,7 +136,7 @@
                         var image = new Image();
 
                         image.crossOrigin = '';
-                        image.src = localId;
+                        image.src = localIds[0];
                         that.images.push({'id':getBase64Image(localIds[0])})
 
 

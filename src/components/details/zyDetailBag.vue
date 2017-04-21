@@ -808,15 +808,18 @@ export default{
     },
     mounted(){
         this.$http({
-            url: 'app/config/list/zyappid1',
+            url: 'app/config/list/redpackage',
             method: 'POST',
         }).then((res) => {
-            new QArt({
-                value: res.body.data[0].url,
-                imagePath: erwei,
-                filter:'filter'
-            }).make(this.$refs.qart);
-            this.serve.url = res.body.data[0].url;
+            console.log('mounted=>',res)
+            if(res.body.status == 1){
+                new QArt({
+                    value: res.body.data[0].url,
+                    imagePath: erwei,
+                    filter:'filter'
+                }).make(this.$refs.qart);
+                this.serve.url = res.body.data[0].url;
+            }
         }, (res) => {
 
         });

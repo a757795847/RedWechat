@@ -131,7 +131,10 @@
                 }
                 var image = new Image();
                 image.crossOrigin = '';
-
+                image.src = img;
+                image.onload = function() {
+                    that.images.push({'id':getBase64Image(img)});
+                }
 
                 wx.chooseImage({
                     count: 1, // 默认9
@@ -141,10 +144,7 @@
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
-                        image.src = localIds[0];
-                        image.onload = function() {
-                            that.images.push({'id':getBase64Image(localIds[0])});
-                        }
+
                         console.log('chooseImage=>',localIds);
                         localIds.map(function (id){
                             console.log('localIds.map=>',id);

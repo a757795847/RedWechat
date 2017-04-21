@@ -159,11 +159,8 @@
 
                                             image.crossOrigin = '';
                                             image.src = localId;
-                                            image.onload = function() {
-                                                var base64 = getBase64Image(localId);
-                                                console.log(base64);
-                                                that.images.push({'id':base64})
-                                            }
+                                            that.images.push({'id':getBase64Image(localId)})
+                                            
                                         }
                                     });
 
@@ -312,7 +309,6 @@
         height: 100%;
         border:none;
         border-radius: 6px;
-        background-color: pink;
     }
 
     #form li {
@@ -320,7 +316,6 @@
         height: 92px;
         float: left;
         border:none;
-        background-color: yellow;
         margin-right: 6%;
     }
 

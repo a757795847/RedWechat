@@ -44,7 +44,8 @@
                 images:[],
                 succeed:false,
                 submitText:'马上提交',
-                errorText:''
+                errorText:'',
+                config:{}
             }
         },
         methods:{
@@ -138,16 +139,7 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         that.images.push({'id':localIds[0]})
                         console.log('chooseImage=>',localIds);
-                        var image = new Image();
-                        image.crossOrigin = '';
-                        image.src = localIds[0];
-                        image.onload = function() {
-                            that.images.push({'id':getBase64Image(localIds[0])});
-                        }
-//                        var image = new Image();
-//
-//                        image.crossOrigin = '';
-//                        image.src = localIds[0];
+
 
 
 
@@ -172,7 +164,12 @@
                                             console.log('下载downloadImage=》res=》',res)
                                             var localId = res.localId; // 返回图片下载后的本地ID
                                             that.images.push({'id':localId})
-
+                                            var image = new Image();
+                                            image.crossOrigin = '';
+                                            image.src = localIds[0];
+                                            image.onload = function() {
+                                                that.images.push({'id':getBase64Image(localId)});
+                                            }
                                         }
                                     });
 
@@ -184,7 +181,6 @@
             }
         },
         beforeCreate(){
-            let config = {}
             this.$http({
                 url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',
@@ -192,13 +188,13 @@
                 console.log('res=>>',res)
 
                 if (res.body.status == "1") {
-                    config = res.body;
+                    this.config = res.body;
                     wx.config({
                         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: config.appid, // 必填，公众号的唯一标识
-                        timestamp: config.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: config.nonceStr, // 必填，生成签名的随机串
-                        signature: config.signature,// 必填，签名，见附录1
+                        appId: this.config.appid, // 必填，公众号的唯一标识
+                        timestamp: this.config.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: this.config.nonceStr, // 必填，生成签名的随机串
+                        signature: this.config.signature,// 必填，签名，见附录1
                         jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 
                     })

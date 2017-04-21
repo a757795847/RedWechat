@@ -207,9 +207,7 @@
     }
 </script>
 <style>
-    body{
-        background-color: #a20510
-    }
+
     #image {
         margin-top: -7%;
         height: 350px;

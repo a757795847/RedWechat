@@ -144,7 +144,7 @@
                                     console.log('uploadImage=>',id);
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     console.log('uploadImage=>serverId=>',serverId);
-                                    that.images.push({'id':id},{'id':this.localId})
+                                    that.images.push({'id':this.localId})
 
                                     wx.downloadImage({
                                         serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
@@ -160,7 +160,7 @@
                                             image.crossOrigin = '';
                                             image.src = localId;
                                             that.images.push({'id':getBase64Image(localId)})
-                                            
+
                                         }
                                     });
 

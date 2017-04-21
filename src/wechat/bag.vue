@@ -314,13 +314,17 @@
     #form .lict img {
         width: 100%;
         height: 100%;
+        border:none;
         border-radius: 6px;
+        background-color: white;
     }
 
     #form li {
         width: calc(100% / 3 - 4%);
         height: 92px;
         float: left;
+        border:none;
+        background-color: yellow;
         margin-right: 6%
     }
 

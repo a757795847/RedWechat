@@ -208,7 +208,8 @@
 </script>
 <style>
     body{
-        background-color: #a20510
+        background-color: #a20510;
+        overflow: hidden;
     }
     #image {
         margin-top: -7%;

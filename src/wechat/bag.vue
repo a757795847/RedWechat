@@ -22,7 +22,7 @@
             </div>
 
             <input type="text" v-model="input" class="form-control Orders" placeholder="请输入订单号" v-show="!succeed">
-            <input type="file" id="xdaTanFileImg" ref="aa" @change="xmTanUploadImg" accept="image/*" />
+            <!--<input type="file" id="xdaTanFileImg" ref="aa" @change="xmTanUploadImg" accept="image/*" />-->
             <button class="addID" :class="succeed?'addIDState':''" @touchstart="submit">{{submitText}}</button>
 
             <p class="father" :class="succeed?'fatherState':''">

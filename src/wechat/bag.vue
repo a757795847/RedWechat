@@ -42,6 +42,7 @@
             return{
                 input:'',
                 images:[],
+                imageIds:[],
                 succeed:false,
                 submitText:'马上提交',
                 errorText:'',
@@ -83,9 +84,7 @@
                 this.errorText = ''
             },
             submit(){
-//                console.log(this.$route.params.id)
-//                this.succeed = true;
-//                this.submitText = '点击关闭'
+                console.log('this.imageIds=>',this.imageIds)
                 if(this.input == ''){
                     this.errorText = '请输入订单';
                 }else if(this.images.length < 1){
@@ -95,9 +94,9 @@
                         url: "http://open.izhuiyou.com/wechat/view/submit/"+this.$route.params.id,
                         method: 'POST',
                         body:{
-                            "image1":this.images[0],
-                            "image2":this.images[1],
-                            "image3":this.images[2],
+                            "image1":this.imageIds[0],
+                            "image2":this.imageIds[1],
+                            "image3":this.imageIds[2],
                             "billno":this.input
                         }
                     }).then((res) => {
@@ -128,7 +127,6 @@
                                 success: function (res) {
                                     var serverId = res.serverId; // 返回图片的服务器端ID
                                     var ua = navigator.userAgent.toLowerCase();
-                                    console.log(ua)
                                     if (/iphone|ipad|ipod/.test(ua)) {
                                         wx.getLocalImgData({
                                             localId: id, // 图片的localID
@@ -140,7 +138,7 @@
                                     } else if (/android/.test(ua)) {
                                         that.images.push({'id':id})
                                     }
-
+                                    that.imageIds.push(serverId)
 
                                 }
                             });
@@ -154,8 +152,6 @@
                 url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',
             }).then((res) => {
-                console.log('res=>>',res)
-
                 if (res.body.status == "1") {
                     this.config = res.body;
                     wx.config({
@@ -171,7 +167,6 @@
             }, (res) => {
 
             });
-//            window.__wxjs_is_wkwebview = false;
         }
     }
 </script>

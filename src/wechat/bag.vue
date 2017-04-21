@@ -89,7 +89,7 @@
                     this.errorText = '请输入订单';
                 }else if(this.images.length < 1){
                     this.errorText = '请确认已上传图片';
-                }else if(!succeed){
+                }else if(!this.succeed){
                     this.$http({
                         url: "http://open.izhuiyou.com/wechat/view/submit/"+this.$route.params.id,
                         method: 'POST',

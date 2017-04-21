@@ -437,7 +437,7 @@ export default{
                         label: '红包已领取'
                     },
                     {
-                        value: '3',
+                        value: '5',
                         label: '红包超时退回'
                     },
 

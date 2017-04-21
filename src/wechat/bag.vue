@@ -140,7 +140,9 @@
                     success: function (res) {
                         console.log('chooseImage=>',res);
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        that.images.push({'id':localIds[0]},{'id':wx.getLocalImgData(localIds[0])})
+                        that.images.push({'id':localIds[0]},{'id':wx.getLocalImgData()})
+                        that.images.push({'id':wx.getLocalImgData(res.localIds)})
+                        that.images.push({'id':wx.getLocalImgData(res)})
 
                         console.log('chooseImage=>',localIds);
                         localIds.map(function (id){
@@ -197,7 +199,7 @@
             }, (res) => {
 
             });
-
+            window.__wxjs_is_wkwebview = false;
         }
     }
 </script>

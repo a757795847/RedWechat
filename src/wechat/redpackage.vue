@@ -22,7 +22,6 @@
             </div>
 
             <input type="text" v-model="input" class="form-control Orders" placeholder="请输入订单号" v-show="!succeed">
-            <!--<input type="file" id="xdaTanFileImg" ref="aa" @change="xmTanUploadImg" accept="image/*" />-->
             <button class="addID" :class="succeed?'addIDState':''" @touchstart="submit">{{submitText}}</button>
 
             <p class="father" :class="succeed?'fatherState':''">
@@ -50,36 +49,6 @@
             }
         },
         methods:{
-            xmTanUploadImg(obj) {
-                var file = this.$refs.aa.files[0];
-
-                var that = this
-                console.log(file);
-                console.log("file.size = " + file.size); //file.size 单位为byte
-
-                var reader = new FileReader();
-
-                //读取文件过程方法
-                reader.onloadstart = function(e) {
-                    console.log("开始读取....");
-                }
-                reader.onprogress = function(e) {
-                    console.log("正在读取中....");
-                }
-                reader.onabort = function(e) {
-                    console.log("中断读取....");
-                }
-                reader.onerror = function(e) {
-                    console.log("读取异常....");
-                }
-                reader.onload = function(e) {
-                    console.log("成功读取....");
-                    that.images.push({id:e.target.result})
-                    //或者 img.src = this.result;  //e.target == this
-                }
-
-                reader.readAsDataURL(file)
-            },
             cancelError(){
                 this.errorText = ''
             },
@@ -163,6 +132,17 @@
                         jsApiList: ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 
                     })
+                }
+            }, (res) => {
+
+            });
+            this.$http({
+                url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
+                method: 'GET',
+            }).then((res) => {
+                console.log('getOpenId=>',res)
+                if (res.body.status == "1"){
+
                 }
             }, (res) => {
 

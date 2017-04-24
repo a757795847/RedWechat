@@ -12,14 +12,14 @@ export default new Router({
             name: 'bag',
             component: function (resolve) {
                 require(['../wechat/redpackage.vue'],resolve)
-            },
+            }
         },
         {
             path: '/wechat/attention/:id',
             name: 'attention',
             component: function (resolve) {
                 require(['../wechat/attention.vue'],resolve)
-            },
+            }
         },
     ]
 })

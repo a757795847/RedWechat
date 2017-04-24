@@ -18,15 +18,7 @@
         },
         methods:{
             uploadImg(){
-                function getBase64Image(img) {
-                    var canvas = document.createElement("canvas");
-                    canvas.width = 10;
-                    canvas.height = 10;
-                    var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 10,10);
-                    var dataURL = canvas.toDataURL("image/jpg" );
-                    return dataURL;
-                }
+
             }
         },
         beforeCreate(){

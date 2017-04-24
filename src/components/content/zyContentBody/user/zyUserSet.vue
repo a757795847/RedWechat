@@ -73,25 +73,23 @@
             </span>
         </el-dialog>
 
-            <el-dialog title="请输入验证码" v-model="dialog" size="tiny" class="validationImg" :top="'20%'">
-
-                <div>
-                    <div class="input-group" >
-                        <el-input v-model="form.validationText" placeholder="请输入验证码" class="form-control validationText" :style="{ width: 52+ '%'}"></el-input>
-                                <span class="input-group-btn">
-                                    <img :src="validationImgSrc" v-on:click="getValidationImg()" :style="{ marginTop:-14+'px'}">
-                                </span>
-                        <p></p>
-                    </div>
+        <el-dialog title="请输入验证码" v-model="dialog" size="tiny" class="validationImg" :top="'20%'">
+            <div>
+                <div class="input-group" >
+                    <el-input v-model="form.validationText" placeholder="请输入验证码" class="form-control validationText" :style="{ width: 52+ '%'}"></el-input>
+                            <span class="input-group-btn">
+                                <img :src="validationImgSrc" v-on:click="getValidationImg()" :style="{ marginTop:-14+'px'}">
+                            </span>
+                    <p></p>
                 </div>
-                    <span slot="footer" class="dialog-footer">
-                       <el-button type="primary" @click="getcode()">确 定</el-button>
-                    </span>
+            </div>
+            <span slot="footer" class="dialog-footer">
+               <el-button type="primary" @click="getcode()">确 定</el-button>
+            </span>
+        </el-dialog>
 
-            </el-dialog>
 
-
-        </div>
+    </div>
 
 
 </template>
@@ -118,7 +116,7 @@
                 dialog: false,
                 disabled:false,
                 disableds:true,
-                validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
+                validationImgSrc:this.$http.options.root +'/user/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
                 ruleForm2: {
                     pass: '',
                     checkPass: '',
@@ -221,7 +219,6 @@
                 this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
             },
             phoneOk(){
-
                 if(this.form.phoneNub != ''||this.form.messCode != ''){
                     if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(this.form.phoneNub)){
                         if(this.form.messCode == 1111){
@@ -237,7 +234,6 @@
                             this.form.messCode='';
                             this.dialogVisibles= false;
                         }else{
-//                            this.$message.error('修改失败');
                             this.$message({
                                 type: 'error',
                                 message: '修改失败',
@@ -246,7 +242,6 @@
                             });
                         }
                     }else{
-//                        this.$message.error('请输入正确手机号');
                         this.$message({
                             type: 'error',
                             message: '请输入正确手机号',
@@ -256,7 +251,6 @@
 
                     }
                 } else{
-//                    this.$message.error('请输入手机号和验证码');
                     this.$message({
                         type: 'error',
                         message: '请输入手机号和验证码',
@@ -270,7 +264,6 @@
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isNPG) {
-//                    this.$message.error('上传头像图片只能是 PNG 格式!');
                     this.$message({
                         type: 'error',
                         message: '上传头像图片只能是 PNG 格式!',
@@ -279,7 +272,6 @@
                     });
                 }
                 if (!isLt2M) {
-//                    this.$message.error('上传头像图片大小不能超过 2MB!');
                     this.$message({
                         type: 'error',
                         message: '上传头像图片大小不能超过 2MB!',
@@ -339,7 +331,6 @@
             },
             userNameChangeAjax(){
                 if(this.form.name == ''){
-//                    this.$message.error('修改失败,账户名称不能为空');
                     this.$message({
                         type: 'error',
                         message: '修改失败,账户名称不能为空',
@@ -415,7 +406,7 @@
         width:70px;
     }
     #zyUserSet .LoginPwd .el-input{
-        width:10%;
+        width:75px;
     }
     #zyUserSet button{
         display:inline;

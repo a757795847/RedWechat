@@ -421,15 +421,15 @@ export default{
 //                        label: '红包已发送'
 //                    },
                     {
-                        value: '4',
+                        value: '0',
                         label: '待申领'
                     },
                     {
-                        value: '0',
+                        value: '1',
                         label: '待审核'
                     },
                     {
-                        value: '1',
+                        value: '2',
                         label: '口令已发送'
                     },
                     {
@@ -437,7 +437,7 @@ export default{
                         label: '红包已领取'
                     },
                     {
-                        value: '5',
+                        value: '4',
                         label: '红包超时退回'
                     },
 
@@ -721,7 +721,7 @@ export default{
         },
         //搜索
         handleSearchClick(){
-            var arr =  this.types.active == 4 ? [0,1,3]:[parseInt(this.types.active)];
+            var arr =  [parseInt(this.types.active)];
             if(this.search == ''){
 //                this.selectStateAjax(this.types.active);
                 this.pageAjax(1,arr);

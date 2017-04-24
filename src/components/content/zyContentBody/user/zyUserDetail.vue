@@ -138,7 +138,7 @@ export default{
         recharge(){
             this.forAjaxState = false;
             this.$http({
-                url: 'pay/qr',
+                url: 'pay/unify',
                 method: 'POST',
                 body:{
                     count:this.activeMoneyBtn
@@ -177,7 +177,12 @@ export default{
                 }.bind(this),100)
 
             }, (res) => {
-
+                this.$message({
+                    type: 'error',
+                    message: '网络异常,请稍后充值',
+                    customClass:'messageError',
+                    iconClass:'el-icon-close',
+                });
             });
         },
         moneyDataAjax(){

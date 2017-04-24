@@ -171,17 +171,13 @@
     }
 </script>
 <style>
-    body{
-        background-color: #a20510;
-        overflow: hidden;
-    }
     #image {
-        margin-top: -7%;
         height: 350px;
         width: 100%;
     }
 
     #image img {
+        margin-top: -7%;
         width: 100%;
     }
 
@@ -332,7 +328,7 @@
         transition:all 0.5s;
     }
     #form .noErrorHint{
-        top:35%;
+        top:38%;
         opacity: 0;
     }
     @media screen and (max-width: 414px) {
@@ -357,7 +353,7 @@
         }
 
         #image {
-            height: 400px;
+            height: 380px;
         }
     }
 
@@ -379,7 +375,7 @@
 
         }
         #image {
-            height: 365px;
+            height: 345px;
         }
     }
 
@@ -403,7 +399,7 @@
 
         }
         #image {
-            height: 315px;
+            height: 295px;
         }
     }
 

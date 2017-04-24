@@ -42,8 +42,6 @@ router.beforeEach((to, from, next) => {
   //   }
   // }
   
-  console.log(to)
-  console.log(from)
   Vue.router._to = to;
   Vue.router._from = from;
   next();

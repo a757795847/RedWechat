@@ -8,10 +8,10 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/wechat/:id',
+            path: '/wechat/redpackage/:id',
             name: 'bag',
             component: function (resolve) {
-                require(['../wechat/bag.vue'],resolve)
+                require(['../wechat/redpackage.vue'],resolve)
             },
         },
         {

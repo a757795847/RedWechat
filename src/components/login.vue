@@ -90,7 +90,7 @@
                 },
                 dialogVisible:false,
                 validationText:'',
-                validationImgSrc:this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
+                validationImgSrc:this.$http.options.root +'/user/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token'),
                 countdown:0
 
             }
@@ -171,7 +171,7 @@
             getcode(){
                 if(this.validation()){
                     this.$http({
-                        url: 'verificationCode',
+                        url: '/user/verificationCode',
                         method: 'GET',
                         params:{
                             code:this.validationText,
@@ -238,7 +238,7 @@
                         });
                     }else{
                         this.$http({
-                            url: 'register',
+                            url: '/user/register',
                             method: 'POST',
                             body:{
                                 verificationCode:this.register.messCode,
@@ -276,7 +276,7 @@
             },
             getValidationImg(){
                 var random=Math.random()*20;
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
+                this.validationImgSrc = this.$http.options.root +'/user/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
             },
             clearRegister(){
                 this.register.phoneNub = '';
@@ -297,7 +297,7 @@
                 url: 'test',
                 method: 'GET',
             }).then((res) => {
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
+                this.validationImgSrc = this.$http.options.root +'/user/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token');
                 this.isCheck = true;
             }, (res) => {
             });
@@ -327,7 +327,7 @@
     }
     #login .custom-header{
      text-align: center;
-    margin-bottom: 40px;
+     margin-bottom: 40px;
     }
     #login #juta{
         margin-bottom:50px;
@@ -365,7 +365,7 @@
         margin:15px 0;
     }
     #login .text-muted{
-             color: #747982;
+        color: #747982;
          }
     #login .btn-block{
         background-color: #fff;

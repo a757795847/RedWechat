@@ -12,7 +12,7 @@
                     <el-col :span="16" class="history">
                         <el-table
                                 :data="tableData"
-                                style="width: 100%">hu
+                                style="width: 100%">
                             <el-table-column
                                     prop="date"
                                     label="充值日期">
@@ -75,6 +75,7 @@
                         <el-button type="primary" class="closeRecharge" @click="recoverState()">关闭</el-button>
                     </div>
                 </el-dialog>
+
             </el-tab-pane>
         </el-tabs>
         <span class="disappear">消费记录</span>
@@ -134,6 +135,7 @@ export default{
         },
         moneyBtnActive(num){
             this.activeMoneyBtn = num;
+            console.log(num);
         },
         recharge(){
             this.forAjaxState = false;
@@ -209,7 +211,7 @@ export default{
                     currentPageIndex:index
                 }
             }).then((res) => {
-//                console.log(res);
+            console.log(res);
                 if(res.data.status == 1){
                     this.tableData = res.data.list;
                     this.pageData = res.data.page;

@@ -44,7 +44,7 @@
     font-size: 14px;
     background: white;
   }
-  #contentBody .el-tabs__content{
+  #contentBody .el-tabs__content{,
     padding:10px;
   }
   #contentBody .el-tabs__item.is-active{

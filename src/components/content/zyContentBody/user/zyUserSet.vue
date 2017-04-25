@@ -158,6 +158,8 @@
 
                             });
                         return false;
+
+
                     }
                 }else{
 //                    this.$message.error('请输入手机号');
@@ -173,7 +175,7 @@
             getcode(){
                 if(this.validation()){
                     this.$http({
-                        url: 'verificationCode',
+                        url: 'user/verificationCode',
                         method: 'GET',
                         params:{
                             code:this.form.validationText,
@@ -216,7 +218,7 @@
             },
             getValidationImg(){
                 var random=Math.random()*20;
-                this.validationImgSrc = this.$http.options.root +'/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
+                this.validationImgSrc = this.$http.options.root +'/user/getcodeImage?jwt=bearer '+localStorage.getItem('default-auth-token')+"&num="+random;
             },
             phoneOk(){
                 if(this.form.phoneNub != ''||this.form.messCode != ''){
@@ -290,7 +292,7 @@
                      this.passwordFrorm.errorText = '两次新密码不一致';
                 }else{
                     this.$http({
-                        url: 'user/innerUpdatePassword',
+                        url: '/user/updatePassword',
                         method: 'POST',
                         body:{
                             oldpassword:this.passwordFrorm.oldPW,

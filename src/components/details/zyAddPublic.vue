@@ -14,7 +14,7 @@
                     <el-step description="授权完成导入粉丝数据" :style="{ width: 140+ 'px' }"></el-step>
                 </el-steps>
            <p class="logos">
-               <img src="../../assets/40B4E7CA-D969-4379-BEBF-D08764CE007B.png" @click="dialogVisible = true">
+               <img src="../../assets/40B4E7CA-D969-4379-BEBF-D08764CE007B.png" @click="link">
            </p>
             <div class="father">
                 <p :style="{ color:'#68A593'}">授权须知</p>
@@ -42,7 +42,7 @@
 
             </div>
     </div>
-    <el-dialog title="Sorry" class="expect" v-model="dialogVisible" size="tiny" :top="'25%'">
+    <!--<el-dialog title="Sorry" class="expect" v-model="dialogVisible" size="tiny" :top="'25%'">
         <div style="text-align: center">
             <p>绑定公众号正在马不停蹄的日夜开发中</p>
             <p>敬请期待</p>
@@ -51,7 +51,7 @@
             <el-button type="text" @click="dialogVisible = false" :style="{color:'#393a3e'}">取 消</el-button>
             <el-button type="text" @click="dialogVisible = false">确 定</el-button>
         </span>
-    </el-dialog>
+    </el-dialog>-->
     </div>
 
 </template>
@@ -69,6 +69,23 @@
         methods:{
             IsActive( index ){
                 this.isActive = index;
+            },
+            link(){
+                var sub=encodeURIComponent(window.location.href);
+                console.log(sub);
+                this.$http({
+                    url: 'http://open.izhuiyou.com/auth/server/index?callbackUrl='+sub,
+                    method: 'POST',
+                }).then((res) => {
+                    console.log(res);
+                    console.log('http://open.izhuiyou.com/auth/server/index?callbackUrl='+sub);
+
+                if(res.body.status == "1"){
+             window.location.href=res.body.message;
+                }
+            }, (res) => {
+
+                });
             },
             returnIndex(){
                 if(this.$route.path == '/'){

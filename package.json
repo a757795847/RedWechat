@@ -14,7 +14,6 @@
   "dependencies": {
     "@websanova/vue-auth": "^2.8.2-beta",
     "axios": "^0.15.3",
-    "base-64": "^0.1.0",
     "base64-coder-node": "^1.0.7",
     "element-ui": "^1.2.4",
     "qartjs": "^1.1.1",

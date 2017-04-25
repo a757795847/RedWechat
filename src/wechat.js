@@ -13,7 +13,6 @@ import base64 from 'base64-coder-node'
 // import store from './store/';
 
 Vue.use(base64);
-Vue.use(base64);
 Vue.use(VueResource);
 // Vue.use(ElementUI);
 Vue.config.productionTip = false;
@@ -34,10 +33,15 @@ router.beforeEach((to, from, next) => {
     console.log(from)
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
         var appId = localStorage.getItem('default-auth-token');
+        if(appId == null){
+            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${to.path}`;
+            return;
+        }
         var appIdState = base64().decode(appId).indexOf('anonymous') == -1;
-        // if(!appIdState){
-        //     router.push(`/wechat/authOpenId/${to.params.id}?callbackUrl=${to.path}`)
-        // }
+        if(!appIdState){
+            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${to.path}`;
+            return;
+        }
     }
     next();
 })

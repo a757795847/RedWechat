@@ -33,24 +33,24 @@ router.beforeEach((to, from, next) => {
     console.log(from)
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
         var appId = localStorage.getItem('default-auth-token');
-        alert('appId=>',appId)
+        console.log(appId)
         if(appId == null && to.query.ticket == undefined){
-            alert(1)
+            console.log(1)
             window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${window.location.href}`;
             return;
         }
         if(appId == null && to.query.ticket != undefined){
-            alert(2)
+            console.log(2)
             Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
                 .then(function (res) {
                     console.log('to.query.ticket =>',res)
+                    localStorage.getItem('default-auth-token')
                 },function (err) {
 
                 })
         }
-        // console.log('base64().decode(appId).indexOf("anonymous")=>',base64().decode(appId).indexOf('anonymous'))
+
         if(appId != null  && base64().decode(appId).indexOf('anonymous') != -1){
-            alert(3)
             window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${window.location.href}`;
             return;
         }

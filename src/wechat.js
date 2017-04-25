@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
         console.log(appId)
         if(appId == null && to.query.ticket == undefined){
             console.log(1)
-            window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id}+'?callbackUrl='+window.location.href;
+            window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;
             return;
         }
         if(appId == null && to.query.ticket != undefined){
@@ -49,10 +49,9 @@ router.beforeEach((to, from, next) => {
 
                 })
         }
-
         if(appId != null  && base64().decode(appId).indexOf('anonymous') != -1){
-            window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id}+'?callbackUrl='+window.location.href;
-            return;
+            window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;
+            return
         }
     }
     next();

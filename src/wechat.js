@@ -44,11 +44,12 @@ router.beforeEach((to, from, next) => {
             Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
                 .then(function (res) {
                     console.log('to.query.ticket =>',res)
-                    localStorage.getItem('default-auth-token')
+                    console.log(localStorage.getItem('default-auth-token'))
                 },function (err) {
 
                 })
         }
+
         if(appId != null  && base64().decode(appId).indexOf('anonymous') != -1){
             window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;
             return

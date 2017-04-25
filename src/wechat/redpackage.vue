@@ -117,6 +117,7 @@
             }
         },
         beforeCreate(){
+            console.log(this)
             this.$http({
                 url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',
@@ -136,21 +137,16 @@
             }, (res) => {
 
             });
-            this.$http({
-                url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
-                method: 'GET',
-            }).then((res) => {
+            if(localStorage.getItem('default-auth-token') == null){
+                this.$http({
+                    url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
+                    method: 'GET',
+                }).then((res) => {
 
-            }, (res) => {
+                }, (res) => {
 
-            })
-//            Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
-//                    .then(function (res) {
-//                        console.log('to.query.ticket =>',res)
-//                        setCookie('default-auth-token',localStorage.getItem('default-auth-token'),365)
-//                    },function (err) {
-//
-//                    })
+                })
+            }
         }
     }
 </script>

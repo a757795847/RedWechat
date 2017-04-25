@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
         var appId = localStorage.getItem('default-auth-token');
         // var appId = getCookie('default-auth-token')
-        console.log(appId)
+        alert(appId)
         if(appId == null && to.query.ticket == undefined){
             console.log(1)
             window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;

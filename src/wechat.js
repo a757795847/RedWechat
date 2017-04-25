@@ -55,8 +55,8 @@ router.beforeEach((to, from, next) => {
         }
         return ""
     }
+    var appId = localStorage.getItem('default-auth-token');
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
-        var appId = localStorage.getItem('default-auth-token');
         // var appId = getCookie('default-auth-token')
         alert(appId)
         if(appId == null && to.query.ticket == undefined){

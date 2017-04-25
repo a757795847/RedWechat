@@ -27,7 +27,7 @@ Vue.use(require('@websanova/vue-auth'), {
 
 // const administrationRouter = ['/app/bag'];
 router.beforeEach((to, from, next) => {
-  // var list = JSON.parse(localStorage.getItem('jurisdiction'));
+  var list = localStorage.getItem('default-auth-token');
   // var state = false;
   // if(administrationRouter.indexOf(to.path) != -1){
   //   console.log('进入拦截器');
@@ -41,7 +41,6 @@ router.beforeEach((to, from, next) => {
   //     return;
   //   }
   // }
-  
   Vue.router._to = to;
   Vue.router._from = from;
   next();

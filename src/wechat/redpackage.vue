@@ -137,16 +137,6 @@
             }, (res) => {
 
             });
-            if(localStorage.getItem('default-auth-token') == null){
-                this.$http({
-                    url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
-                    method: 'GET',
-                }).then((res) => {
-
-                }, (res) => {
-
-                })
-            }
         }
     }
 </script>

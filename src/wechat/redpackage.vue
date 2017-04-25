@@ -117,7 +117,6 @@
             }
         },
         beforeCreate(){
-            alert(JSON.stringify(localStorage))
             this.$http({
                 url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',
@@ -137,6 +136,9 @@
             }, (res) => {
 
             });
+        },
+        mounted(){
+            alert(JSON.stringify(localStorage))
         }
     }
 </script>

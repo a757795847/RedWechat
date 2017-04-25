@@ -136,17 +136,6 @@
             }, (res) => {
 
             });
-            this.$http({
-                url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
-                method: 'GET',
-            }).then((res) => {
-                console.log('getOpenId=>',res)
-                if (res.body.status == "1"){
-
-                }
-            }, (res) => {
-
-            });
         }
     }
 </script>

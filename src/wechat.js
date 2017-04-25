@@ -56,8 +56,8 @@ router.beforeEach((to, from, next) => {
         return ""
     }
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
-        // var appId = localStorage.getItem('default-auth-token');
-        var appId = getCookie('default-auth-token')
+        var appId = localStorage.getItem('default-auth-token');
+        // var appId = getCookie('default-auth-token')
         console.log(appId)
         if(appId == null && to.query.ticket == undefined){
             console.log(1)
@@ -66,13 +66,13 @@ router.beforeEach((to, from, next) => {
         }
         if(appId == null && to.query.ticket != undefined){
             console.log(2)
-            Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
-                .then(function (res) {
-                    console.log('to.query.ticket =>',res)
-                    setCookie('default-auth-token',localStorage.getItem('default-auth-token'),365)
-                },function (err) {
-
-                })
+            // Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
+            //     .then(function (res) {
+            //         console.log('to.query.ticket =>',res)
+            //         setCookie('default-auth-token',localStorage.getItem('default-auth-token'),365)
+            //     },function (err) {
+            //
+            //     })
         }
 
         if(appId != null  && base64().decode(appId).indexOf('anonymous') != -1){

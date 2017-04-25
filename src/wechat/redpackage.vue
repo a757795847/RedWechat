@@ -136,7 +136,21 @@
             }, (res) => {
 
             });
-            console.log('beforeCreate=>',localStorage.getItem('default-auth-token'))
+            this.$http({
+                url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
+                method: 'GET',
+            }).then((res) => {
+
+            }, (res) => {
+
+            })
+//            Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
+//                    .then(function (res) {
+//                        console.log('to.query.ticket =>',res)
+//                        setCookie('default-auth-token',localStorage.getItem('default-auth-token'),365)
+//                    },function (err) {
+//
+//                    })
         }
     }
 </script>

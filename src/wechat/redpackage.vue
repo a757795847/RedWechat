@@ -137,9 +137,6 @@
 
             });
         },
-        mounted(){
-            alert(JSON.stringify(localStorage))
-        }
     }
 </script>
 <style>

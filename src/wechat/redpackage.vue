@@ -117,7 +117,7 @@
             }
         },
         beforeCreate(){
-            alert(localStorage.getItem('default-auth-token'))
+            alert(JSON.stringify(localStorage))
             this.$http({
                 url: "http://open.izhuiyou.com/wechat/jsonConfig?tAppid="+this.$route.params.id+'&url='+location.href,
                 method: 'GET',

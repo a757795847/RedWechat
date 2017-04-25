@@ -136,6 +136,7 @@
             }, (res) => {
 
             });
+            console.log('beforeCreate=>',localStorage.getItem('default-auth-token'))
         }
     }
 </script>

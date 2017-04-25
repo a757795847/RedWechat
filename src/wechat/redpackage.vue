@@ -34,9 +34,10 @@
 
 <script>
     import wx from 'weixin-js-sdk'
+    import { setCookie } from '../store/cookie'
 
     export default {
-        name:'bag',
+        name:'redpackage',
         data(){
             return{
                 input:'',
@@ -136,7 +137,22 @@
             }, (res) => {
 
             });
+
         },
+        mounted(){
+            if(this.$cookie.get('default-auth-token') == null){
+                this.$http({
+                    url: "http://open.izhuiyou.com/wechat/getOpenId?id="+this.$route.query.ticket,
+                    method: 'GET',
+                }).then((res) => {
+//                    setCookie('default-auth-token',localStorage.getItem('default-auth-token'),365)
+                    this.$cookie.set('default-auth-token', localStorage.getItem('default-auth-token'), { expires: '1Y' });
+                }, (res) => {
+
+                });
+            }
+
+        }
     }
 </script>
 <style>

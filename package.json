@@ -19,6 +19,7 @@
     "qartjs": "^1.1.1",
     "vue": "^2.2.2",
     "vue-axios": "^2.0.1",
+    "vue-cookie": "^1.1.4",
     "vue-drag-and-drop-list": "^1.0.0",
     "vue-qart": "^2.0.0",
     "vue-resource": "^1.0.3",

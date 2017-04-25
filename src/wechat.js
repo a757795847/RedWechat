@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
 
                 })
         }
-
+        alert("base64().decode(appId).indexOf('anonymous')=>",base64().decode(appId).indexOf('anonymous'))
         if(appId != ''  && base64().decode(appId).indexOf('anonymous') != -1){
             alert(3)
             window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;

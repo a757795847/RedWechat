@@ -60,12 +60,12 @@ router.beforeEach((to, from, next) => {
         var appId = getCookie('default-auth-token')
         console.log(appId)
         alert(appId == '')
-        if(appId == null && to.query.ticket == undefined){
+        if(appId == '' && to.query.ticket == undefined){
             alert(1)
             window.location.href = 'http://open.izhuiyou.com/wechat/authOpenId/'+to.params.id+'?callbackUrl='+window.location.href;
             return;
         }
-        if(appId == null && to.query.ticket != undefined){
+        if(appId == '' && to.query.ticket != undefined){
             alert(2)
             Vue.http.get("http://open.izhuiyou.com/wechat/getOpenId?id="+to.query.ticket)
                 .then(function (res) {

@@ -34,12 +34,12 @@ router.beforeEach((to, from, next) => {
     if(to.path.slice(0,19) == '/wechat/redpackage/'){
         var appId = localStorage.getItem('default-auth-token');
         if(appId == null){
-            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${to.path}`;
+            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${window.location.href}`;
             return;
         }
         var appIdState = base64().decode(appId).indexOf('anonymous') == -1;
         if(!appIdState){
-            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${to.path}`;
+            window.location.href = `http://open.izhuiyou.com/wechat/authOpenId/${to.params.id}?callbackUrl=${window.location.href}`;
             return;
         }
     }

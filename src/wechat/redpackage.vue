@@ -22,7 +22,7 @@
             </div>
 
             <input type="text" v-model="input" class="form-control Orders" placeholder="请输入订单号" v-show="!succeed">
-            <button class="addID" :class="succeed?'addIDState':''" @touchstart="submit">{{submitText}}</button>
+            <button class="addID" :class="succeed?'addIDState':''" @click="submit">{{submitText}}</button>
 
             <p class="father" :class="succeed?'fatherState':''">
                 <a href="javascript:;" class="text-info">活动规则</a>
@@ -55,6 +55,7 @@
             },
             submit(){
                 console.log('this.imageIds=>',this.imageIds)
+                console.log(2);
                 if(this.input == ''){
                     this.errorText = '请输入订单';
                 }else if(this.images.length < 1){
@@ -67,6 +68,8 @@
                             "image1":this.imageIds[0],
                             "image2":this.imageIds[1],
                             "image3":this.imageIds[2],
+
+
                             "billno":this.input
                         }
                     }).then((res) => {

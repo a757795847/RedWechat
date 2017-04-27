@@ -122,6 +122,7 @@
                             message: '开通成功',
                             customClass:'messageSucceed',
                             iconClass:'el-icon-check'
+
                         });
                     }
                 }, (res) => {
